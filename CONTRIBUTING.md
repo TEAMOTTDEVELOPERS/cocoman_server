@@ -14,7 +14,7 @@
 - `develop` : new feature developed after verifing from others can be merged to `develop` branch
 
 
-### Branch naming rule
+### Commit naming rule
 > *(type)*: *(description)* 
 
 

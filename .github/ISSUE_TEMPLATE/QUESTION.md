@@ -1,3 +1,8 @@
+---
+name: Question
+about: Question about this project
+---
+
 ### Subject
 
 *(Write here)*
