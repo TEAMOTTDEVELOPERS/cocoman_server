@@ -6,7 +6,7 @@
 $ docker pull celi1004/cocomandb:v1
 ```
 2. Run and connect to Container
-  - Same as above
+  - Same as below
   
 ### Use Dockerfile
 1. Build docker image
