@@ -2,6 +2,7 @@
 ## Guide for docker
 ### Use Docker hub
 1. Pull docker image
+ - [https://hub.docker.com/repository/docker/celi1004/cocomandb/general](https://hub.docker.com/repository/docker/celi1004/cocomandb/general)
 ```
 $ docker pull celi1004/cocomandb:v1
 ```
