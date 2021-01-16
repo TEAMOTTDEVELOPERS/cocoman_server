@@ -28,6 +28,6 @@ $ docker run -d -p 5432:5432 --name [container name] [image name]:[tag]
 
 3. Connect to Container
 ```
-$ docker exec -t [container name] /bin/bash
+$ docker exec -it [container name] /bin/bash
 postgres@7ef98b1b7243:/$ psql -d cocoman -U cocomanlocal --password
 ```
