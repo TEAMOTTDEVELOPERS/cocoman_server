@@ -10,7 +10,7 @@ $ docker pull celi1004/cocomandb:[version]
  > - latest
  > - v1
  
-2. Run and connect to Container
+2. Run Container
   - Same as below
   
 ### Use Dockerfile
@@ -25,9 +25,3 @@ $ docker build -t [image name]:[tag] .
 $ docker run -d -p 5432:5432 --name [container name] [image name]:[tag]
 ```
 > docker run -d -p 5432:5432 --name cocoman celi1004/cocomandb
-
-3. Connect to Container
-```
-$ docker exec -it [container name] /bin/bash
-postgres@7ef98b1b7243:/$ psql -d cocoman -U cocomanlocal --password
-```
