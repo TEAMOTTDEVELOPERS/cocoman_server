@@ -21,6 +21,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // swagger 관련 리소스 시큐리티 필터 제거
         web.ignoring().antMatchers(
                 "/v2/api-docs", "/swagger-resources/**",
-                "/swagger-ui.html", "/webjars/**", "/swagger/**");
+                "/swagger-ui.html", "/webjars/**", "/swagger/**" , "/api/**");
     }
 }
