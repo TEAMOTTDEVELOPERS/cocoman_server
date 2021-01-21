@@ -16,21 +16,21 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContentsCreateRequestDTO {
-    @NotBlank
+    @NotBlank(message = "Contents Title cannot be null or blank")
     private String title;
-    @NotBlank
+    @NotBlank(message = "Contents Year cannot be null or blank")
     private String year;
     private String country;
     private int runningTime;
-    @NotBlank
+    @NotBlank(message = "Contents Grade rate cannot be null or blank")
     private String gradeRate;
     private String broadcaster;
     private String openDate;
     private String broadcastDate;
-    @NotBlank
-    @Size (max = 500)
+    @NotBlank(message = "Contents Story cannot be null or blank")
+    @Size(max = 500, message = "Contents Story cannot exceed 500 characters")
     private String story;
     private String posterPath;
-    @NotNull
+    @NotNull(message = "Contents actor list cannot be null")
     private List<Long> actorIdList;
 }

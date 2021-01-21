@@ -12,6 +12,6 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContentsFindByTitleDTO {
-    @NotBlank
+    @NotBlank(message = "Contents title cannot be null or blank")
     private String title;
 }
