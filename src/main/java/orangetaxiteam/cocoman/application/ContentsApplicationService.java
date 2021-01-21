@@ -6,6 +6,7 @@ import orangetaxiteam.cocoman.application.dto.ContentsFindByTitleDTO;
 import orangetaxiteam.cocoman.domain.Actor;
 import orangetaxiteam.cocoman.domain.ActorService;
 import orangetaxiteam.cocoman.domain.ContentsService;
+import orangetaxiteam.cocoman.web.exceptions.InputValueValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class ContentsApplicationService {
             Optional<Actor> optionalActor = actorService.findById(id);
 
             if(optionalActor.isPresent()) actorList.add(optionalActor.get());
-            else return null;
+            else throw new InputValueValidationException("id - " + id);
         }
 
         return ContentsDTO.fromDAO(
