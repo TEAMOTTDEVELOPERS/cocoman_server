@@ -27,13 +27,12 @@ public class ContentsApplicationService {
     }
 
     public ContentsDTO create(ContentsCreateRequestDTO contentsCreateRequestDTO) {
-        List<Actor> actorList = new ArrayList<>();
-        for (Long id : contentsCreateRequestDTO.getActorIdList()) {
-            Optional<Actor> optionalActor = actorService.findById(id);
-
-            if(optionalActor.isPresent()) actorList.add(optionalActor.get());
-            else throw new InputValueValidationException("id - " + id);
-        }
+        List<Actor> actorList = contentsCreateRequestDTO.getActorIdList().stream()
+                .map(actorService::findById)
+                .map(foundActor -> foundActor.orElseThrow(
+                        () -> new InputValueValidationException("invalid actor id"))
+                )
+                .collect(Collectors.toList());
 
         return ContentsDTO.fromDAO(
                 contentsService.create(
