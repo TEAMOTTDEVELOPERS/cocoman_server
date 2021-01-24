@@ -17,9 +17,6 @@ import orangetaxiteam.cocoman.domain.User;
 @AllArgsConstructor
 public class UserCreateRequestDTO {
 	
-	@Autowired
-	private final BCryptPasswordEncoder passwordEncoder;
-	
 	private String username;
 	private String password;
 	private List<String> roles;
@@ -31,7 +28,7 @@ public class UserCreateRequestDTO {
 	public User toEntity() {
 		return User.builder()
 				.username(username)
-				.password(passwordEncoder.encode(password))
+				.password(new BCryptPasswordEncoder().encode(password))
 				.roles(Collections.singletonList("ROLE_USER"))
 				.age(age)
 				.gender(gender)
