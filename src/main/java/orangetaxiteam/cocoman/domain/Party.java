@@ -1,13 +1,12 @@
 package orangetaxiteam.cocoman.domain;
 
 import lombok.*;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
 
+
 @Getter
-@Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,9 +19,11 @@ public class Party {
     @Column(nullable = false, length = 100)
     private String partyName;
 
+    // TODO : FK
     @Column(nullable = false)
     private Long ownerId;
 
+    // TODO
     @Column
     private String ott;
 
@@ -45,10 +46,15 @@ public class Party {
     private PartyStatus status;
 
     @Builder
-    public Party (String partyName, Long ownerId){
-        this.partyName = partyName;
+    public Party (Long ownerId, String partyName, String ott, Double price, Date payDay, Integer maxMember, Date startDate, PartyStatus status){
         this.ownerId = ownerId;
+        this.partyName = partyName;
+        this.ott = ott;
+        this.price = price;
+        this.payDay = payDay;
+        this.maxMember = maxMember;
+        this.startDate = startDate;
+        this.status = status;
     }
-
 
 }

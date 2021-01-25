@@ -1,12 +1,14 @@
 package orangetaxiteam.cocoman.application.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 import orangetaxiteam.cocoman.domain.Party;
 import orangetaxiteam.cocoman.domain.PartyStatus;
 
 import java.util.Date;
 
 @Getter
+@Setter
 public class PartyDTO {
     private long partyId, ownerId;
     private String partyName, ott;
@@ -16,7 +18,7 @@ public class PartyDTO {
     private Date startDate;
     private PartyStatus status;
 
-    public static PartyDTO toDto(Party party){
+    public static PartyDTO fromDAO(Party party){
         PartyDTO v = new PartyDTO();
         v.partyId = party.getPartyId();
         v.ownerId = party.getOwnerId();
