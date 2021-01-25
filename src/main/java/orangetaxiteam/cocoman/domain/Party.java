@@ -1,6 +1,7 @@
 package orangetaxiteam.cocoman.domain;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -38,8 +39,9 @@ public class Party {
     @Column
     private Date startDate;
 
+    //, columnDefinition = "enum('ACTIVATE','DEACTIVATE','EXPIRED')"
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "enum('ACTIVATE','DEACTIVATE','EXPIRED')")
     private PartyStatus status;
 
     @Builder
