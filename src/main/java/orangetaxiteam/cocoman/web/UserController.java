@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import orangetaxiteam.cocoman.application.UserApplicationService;
@@ -20,10 +23,15 @@ public class UserController {
 
 	private UserApplicationService userApplicationService;
 	
+	@Autowired
+	public UserController(UserApplicationService userApplicationService) {
+		this.userApplicationService = userApplicationService;
+	}
+	
 	@PostMapping(value = "/signUp")
 	@ApiOperation(value = "Create new user", tags = "User")
 	public @ResponseBody
-	UserDTO signUp(@RequestBody UserCreateRequestDTO userCreateRequestDTO) {
+	UserDTO signUp(@RequestBody UserCreateRequestDTO userCreateRequestDTO) throws Exception { //Exception 수정 필요
 		return userApplicationService.create(userCreateRequestDTO);
 	}
 	
@@ -33,4 +41,15 @@ public class UserController {
 	UserDTO signIn(@RequestBody UserSignInDTO userSignInDTO) throws Exception { //Exception 수정 필요
 		return userApplicationService.signIn(userSignInDTO);
 	}
+	
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "access token", required = true, dataType="String", paramType="header")
+	})
+	@PostMapping(value = "/myUser")
+	@ApiOperation(value = "Lookup one User", tags = "User")
+	public @ResponseBody
+	UserDTO findByUsername(@RequestParam String username) {
+		return userApplicationService.findByUsername(username);
+	}
 }
+

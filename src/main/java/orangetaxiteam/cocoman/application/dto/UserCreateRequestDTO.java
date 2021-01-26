@@ -1,20 +1,16 @@
 package orangetaxiteam.cocoman.application.dto;
 
-import java.util.Collections;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import orangetaxiteam.cocoman.domain.User;
-
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserCreateRequestDTO {
 	
 	private String username;
@@ -24,16 +20,5 @@ public class UserCreateRequestDTO {
 	private String gender;
 	private String profileImg;
 	private String pushToken;
-	
-	public User toEntity() {
-		return User.builder()
-				.username(username)
-				.password(new BCryptPasswordEncoder().encode(password))
-				.roles(Collections.singletonList("ROLE_USER"))
-				.age(age)
-				.gender(gender)
-				.profileImg(profileImg)
-				.pushToken(pushToken)
-				.build();
-	}
+
 }
