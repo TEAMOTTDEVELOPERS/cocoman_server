@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/actor")
@@ -17,6 +18,13 @@ public class ActorController {
     @Autowired
     public ActorController(ActorApplicationService actorApplicationService){
         this.actorApplicationService = actorApplicationService;
+    }
+
+    @GetMapping(value = "/findAll")
+    @ApiOperation(value = "Get all actors", tags = "Actor")
+    public @ResponseBody
+    List<ActorDTO> findAll(){
+        return actorApplicationService.findAll();
     }
 
     @PostMapping(value = "/createActor")

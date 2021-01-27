@@ -9,8 +9,8 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "TB_ACTOR")
-public class Actor {
+@Table(name = "TB_GENRE")
+public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,15 +18,11 @@ public class Actor {
     @Column (nullable = false)
     private String name;
 
-    @Column (name = "image_path")
-    private String imagePath;
-
-    @ManyToMany (mappedBy = "actorSet", cascade = CascadeType.ALL)
+    @ManyToMany (mappedBy = "genreSet", cascade = CascadeType.ALL)
     private Set<Contents> contentsSet;
 
     @Builder
-    public Actor(String name, String imagePath) {
+    public Genre(String name) {
         this.name = name;
-        this.imagePath = imagePath;
     }
 }

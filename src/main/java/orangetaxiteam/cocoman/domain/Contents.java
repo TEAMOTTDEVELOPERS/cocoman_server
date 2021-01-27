@@ -25,7 +25,7 @@ public class Contents {
     private String country;
 
     @Column(name = "running_time")
-    private int runningTime;
+    private Integer runningTime;
 
     @Column(name = "grade_rate", nullable = false)
     private String gradeRate;
@@ -50,11 +50,36 @@ public class Contents {
             name = "contents_actor",
             joinColumns = @JoinColumn(name = "actor_id"),
             inverseJoinColumns = @JoinColumn(name = "contents_id"))
-    Set<Actor> actorSet;
+    private Set<Actor> actorSet;
+
+    @ManyToMany
+    @JoinTable(
+            name = "contents_director",
+            joinColumns = @JoinColumn(name = "director_id"),
+            inverseJoinColumns = @JoinColumn(name = "contents_id"))
+    private Set<Director> directorSet;
+
+    @ManyToMany
+    @JoinTable(
+            name = "contents_genre",
+            joinColumns = @JoinColumn(name = "genre_id"),
+            inverseJoinColumns = @JoinColumn(name = "contents_id"))
+    private Set<Genre> genreSet;
+
+    @ManyToMany
+    @JoinTable(
+            name = "contents_keyword",
+            joinColumns = @JoinColumn(name = "keyword_id"),
+            inverseJoinColumns = @JoinColumn(name = "contents_id"))
+    private Set<Keyword> keywordSet;
+
+    @OneToMany (mappedBy = "contents", cascade = CascadeType.ALL)
+    private Set<InitialReview> initialReviewSet;
+
+    // TODO : add FKs - OTT, review
 
     @Builder
-    public Contents(String title, String year, String country, int runningTime, String gradeRate, String broadcaster, String openDate,
-                    String broadcastDate, String story, String posterPath, Set<Actor> actorSet) {
+    public Contents(String title, String year, String country, int runningTime, String gradeRate, String broadcaster, String openDate, String broadcastDate, String story, String posterPath, Set<Actor> actorSet, Set<Director> directorSet, Set<Genre> genreSet, Set<Keyword> keywordSet) {
         this.title = title;
         this.year = year;
         this.country = country;
@@ -66,5 +91,8 @@ public class Contents {
         this.story = story;
         this.posterPath = posterPath;
         this.actorSet = actorSet;
+        this.directorSet = directorSet;
+        this.genreSet = genreSet;
+        this.keywordSet = keywordSet;
     }
 }
