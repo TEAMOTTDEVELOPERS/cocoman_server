@@ -19,7 +19,7 @@ public class KeywordController {
         this.keywordApplicationService = keywordApplicationService;
     }
 
-    @PostMapping(value = "/createKeyword")
+    @PostMapping
     @ApiOperation(value = "Create new keyword", tags = "Keyword")
     public @ResponseBody
     KeywordDTO createContents(@RequestBody @Valid KeywordCreateRequestDTO keywordCreateRequestDTO){

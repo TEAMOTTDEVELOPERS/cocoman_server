@@ -19,7 +19,7 @@ public class GenreController {
         this.genreApplicationService = genreApplicationService;
     }
 
-    @PostMapping(value = "/createGenre")
+    @PostMapping
     @ApiOperation(value = "Create new genre", tags = "Genre")
     public @ResponseBody
     GenreDTO createContents(@RequestBody @Valid GenreCreateRequestDTO genreCreateRequestDTO){

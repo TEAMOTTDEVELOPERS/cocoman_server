@@ -20,14 +20,14 @@ public class ActorController {
         this.actorApplicationService = actorApplicationService;
     }
 
-    @GetMapping(value = "/findAll")
+    @GetMapping
     @ApiOperation(value = "Get all actors", tags = "Actor")
     public @ResponseBody
     List<ActorDTO> findAll(){
         return actorApplicationService.findAll();
     }
 
-    @PostMapping(value = "/createActor")
+    @PostMapping
     @ApiOperation(value = "Create new actor", tags = "Actor")
     public @ResponseBody
     ActorDTO createContents(@RequestBody @Valid ActorCreateRequestDTO actorCreateRequestDTO){

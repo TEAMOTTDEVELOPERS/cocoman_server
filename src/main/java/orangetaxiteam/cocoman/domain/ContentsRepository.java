@@ -7,5 +7,4 @@ import java.util.List;
 
 @Repository
 public interface ContentsRepository extends JpaRepository<Contents, Long> {
-    public List<Contents> findByTitle(String title);
 }

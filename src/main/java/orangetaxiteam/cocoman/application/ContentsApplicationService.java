@@ -2,7 +2,6 @@ package orangetaxiteam.cocoman.application;
 
 import orangetaxiteam.cocoman.application.dto.ContentsCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ContentsDTO;
-import orangetaxiteam.cocoman.application.dto.ContentsFindByTitleDTO;
 import orangetaxiteam.cocoman.domain.*;
 import orangetaxiteam.cocoman.web.exceptions.InputValueValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,7 @@ public class ContentsApplicationService {
                 )
                 .collect(Collectors.toList());
 
-        List<Genre> genreList = contentsCreateRequestDTO.   getGenreIdList().stream()
+        List<Genre> genreList = contentsCreateRequestDTO.getGenreIdList().stream()
                 .map(genreService::findById)
                 .map(foundGenre -> foundGenre.orElseThrow(
                         () -> new InputValueValidationException("invalid genre id"))
@@ -81,11 +80,10 @@ public class ContentsApplicationService {
         );
     }
 
-    public List<ContentsDTO> findByTitle(ContentsFindByTitleDTO contentsFindByTitleDTO) {
-        return contentsService.findByTitle(contentsFindByTitleDTO.getTitle())
-                .stream()
-                .map(ContentsDTO::fromDAO)
-                .collect(Collectors.toList());
+    public ContentsDTO findById(Long id) {
+        return ContentsDTO.fromDAO(
+                contentsService.findById(id).orElseThrow(() -> new InputValueValidationException("invalid contents id"))
+        );
     }
 
     public List<ContentsDTO> findAll() {
