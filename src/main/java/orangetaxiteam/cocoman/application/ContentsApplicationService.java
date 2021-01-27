@@ -3,14 +3,12 @@ package orangetaxiteam.cocoman.application;
 import orangetaxiteam.cocoman.application.dto.ContentsCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ContentsDTO;
 import orangetaxiteam.cocoman.application.dto.ContentsFindByTitleDTO;
-import orangetaxiteam.cocoman.domain.Actor;
-import orangetaxiteam.cocoman.domain.ActorService;
-import orangetaxiteam.cocoman.domain.ContentsService;
+import orangetaxiteam.cocoman.domain.*;
 import orangetaxiteam.cocoman.web.exceptions.InputValueValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,11 +17,17 @@ import java.util.stream.Collectors;
 public class ContentsApplicationService {
     private ContentsService contentsService;
     private ActorService actorService;
+    private DirectorService directorService;
+    private GenreService genreService;
+    private KeywordService keywordService;
 
     @Autowired
-    public ContentsApplicationService(ContentsService contentsService, ActorService actorService) {
+    public ContentsApplicationService(ContentsService contentsService, ActorService actorService, DirectorService directorService, GenreService genreService, KeywordService keywordService) {
         this.contentsService = contentsService;
         this.actorService = actorService;
+        this.directorService = directorService;
+        this.genreService = genreService;
+        this.keywordService = keywordService;
     }
 
     public ContentsDTO create(ContentsCreateRequestDTO contentsCreateRequestDTO) {
@@ -31,6 +35,29 @@ public class ContentsApplicationService {
                 .map(actorService::findById)
                 .map(foundActor -> foundActor.orElseThrow(
                         () -> new InputValueValidationException("invalid actor id"))
+                )
+                .collect(Collectors.toList());
+
+        List<Director> directorList = contentsCreateRequestDTO.getDirectorIdList().stream()
+                .map(directorService::findById)
+                .map(foundDirector -> foundDirector.orElseThrow(
+                        () -> new InputValueValidationException("invalid director id"))
+                )
+                .collect(Collectors.toList());
+
+        List<Genre> genreList = contentsCreateRequestDTO.   getGenreIdList().stream()
+                .map(genreService::findById)
+                .map(foundGenre -> foundGenre.orElseThrow(
+                        () -> new InputValueValidationException("invalid genre id"))
+                )
+                .collect(Collectors.toList());
+
+        List<Keyword> keywordList = Optional.ofNullable(contentsCreateRequestDTO.getKeywordList())
+                .orElseGet(Collections::emptyList)
+                .stream()
+                .map(keywordService::findById)
+                .map(foundKeyword -> foundKeyword.orElseThrow(
+                        () -> new InputValueValidationException("invalid keyword id"))
                 )
                 .collect(Collectors.toList());
 
@@ -46,7 +73,10 @@ public class ContentsApplicationService {
                         contentsCreateRequestDTO.getBroadcastDate(),
                         contentsCreateRequestDTO.getStory(),
                         contentsCreateRequestDTO.getPosterPath(),
-                        actorList
+                        actorList,
+                        directorList,
+                        genreList,
+                        keywordList
                 )
         );
     }

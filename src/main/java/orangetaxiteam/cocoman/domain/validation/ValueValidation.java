@@ -1,4 +1,4 @@
-package orangetaxiteam.cocoman.web.exceptions;
+package orangetaxiteam.cocoman.domain.validation;
 
 import java.util.Calendar;
 
@@ -27,5 +27,10 @@ public class ValueValidation {
         if (intDate < 1 || intDate > 31) return false;
         return true;
 
+    }
+
+    // Score validation, allowed in range from 0.5 to 5.0
+    public static boolean isScoreInRange(Double score){
+        return !(score < 0.5) && !(score > 5.0);
     }
 }

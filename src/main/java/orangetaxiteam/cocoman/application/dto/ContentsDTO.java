@@ -24,6 +24,9 @@ public class ContentsDTO {
     private String story;
     private String posterPath;
     private List<ActorDTO> actorList;
+    private List<DirectorDTO> directorList;
+    private List<GenreDTO> genreList;
+    private List<KeywordDTO> keywordList;
 
     public static ContentsDTO fromDAO(Contents contents){
         ContentsDTO v = new ContentsDTO();
@@ -41,6 +44,18 @@ public class ContentsDTO {
         v.actorList = contents.getActorSet()
                 .stream()
                 .map(ActorDTO::fromDAO)
+                .collect(Collectors.toList());
+        v.directorList = contents.getDirectorSet()
+                .stream()
+                .map(DirectorDTO::fromDAO)
+                .collect(Collectors.toList());
+        v.genreList = contents.getGenreSet()
+                .stream()
+                .map(GenreDTO::fromDAO)
+                .collect(Collectors.toList());
+        v.keywordList = contents.getKeywordSet()
+                .stream()
+                .map(KeywordDTO::fromDAO)
                 .collect(Collectors.toList());
 
         return v;

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.*;
@@ -55,6 +56,9 @@ public class User implements UserDetails{
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
+
+    @OneToMany (mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<InitialReview> initialReviewSet;
     
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
