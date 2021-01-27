@@ -24,10 +24,6 @@ public class ContentsService {
         return new ArrayList<>(contentsRepository.findAll());
     }
 
-    public List<Contents> findByTitle(String title) {
-        return new ArrayList<>(contentsRepository.findByTitle(title));
-    }
-
     public Optional<Contents> findById(Long id){
         return contentsRepository.findById(id);
     }

@@ -17,7 +17,7 @@ public class InitialReviewController {
         this.initialReviewApplicationService = initialReviewApplicationService;
     }
 
-    @PostMapping(value = "/createReview")
+    @PostMapping
     @ApiOperation(value = "Create new review on initial review", tags = "Review")
     public @ResponseBody
     InitialReviewDTO createContents(@RequestBody InitialReviewCreateRequestDTO initialReviewCreateRequestDTO){

@@ -19,7 +19,7 @@ public class DirectorController {
         this.directorApplicationService = directorApplicationService;
     }
 
-    @PostMapping(value = "/createDirector")
+    @PostMapping
     @ApiOperation(value = "Create new director", tags = "Director")
     public @ResponseBody
     DirectorDTO createContents(@RequestBody @Valid DirectorCreateRequestDTO directorCreateRequestDTO){

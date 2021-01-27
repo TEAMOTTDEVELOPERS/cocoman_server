@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/party")
 public class PartyController {
-
-    @Autowired
     private PartyApplicationService partyApplicationService;
 
-    @PostMapping(value = "/createParty")
+    @Autowired
+    public PartyController(PartyApplicationService partyApplicationService){
+        this.partyApplicationService = partyApplicationService;
+    }
+
+    @PostMapping
     @ApiOperation(value = "Create new party", tags = "Party")
     public @ResponseBody
     PartyDTO createParty(@RequestBody PartyCreateRequestDTO partyCreateRequestDTO){

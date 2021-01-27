@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiOperation;
 import orangetaxiteam.cocoman.application.ContentsApplicationService;
 import orangetaxiteam.cocoman.application.dto.ContentsCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ContentsDTO;
-import orangetaxiteam.cocoman.application.dto.ContentsFindByTitleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,21 +20,21 @@ public class ContentsController {
         this.contentsApplicationService = contentsApplicationService;
     }
 
-    @PostMapping(value = "/createContents")
+    @PostMapping
     @ApiOperation(value = "Create new contents", tags = "Contents")
     public @ResponseBody
     ContentsDTO createContents(@RequestBody @Valid ContentsCreateRequestDTO contentsCreateRequestDTO){
         return contentsApplicationService.create(contentsCreateRequestDTO);
     }
 
-    @PostMapping(value = "/findByTitle")
-    @ApiOperation(value = "Find contents by title", tags = "Contents")
+    @GetMapping(value = "/{id}")
+    @ApiOperation(value = "Find contents by id", tags = "Contents")
     public @ResponseBody
-    List<ContentsDTO> findByTitle(@RequestBody @Valid ContentsFindByTitleDTO contentsFindByTitleDTO){
-        return contentsApplicationService.findByTitle(contentsFindByTitleDTO);
+    ContentsDTO findById(@PathVariable Long id){
+        return contentsApplicationService.findById(id);
     }
 
-    @GetMapping(value = "/findAll")
+    @GetMapping
     @ApiOperation(value = "Get all contents", tags = "Contents")
     public @ResponseBody
     List<ContentsDTO> findAllContents(){
