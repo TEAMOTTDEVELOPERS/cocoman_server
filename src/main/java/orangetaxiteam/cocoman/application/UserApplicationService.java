@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import orangetaxiteam.cocoman.application.dto.UserCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.UserDTO;
 import orangetaxiteam.cocoman.application.dto.UserSignInDTO;
+import orangetaxiteam.cocoman.application.dto.UserUpdateRequestDTO;
 import orangetaxiteam.cocoman.config.JwtTokenProvider;
 import orangetaxiteam.cocoman.domain.User;
 import orangetaxiteam.cocoman.domain.UserService;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -178,4 +180,23 @@ public class UserApplicationService {
             return null;
         }
     }
+    
+    public UserDTO findById(Long id) {
+		return UserDTO.fromDAO(userService.findById(id).orElseThrow(() -> new InputValueValidationException("invalid user id")));
+	}
+	
+	public UserDTO updateUser(Long id, UserUpdateRequestDTO userUpdateRequestDTO) {
+		return UserDTO.fromDAO(userService.update(id
+													, userUpdateRequestDTO.getRoles()
+													, userUpdateRequestDTO.getAge()
+													, userUpdateRequestDTO.getGender()
+													, userUpdateRequestDTO.getPhoneNum()
+													, userUpdateRequestDTO.getProfileImg()
+													, userUpdateRequestDTO.getPushToken())
+												);
+	}
+	
+	public void deleteUser(Long id) {
+		userService.delete(id);
+	}
 }
