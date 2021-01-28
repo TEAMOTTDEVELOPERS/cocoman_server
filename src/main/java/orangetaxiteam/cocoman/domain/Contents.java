@@ -74,7 +74,7 @@ public class Contents {
     private Set<Keyword> keywordSet;
 
     @OneToMany (mappedBy = "contents", cascade = CascadeType.ALL)
-    private Set<InitialReview> initialReviewSet;
+    private Set<Review> reviewSet;
 
     // TODO : add FKs - OTT, review
 

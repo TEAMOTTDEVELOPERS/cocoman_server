@@ -6,17 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class InitialReviewService {
-    private InitialReviewRepository initialReviewRepository;
+public class ReviewService {
+    private ReviewRepository reviewRepository;
 
     @Autowired
-    public InitialReviewService(InitialReviewRepository initialReviewRepository) {
-        this.initialReviewRepository = initialReviewRepository;
+    public ReviewService(ReviewRepository reviewRepository) {
+        this.reviewRepository = reviewRepository;
     }
 
-    public InitialReview create(Double score, User user, Contents contents) {
+    public Review create(Double score, String comment, User user, Contents contents) {
         if(!ValueValidation.isScoreInRange(score)) throw new InputValueValidationException("score range - " + score);
 
-        return initialReviewRepository.save(new InitialReview(score, user, contents));
+        return reviewRepository.save(new Review(score, comment, user, contents));
     }
 }
