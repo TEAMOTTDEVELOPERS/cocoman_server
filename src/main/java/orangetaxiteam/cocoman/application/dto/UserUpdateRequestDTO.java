@@ -1,5 +1,7 @@
 package orangetaxiteam.cocoman.application.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +11,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserSignInDTO {
-	private String userId;
-	private String password;
-	private String accessToken;
+public class UserUpdateRequestDTO {
+	private int age;
+	private String gender;
+	private String phoneNum;
+	private String profileImg;
 }

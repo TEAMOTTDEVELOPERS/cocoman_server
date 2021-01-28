@@ -23,7 +23,6 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Builder
 @Entity
 @Getter
 @NoArgsConstructor
@@ -44,7 +43,7 @@ public class User {
     private String nickName;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String password;
 
     @Column(nullable = false)
@@ -99,11 +98,40 @@ public class User {
             String userId,
             String nickName,
             String password,
-            Integer age, Gender gender,
+            Integer age,
+            Gender gender,
             String phoneNum,
             String profileImg,
             String pushToken
     ) {
         return new User(userId, nickName, password, age, gender, phoneNum, profileImg, pushToken);
+    }
+
+    public static User social(
+            String userId,
+            String nickName,
+            Integer age,
+            Gender gender,
+            String phoneNum,
+            String profileImg,
+            String pushToken
+    ) {
+        return new User(
+                userId,
+                nickName,
+                null,
+                age,
+                gender,
+                phoneNum,
+                profileImg,
+                pushToken
+        );
+    }
+
+    public void update(int age, String gender, String phoneNum, String profileImg) {
+        this.age = age;
+        this.gender = Gender.of(gender);
+        this.phoneNum = phoneNum;
+        this.profileImg = profileImg;
     }
 }
