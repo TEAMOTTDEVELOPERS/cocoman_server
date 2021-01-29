@@ -1,4 +1,4 @@
-package orangetaxiteam.cocoman.web.exceptions;
+package orangetaxiteam.cocoman.domain.validation;
 
 import java.util.regex.Pattern;
 

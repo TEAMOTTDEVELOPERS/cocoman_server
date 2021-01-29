@@ -11,7 +11,8 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContentsFindByTitleDTO {
-    @NotBlank(message = "Contents title cannot be null or blank")
-    private String title;
+public class DirectorCreateRequestDTO {
+    @NotBlank(message = "Director name cannot be null or blank")
+    private String name;
+    private String imagePath;
 }

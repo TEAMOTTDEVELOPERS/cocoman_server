@@ -9,10 +9,10 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "TB_ACTOR")
-public class Actor {
+@Table(name = "TB_DIRECTOR")
+public class Director {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column (nullable = false)
@@ -21,11 +21,11 @@ public class Actor {
     @Column (name = "image_path")
     private String imagePath;
 
-    @ManyToMany (mappedBy = "actorSet", cascade = CascadeType.ALL)
+    @ManyToMany (mappedBy = "directorSet", cascade = CascadeType.ALL)
     private Set<Contents> contentsSet;
 
     @Builder
-    public Actor(String name, String imagePath) {
+    public Director(String name, String imagePath) {
         this.name = name;
         this.imagePath = imagePath;
     }
