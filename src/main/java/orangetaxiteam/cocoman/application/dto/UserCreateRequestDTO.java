@@ -21,4 +21,6 @@ public class UserCreateRequestDTO {
 	private String profileImg;
 	private String pushToken;
 
+	private String accessToken;
+	private String provider;
 }

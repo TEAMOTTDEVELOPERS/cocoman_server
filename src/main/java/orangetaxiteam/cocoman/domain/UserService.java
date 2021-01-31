@@ -2,6 +2,7 @@ package orangetaxiteam.cocoman.domain;
 
 import orangetaxiteam.cocoman.application.dto.UserDTO;
 import orangetaxiteam.cocoman.web.exceptions.InputValueValidationException;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,11 +36,17 @@ public class UserService {
         ));
     }
 
+    // TODO : implement
+    public User createWithSocial(String provider, String uid, int age, String gender){
+        throw new NotYetImplementedException();
+    }
+
+    // TODO : exception handling
     public User signIn(String userId, String password){
         User user = userRepository.findByUserId(userId);
-        if (!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
-//            throw new Exception();
-        }
+        if(user == null);
+            //throw new Exception();
+        else if(!new BCryptPasswordEncoder().matches(password, user.getPassword())) {}
         return user;
     }
 
