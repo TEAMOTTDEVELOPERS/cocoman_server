@@ -12,4 +12,7 @@ import lombok.Setter;
 public class UserSignInDTO {
 	private String userId;
 	private String password;
+
+	private String accessToken;
+	private String provider;
 }
