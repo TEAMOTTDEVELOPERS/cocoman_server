@@ -12,6 +12,6 @@ import lombok.Setter;
 public class ReviewCreateRequestDTO {
     private Double score;
     private String comment;
-    private Long userId;
-    private Long contentsId;
+    private String userId;
+    private String contentsId;
 }

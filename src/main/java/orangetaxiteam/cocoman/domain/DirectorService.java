@@ -14,7 +14,7 @@ public class DirectorService {
         this.directorRepository = directorRepository;
     }
 
-    public Optional<Director> findById(Long id){
+    public Optional<Director> findById(String id){
         return directorRepository.findById(id);
     }
 

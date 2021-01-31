@@ -41,15 +41,5 @@ public class UserController {
 	UserDTO signIn(@RequestBody UserSignInDTO userSignInDTO) throws Exception { //Exception 수정 필요
 		return userApplicationService.signIn(userSignInDTO);
 	}
-	
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "access token", required = true, dataType="String", paramType="header")
-	})
-	@PostMapping(value = "/myUser")
-	@ApiOperation(value = "Lookup one User", tags = "User")
-	public @ResponseBody
-	UserDTO findByUsername(@RequestParam String username) {
-		return userApplicationService.findByUsername(username);
-	}
 }
 

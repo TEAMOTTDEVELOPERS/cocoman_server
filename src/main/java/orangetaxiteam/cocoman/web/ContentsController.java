@@ -30,7 +30,7 @@ public class ContentsController {
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "Find contents by id", tags = "Contents")
     public @ResponseBody
-    ContentsDTO findById(@PathVariable Long id){
+    ContentsDTO findById(@PathVariable String id){
         return contentsApplicationService.findById(id);
     }
 

@@ -5,6 +5,7 @@ import orangetaxiteam.cocoman.application.dto.ActorDTO;
 import orangetaxiteam.cocoman.domain.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,12 +22,13 @@ public class ActorApplicationService {
     public List<ActorDTO> findAll(){
         return actorService.findAll()
                 .stream()
-                .map(ActorDTO::fromDAO)
+                .map(ActorDTO::from)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public ActorDTO create(ActorCreateRequestDTO actorCreateRequestDTO) {
-        return ActorDTO.fromDAO(
+        return ActorDTO.from(
                 actorService.create(
                         actorCreateRequestDTO.getName(),
                         actorCreateRequestDTO.getImagePath()

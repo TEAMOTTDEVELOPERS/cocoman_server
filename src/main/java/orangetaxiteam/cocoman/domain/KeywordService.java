@@ -14,7 +14,7 @@ public class KeywordService {
         this.keywordRepository = keywordRepository;
     }
 
-    public Optional<Keyword> findById(Long id){
+    public Optional<Keyword> findById(String id){
         return keywordRepository.findById(id);
     }
 

@@ -5,6 +5,7 @@ import orangetaxiteam.cocoman.application.dto.KeywordDTO;
 import orangetaxiteam.cocoman.domain.KeywordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class KeywordApplicationService {
@@ -15,8 +16,9 @@ public class KeywordApplicationService {
         this.keywordService = keywordService;
     }
 
+    @Transactional
     public KeywordDTO create(KeywordCreateRequestDTO keywordCreateRequestDTO) {
-        return KeywordDTO.fromDAO(
+        return KeywordDTO.from(
                 keywordService.create(
                         keywordCreateRequestDTO.getName()
                 )

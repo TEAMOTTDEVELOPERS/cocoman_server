@@ -29,7 +29,6 @@ public class JwtTokenProvider {
 	private String secretKey;
 	
 	private long tokenValidMilisecond = 1000L * 60  * 60 * 24 * 7; // 1 week
-	
 	private final UserDetailsService  userDetailsService;
 	
 	@PostConstruct
@@ -38,7 +37,7 @@ public class JwtTokenProvider {
 	}
 	
 	//Token creation
-	public String createToken(String userPk, List<String> roles) {
+	public String createToken(String userPk) {
 		Claims claims = Jwts.claims().setSubject(userPk);
 		Date now = new Date();
 		return Jwts.builder()

@@ -24,8 +24,10 @@ public class ContentsService {
         return new ArrayList<>(contentsRepository.findAll());
     }
 
-    public Optional<Contents> findById(Long id){
-        return contentsRepository.findById(id);
+    public Contents findById(String id){
+        return contentsRepository.findById(id).orElseThrow(
+                () -> new InputValueValidationException("invalid contents id")
+        );
     }
 
     public Contents create(String title, String year, String country, int runningTime, String gradeRate, String broadcaster, String openDate, String broadcastDate, String story, String posterPath, List<Actor> actorList, List<Director> directorList, List<Genre> genreList, List<Keyword> keywordList) {
