@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import orangetaxiteam.cocoman.domain.Contents;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ContentsDTO {
-    private Long id;
+    private String id;
     private String title;
     private String year;
     private String country;
@@ -23,12 +24,14 @@ public class ContentsDTO {
     private String broadcastDate;
     private String story;
     private String posterPath;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private List<ActorDTO> actorList;
     private List<DirectorDTO> directorList;
     private List<GenreDTO> genreList;
     private List<KeywordDTO> keywordList;
 
-    public static ContentsDTO fromDAO(Contents contents){
+    public static ContentsDTO from(Contents contents){
         ContentsDTO v = new ContentsDTO();
         v.id = contents.getId();
         v.title = contents.getTitle();
@@ -41,21 +44,23 @@ public class ContentsDTO {
         v.broadcastDate = contents.getBroadcastDate();
         v.story = contents.getStory();
         v.posterPath = contents.getPosterPath();
+        v.createdAt = contents.getCreatedAt();
+        v.updatedAt = contents.getUpdatedAt();
         v.actorList = contents.getActorSet()
                 .stream()
-                .map(ActorDTO::fromDAO)
+                .map(ActorDTO::from)
                 .collect(Collectors.toList());
         v.directorList = contents.getDirectorSet()
                 .stream()
-                .map(DirectorDTO::fromDAO)
+                .map(DirectorDTO::from)
                 .collect(Collectors.toList());
         v.genreList = contents.getGenreSet()
                 .stream()
-                .map(GenreDTO::fromDAO)
+                .map(GenreDTO::from)
                 .collect(Collectors.toList());
         v.keywordList = contents.getKeywordSet()
                 .stream()
-                .map(KeywordDTO::fromDAO)
+                .map(KeywordDTO::from)
                 .collect(Collectors.toList());
 
         return v;

@@ -6,6 +6,7 @@ import orangetaxiteam.cocoman.domain.*;
 import orangetaxiteam.cocoman.web.exceptions.InputValueValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +30,7 @@ public class ContentsApplicationService {
         this.keywordService = keywordService;
     }
 
+    @Transactional
     public ContentsDTO create(ContentsCreateRequestDTO contentsCreateRequestDTO) {
         List<Actor> actorList = contentsCreateRequestDTO.getActorIdList().stream()
                 .map(actorService::findById)
@@ -60,7 +62,7 @@ public class ContentsApplicationService {
                 )
                 .collect(Collectors.toList());
 
-        return ContentsDTO.fromDAO(
+        return ContentsDTO.from(
                 contentsService.create(
                         contentsCreateRequestDTO.getTitle(),
                         contentsCreateRequestDTO.getYear(),
@@ -80,16 +82,16 @@ public class ContentsApplicationService {
         );
     }
 
-    public ContentsDTO findById(Long id) {
-        return ContentsDTO.fromDAO(
-                contentsService.findById(id).orElseThrow(() -> new InputValueValidationException("invalid contents id"))
+    public ContentsDTO findById(String id) {
+        return ContentsDTO.from(
+                contentsService.findById(id)
         );
     }
 
     public List<ContentsDTO> findAll() {
         return contentsService.findAll()
                 .stream()
-                .map(ContentsDTO::fromDAO)
+                .map(ContentsDTO::from)
                 .collect(Collectors.toList());
     }
 }

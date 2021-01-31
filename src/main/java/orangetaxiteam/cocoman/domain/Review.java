@@ -4,24 +4,40 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "TB_REVIEW")
+@EntityListeners(AuditingEntityListener.class)
 public class Review {
     @Id
-    @GeneratedValue
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(name = "id", unique = true)
+    private String id;
 
     @Column
     private Double score;
 
     @Column (length = 500)
     private String comment;
+
+    @CreatedDate
+    @Column (name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column (name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinTable(

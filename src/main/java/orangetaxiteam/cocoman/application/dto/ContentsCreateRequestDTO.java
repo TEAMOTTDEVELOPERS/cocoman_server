@@ -32,10 +32,10 @@ public class ContentsCreateRequestDTO {
     private String story;
     private String posterPath;
     @NotNull(message = "Contents actor list cannot be null")
-    private List<Long> actorIdList;
+    private List<String> actorIdList;
     @NotNull(message = "Contents director list cannot be null")
-    private List<Long> directorIdList;
+    private List<String> directorIdList;
     @NotNull(message = "Contents genre list cannot be null")
-    private List<Long> genreIdList;
-    private List<Long> keywordList;
+    private List<String> genreIdList;
+    private List<String> keywordList;
 }

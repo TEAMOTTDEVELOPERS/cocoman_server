@@ -13,12 +13,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PartyCreateRequestDTO {
-    private long ownerId;
-    private String partyName, ott;
+    private String ownerId;
+    private String partyName;
+    private String ott;
     private double price;
     private Date payDay;
     private int maxMember;
-    private Date startDate;
     private PartyStatus status;
 
 }

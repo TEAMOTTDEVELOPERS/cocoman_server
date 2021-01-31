@@ -5,6 +5,7 @@ import orangetaxiteam.cocoman.application.dto.GenreDTO;
 import orangetaxiteam.cocoman.domain.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class GenreApplicationService {
@@ -15,8 +16,9 @@ public class GenreApplicationService {
         this.genreService = genreService;
     }
 
+    @Transactional
     public GenreDTO create(GenreCreateRequestDTO genreCreateRequestDTO) {
-        return GenreDTO.fromDAO(
+        return GenreDTO.from(
                 genreService.create(
                         genreCreateRequestDTO.getName()
                 )

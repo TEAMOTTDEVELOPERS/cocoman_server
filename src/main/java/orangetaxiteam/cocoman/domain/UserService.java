@@ -1,55 +1,53 @@
 package orangetaxiteam.cocoman.domain;
 
-import java.util.Collections;
-import java.util.Optional;
-
+import orangetaxiteam.cocoman.application.dto.UserDTO;
+import orangetaxiteam.cocoman.web.exceptions.InputValueValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService implements UserDetailsService {
-	
-	private final UserRepository userRepository;
-	
-	@Autowired
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+public class UserService {
 
-	@Transactional
-	public User create(String username, String rawPassword, int age, String gender) throws Exception {
-		//username unique check
-		
-		User user = userRepository.findByUsername(username);
-		if(user != null) {
-			throw new Exception();//Exception 수정 필요
-		}
-		String password = new BCryptPasswordEncoder().encode(rawPassword);
-		return userRepository.save(User.builder()
-									.username(username)
-									.password(password)
-									.age(age)
-									.gender(gender)
-									.roles(Collections.singletonList("ROLE_USER"))
-									.build());
-	}
-	
-	public User singIn(String username, String password) throws Exception {
-		User user = userRepository.findByUsername(username);
-		if(!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
-			throw new Exception(); //Exception 수정 필요
-		}
-		return user;
-	}
+    private final UserRepository userRepository;
 
-	public Optional<User> findById(Long id){
-		return userRepository.findById(id);
-	}
-	
-	public User loadUserByUsername(String username) {
-		return userRepository.findByUsername(username);//Exception 추가 필요
-	}
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public User create(String userId, String nickName, String rawPassword, int age, String gender, String phoneNum, String profileImg, String pushToken) throws Exception {
+        //username unique check
+        User user = userRepository.findByUserId(userId);
+        if (user != null) {
+            throw new Exception();//Exception 수정 필요
+        }
+        String password = new BCryptPasswordEncoder().encode(rawPassword);
+        return userRepository.save(new User(
+                userId,
+                nickName,
+                password,
+                age,
+                gender,
+                phoneNum,
+                profileImg,
+                pushToken
+        ));
+    }
+
+    public User signIn(String userId, String password){
+        User user = userRepository.findByUserId(userId);
+        if (!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+//            throw new Exception();
+        }
+        return user;
+    }
+
+    public User findByUserId(String userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new InputValueValidationException("invalid user id"));
+    }
+
+    public User findById(String id){
+        return userRepository.findById(id).orElseThrow(() -> new InputValueValidationException("invalid user id"));
+    }
 }

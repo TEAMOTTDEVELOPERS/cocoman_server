@@ -5,17 +5,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -25,64 +23,60 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "TB_USER")
-public class User implements UserDetails{
+@EntityListeners(AuditingEntityListener.class)
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @Column(length=100, nullable=false, unique = true)
-    private String username;
-    
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(length=100, nullable=false)
-    private String password;
-    
-    @Column(nullable=false)
-    private int age;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(name = "id", unique = true)
+    private String id;
 
-    @Column(length=6, nullable=false)
+    @Column(nullable = false, unique = true)
+    private String userId;
+
+    @Column(length = 100, nullable = false, unique = true)
+    private String nickName;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(length = 100, nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private Integer age;
+
+    @Column(length = 6, nullable = false)
     private String gender;
-    
+
     @Column(name = "phone_num")
     private String phoneNum;
-    
+
     @Column(name = "profile_img")
     private String profileImg;
-    
+
     //Column for app push alarm
     @Column(name = "push_token")
     private String pushToken;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
-    private List<String> roles = new ArrayList<>();
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
-    @OneToMany (mappedBy = "user", cascade = CascadeType.ALL)
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Review> reviewSet;
-    
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-	}
 
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-
+    @Builder
+    public User(String userId, String nickName, String password, Integer age, String gender, String phoneNum, String profileImg, String pushToken) {
+        this.userId = userId;
+        this.nickName = nickName;
+        this.password = password;
+        this.age = age;
+        this.gender = gender;
+        this.phoneNum = phoneNum;
+        this.profileImg = profileImg;
+        this.pushToken = pushToken;
+    }
 }

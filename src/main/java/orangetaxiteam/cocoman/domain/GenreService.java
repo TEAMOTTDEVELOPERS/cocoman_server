@@ -14,7 +14,7 @@ public class GenreService {
         this.genreRepository = genreRepository;
     }
 
-    public Optional<Genre> findById(Long id){
+    public Optional<Genre> findById(String id){
         return genreRepository.findById(id);
     }
 

@@ -3,9 +3,9 @@ package orangetaxiteam.cocoman.application;
 import orangetaxiteam.cocoman.application.dto.ReviewCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ReviewDTO;
 import orangetaxiteam.cocoman.domain.*;
-import orangetaxiteam.cocoman.web.exceptions.InputValueValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ReviewApplicationService {
@@ -20,17 +20,13 @@ public class ReviewApplicationService {
         this.contentsService = contentsService;
     }
 
+    @Transactional
     public ReviewDTO create(ReviewCreateRequestDTO reviewCreateRequestDTO){
-        User user = userService.findById(reviewCreateRequestDTO.getUserId()).orElseThrow(
-                () -> new InputValueValidationException("invalid user id")
-        );
-
-        Contents contents = contentsService.findById(reviewCreateRequestDTO.getContentsId()).orElseThrow(
-                () -> new InputValueValidationException("invalid contents id")
-        );
+        User user = userService.findById(reviewCreateRequestDTO.getUserId());
+        Contents contents = contentsService.findById(reviewCreateRequestDTO.getContentsId());
 
 
-        return ReviewDTO.fromDAO(
+        return ReviewDTO.from(
                 reviewService.create(
                         reviewCreateRequestDTO.getScore(),
                         reviewCreateRequestDTO.getComment(),

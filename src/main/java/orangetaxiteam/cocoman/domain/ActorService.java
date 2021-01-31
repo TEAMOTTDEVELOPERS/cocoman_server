@@ -15,7 +15,7 @@ public class ActorService {
         this.actorRepository = actorRepository;
     }
 
-    public Optional<Actor> findById(Long id){
+    public Optional<Actor> findById(String id){
         return actorRepository.findById(id);
     }
 

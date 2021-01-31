@@ -12,12 +12,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserCreateRequestDTO {
-	
-	private String username;
+	private String userId;
+	private String nickName;
 	private String password;
-	private List<String> roles;
-	private int age;
+	private Integer age;
 	private String gender;
+	private String phoneNum;
 	private String profileImg;
 	private String pushToken;
 
