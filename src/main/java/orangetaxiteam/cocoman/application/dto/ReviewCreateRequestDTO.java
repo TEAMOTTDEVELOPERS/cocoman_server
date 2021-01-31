@@ -9,8 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class InitialReviewCreateRequestDTO {
+public class ReviewCreateRequestDTO {
     private Double score;
+    private String comment;
     private Long userId;
     private Long contentsId;
 }

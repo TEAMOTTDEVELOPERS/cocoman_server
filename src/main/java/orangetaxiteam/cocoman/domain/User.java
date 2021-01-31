@@ -58,7 +58,7 @@ public class User implements UserDetails{
     private List<String> roles = new ArrayList<>();
 
     @OneToMany (mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<InitialReview> initialReviewSet;
+    private Set<Review> reviewSet;
     
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
