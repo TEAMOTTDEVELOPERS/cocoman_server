@@ -1,15 +1,16 @@
-package orangetaxiteam.cocoman.web.exceptions;
+package orangetaxiteam.cocoman.domain.exceptions;
 
+import orangetaxiteam.cocoman.application.dto.ExceptionDTO;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class InputValueValidationException extends RuntimeException {
+public class BadRequestException extends RuntimeException {
     private List<Object> params = new ArrayList<>();
 
-    public InputValueValidationException(Object... params) {
+    public BadRequestException(Object... params) {
         this.params.addAll(Arrays.asList(params));
     }
 

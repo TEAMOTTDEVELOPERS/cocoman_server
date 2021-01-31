@@ -10,15 +10,15 @@ public class GenreService {
     private GenreRepository genreRepository;
 
     @Autowired
-    public GenreService (GenreRepository genreRepository){
+    public GenreService(GenreRepository genreRepository) {
         this.genreRepository = genreRepository;
     }
 
-    public Optional<Genre> findById(String id){
+    public Optional<Genre> findById(String id) {
         return genreRepository.findById(id);
     }
 
     public Genre create(String name) {
-        return genreRepository.save(new Genre(name));
+        return genreRepository.save(Genre.of(name));
     }
 }

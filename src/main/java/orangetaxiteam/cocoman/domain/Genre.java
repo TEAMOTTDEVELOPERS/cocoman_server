@@ -23,22 +23,25 @@ public class Genre {
     @Column(name = "id", unique = true)
     private String id;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @CreatedDate
-    @Column (name = "created_at", updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column (name = "updated_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToMany (mappedBy = "genreSet", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "genreSet", cascade = CascadeType.ALL)
     private Set<Contents> contentsSet;
 
-    @Builder
-    public Genre(String name) {
+    private Genre(String name) {
         this.name = name;
+    }
+
+    public static Genre of(String name) {
+        return new Genre(name);
     }
 }

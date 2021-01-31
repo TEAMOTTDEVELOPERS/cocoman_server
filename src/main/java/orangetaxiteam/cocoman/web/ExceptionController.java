@@ -1,5 +1,7 @@
-package orangetaxiteam.cocoman.web.exceptions;
+package orangetaxiteam.cocoman.web;
 
+import orangetaxiteam.cocoman.application.dto.ExceptionDTO;
+import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -27,8 +29,8 @@ public class ExceptionController {
 
     // Bad Request - 400
     // Input value validation : Check whether the entered value does not return null value from DB.
-    @ExceptionHandler(value = {InputValueValidationException.class})
-    public ResponseEntity<Object> BadRequestException(final InputValueValidationException exception) {
+    @ExceptionHandler(value = {BadRequestException.class})
+    public ResponseEntity<Object> BadRequestException(final BadRequestException exception) {
         return new ResponseEntity<>(exception.getResponse(), HttpStatus.BAD_REQUEST);
     }
 

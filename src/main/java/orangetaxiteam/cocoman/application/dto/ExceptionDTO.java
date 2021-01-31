@@ -1,4 +1,4 @@
-package orangetaxiteam.cocoman.web.exceptions;
+package orangetaxiteam.cocoman.application.dto;
 
 import lombok.Getter;
 
