@@ -4,16 +4,26 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
-import org.springframework.stereotype.Service;
-
+import orangetaxiteam.cocoman.application.dto.CreateProfileRequest;
+import orangetaxiteam.cocoman.application.dto.ProfileDTO;
 import orangetaxiteam.cocoman.application.dto.UserCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.UserDTO;
 import orangetaxiteam.cocoman.application.dto.UserSignInDTO;
 import orangetaxiteam.cocoman.config.JwtTokenProvider;
+import orangetaxiteam.cocoman.domain.ImageStorageService;
 import orangetaxiteam.cocoman.domain.User;
+import orangetaxiteam.cocoman.domain.UserProfile;
+import orangetaxiteam.cocoman.domain.UserProfileRepository;
+import orangetaxiteam.cocoman.domain.UserRepository;
 import orangetaxiteam.cocoman.domain.UserService;
+import orangetaxiteam.cocoman.domain.exception.BadRequestException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -21,20 +31,32 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class UserApplicationService {
 
-    private UserService userService;
+    private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
+    private final UserProfileRepository userProfileRepository;
+    private final ImageStorageService imageStorageService;
 
     @Autowired
-    public UserApplicationService(UserService userService, JwtTokenProvider jwtTokenProvider) {
+    public UserApplicationService(
+            UserService userService,
+            JwtTokenProvider jwtTokenProvider,
+            UserRepository userRepository,
+            UserProfileRepository userProfileRepository,
+            ImageStorageService imageStorageService
+    ) {
         this.userService = userService;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.userRepository = userRepository;
+        this.userProfileRepository = userProfileRepository;
+        this.imageStorageService = imageStorageService;
     }
 
     @Transactional
     public UserDTO create(UserCreateRequestDTO userCreateRequestDTO) throws Exception { //Exception 수정 필요
         String provider = userCreateRequestDTO.getProvider();
-        if (provider.equals("coconut"))
-            return UserDTO.from(userService.create(
+        if (provider.equals("coconut")) {
+            return UserDTO.from(this.userService.create(
                     userCreateRequestDTO.getUserId(),
                     userCreateRequestDTO.getNickName(),
                     userCreateRequestDTO.getPassword(),
@@ -43,10 +65,10 @@ public class UserApplicationService {
                     userCreateRequestDTO.getPhoneNum(),
                     userCreateRequestDTO.getProfileImg(),
                     userCreateRequestDTO.getPushToken()));
-        else {
-            String userId = getSocialId(userCreateRequestDTO.getAccessToken(), provider);
+        } else {
+            String userId = this.getSocialId(userCreateRequestDTO.getAccessToken(), provider);
             System.out.println("userId = " + userId);
-            return UserDTO.from(userService.create(
+            return UserDTO.from(this.userService.create(
                     userId,
                     userCreateRequestDTO.getNickName(),
                     "",
@@ -54,7 +76,8 @@ public class UserApplicationService {
                     userCreateRequestDTO.getGender(),
                     userCreateRequestDTO.getPhoneNum(),
                     userCreateRequestDTO.getProfileImg(),
-                    userCreateRequestDTO.getPushToken()));}
+                    userCreateRequestDTO.getPushToken()));
+        }
     }
 
     public UserDTO signIn(UserSignInDTO userSignInDTO) throws JsonProcessingException {
@@ -62,33 +85,32 @@ public class UserApplicationService {
         User user;
 
         if (provider.equals("coconut")) {
-            user = userService.signIn(userSignInDTO.getUserId(), userSignInDTO.getPassword());
-        }
-        else{
-            String userId = getSocialId(userSignInDTO.getAccessToken(), provider);
-            user = userService.signIn(userId, "");
+            user = this.userService.signIn(userSignInDTO.getUserId(), userSignInDTO.getPassword());
+        } else {
+            String userId = this.getSocialId(userSignInDTO.getAccessToken(), provider);
+            user = this.userService.signIn(userId, "");
         }
 
-        String jwtToken = jwtTokenProvider.createToken(user.getUserId());
+        String jwtToken = this.jwtTokenProvider.createToken(user.getUserId());
         return UserDTO.from(
-                userService.findByUserId(userSignInDTO.getUserId()),
+                this.userService.findByUserId(userSignInDTO.getUserId()),
                 jwtToken);
     }
 
 
-
     public String getSocialId(String accessToken, String provider) throws JsonProcessingException {
 
-        if (provider.equals("facebook"))
-            return "FACEBOOK_" + getFacebookIdInfo(accessToken);
-        else if (provider.equals("google"))
-            return "GOOGLE_" + getGoogleIdInfo(accessToken);
-        else if (provider.equals("kakao"))
-            return "KAKAO_" + getKakaoIdInfo(accessToken);
-        else if (provider.equals("naver"))
-            return "NAVER_" + getNaverIdInfo(accessToken);
-        else
-            return null;	// TODO : exception handling
+        if (provider.equals("facebook")) {
+            return "FACEBOOK_" + this.getFacebookIdInfo(accessToken);
+        } else if (provider.equals("google")) {
+            return "GOOGLE_" + this.getGoogleIdInfo(accessToken);
+        } else if (provider.equals("kakao")) {
+            return "KAKAO_" + this.getKakaoIdInfo(accessToken);
+        } else if (provider.equals("naver")) {
+            return "NAVER_" + this.getNaverIdInfo(accessToken);
+        } else {
+            return null;    // TODO : exception handling
+        }
     }
 
     // TODO : to modify url, httpmethod, response
@@ -106,7 +128,7 @@ public class UserApplicationService {
                 String.class
         );
 
-        return getIdFromResponse(response, "facebook");
+        return this.getIdFromResponse(response, "facebook");
     }
 
     private String getGoogleIdInfo(String accessToken) throws JsonProcessingException {
@@ -123,7 +145,7 @@ public class UserApplicationService {
                 String.class
         );
 
-        return getIdFromResponse(response, "google");
+        return this.getIdFromResponse(response, "google");
     }
 
     private String getKakaoIdInfo(String accessToken) throws JsonProcessingException {
@@ -141,7 +163,7 @@ public class UserApplicationService {
                 String.class
         );
 
-        return getIdFromResponse(response, "kakao");
+        return this.getIdFromResponse(response, "kakao");
     }
 
     private String getNaverIdInfo(String accessToken) throws JsonProcessingException {
@@ -158,24 +180,47 @@ public class UserApplicationService {
                 String.class
         );
 
-        return getIdFromResponse(response, "naver");
+        return this.getIdFromResponse(response, "naver");
     }
 
     private String getIdFromResponse(ResponseEntity<String> response, String provider) throws JsonProcessingException {
         HttpStatus statusCode = response.getStatusCode();
-        if(statusCode.is2xxSuccessful()){
+        if (statusCode.is2xxSuccessful()) {
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectNode node = objectMapper.readValue(response.getBody(), ObjectNode.class);
-            if (provider.equals("naver")){
+            if (provider.equals("naver")) {
                 JsonNode res = node.get("response");
                 return res.get("id").toString();
-            }
-            else
+            } else {
                 return node.get("id").asText();
+            }
         }
         // TODO : status code exception handling
-        else{	// statusCode.isError()
+        else {    // statusCode.isError()
             return null;
         }
+    }
+
+    @Transactional
+    public ProfileDTO createUserProfile(String userId, CreateProfileRequest request) {
+        User user = this.userRepository.findById(userId)
+                .orElseThrow(() -> new BadRequestException(String.format("user '%s' does not exist", userId)));
+
+        String profileImagePath = this.imageStorageService.upload(request.getImageBinary());
+        UserProfile createdProfile = user.createProfile(request.getName(), request.getIsKid(), profileImagePath);
+
+        this.userRepository.save(user);
+        return ProfileDTO.of(createdProfile, request.getImageBinary());
+    }
+
+    @Transactional(readOnly = true)
+    public ProfileDTO getUserProfile(String userId, String profileId) {
+        User user = this.userRepository.findById(userId)
+                .orElseThrow(() -> new BadRequestException(String.format("user '%s' does not exist", userId)));
+        UserProfile userProfile = this.userProfileRepository.findByIdAndUserOrElseThrow(profileId, user);
+        return ProfileDTO.of(
+                userProfile,
+                this.imageStorageService.download(userProfile.getImagePath())
+        );
     }
 }

@@ -1,21 +1,27 @@
 package orangetaxiteam.cocoman.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.Set;
-
-import javax.persistence.*;
-
+import orangetaxiteam.cocoman.domain.exception.BadRequestException;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Builder
 @Entity
@@ -25,6 +31,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Table(name = "TB_USER")
 @EntityListeners(AuditingEntityListener.class)
 public class User {
+    private final static int MAXIMUM_PROFILE_COUNTS = 4;
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid")
@@ -68,6 +76,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Review> reviewSet;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<UserProfile> userProfiles;
+
     @Builder
     public User(String userId, String nickName, String password, Integer age, String gender, String phoneNum, String profileImg, String pushToken) {
         this.userId = userId;
@@ -78,5 +89,19 @@ public class User {
         this.phoneNum = phoneNum;
         this.profileImg = profileImg;
         this.pushToken = pushToken;
+    }
+
+    public UserProfile createProfile(String name, Boolean isKid, String profileImagePath) {
+        if (!this.canCreateProfile()) {
+            throw new BadRequestException(String.format("user '%s' can not create profile more than '%d'", this.id, MAXIMUM_PROFILE_COUNTS))
+        }
+
+        UserProfile userProfile = UserProfile.of(name, isKid, profileImagePath);
+        this.userProfiles.add(userProfile);
+        return userProfile;
+    }
+
+    private boolean canCreateProfile() {
+        return this.userProfiles.size() < MAXIMUM_PROFILE_COUNTS;
     }
 }
