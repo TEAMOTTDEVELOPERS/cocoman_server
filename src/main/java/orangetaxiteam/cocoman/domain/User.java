@@ -68,8 +68,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Review> reviewSet;
 
-    @Builder
-    public User(String userId, String nickName, String password, Integer age, String gender, String phoneNum, String profileImg, String pushToken) {
+    private User(String userId, String nickName, String password, Integer age, String gender, String phoneNum, String profileImg, String pushToken) {
         this.userId = userId;
         this.nickName = nickName;
         this.password = password;
@@ -78,5 +77,9 @@ public class User {
         this.phoneNum = phoneNum;
         this.profileImg = profileImg;
         this.pushToken = pushToken;
+    }
+
+    public static User of(String userId, String nickName, String password, Integer age, String gender, String phoneNum, String profileImg, String pushToken) {
+        return new User(userId, nickName, password, age, gender, phoneNum, profileImg, pushToken);
     }
 }

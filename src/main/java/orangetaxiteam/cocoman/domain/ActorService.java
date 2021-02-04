@@ -11,11 +11,11 @@ public class ActorService {
     private ActorRepository actorRepository;
 
     @Autowired
-    public ActorService(ActorRepository actorRepository){
+    public ActorService(ActorRepository actorRepository) {
         this.actorRepository = actorRepository;
     }
 
-    public Optional<Actor> findById(String id){
+    public Optional<Actor> findById(String id) {
         return actorRepository.findById(id);
     }
 
@@ -24,6 +24,6 @@ public class ActorService {
     }
 
     public Actor create(String name, String imagePath) {
-        return actorRepository.save(new Actor(name, imagePath));
+        return actorRepository.save(Actor.of(name, imagePath));
     }
 }

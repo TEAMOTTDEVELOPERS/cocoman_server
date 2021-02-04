@@ -28,15 +28,15 @@ public class Review {
     @Column
     private Double score;
 
-    @Column (length = 500)
+    @Column(length = 500)
     private String comment;
 
     @CreatedDate
-    @Column (name = "created_at", updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column (name = "updated_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @ManyToOne
@@ -53,11 +53,14 @@ public class Review {
             inverseJoinColumns = @JoinColumn(name = "review_id"))
     private Contents contents;
 
-    @Builder
-    public Review(Double score, String comment, User user, Contents contents) {
+    private Review(Double score, String comment, User user, Contents contents) {
         this.score = score;
         this.comment = comment;
         this.user = user;
         this.contents = contents;
+    }
+
+    public static Review of(Double score, String comment, User user, Contents contents) {
+        return new Review(score, comment, user, contents);
     }
 }

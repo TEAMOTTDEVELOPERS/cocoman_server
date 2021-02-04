@@ -23,26 +23,29 @@ public class Actor {
     @Column(name = "id", unique = true)
     private String id;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column (name = "image_path")
+    @Column(name = "image_path")
     private String imagePath;
 
-    @ManyToMany (mappedBy = "actorSet", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "actorSet", cascade = CascadeType.ALL)
     private Set<Contents> contentsSet;
 
     @CreatedDate
-    @Column (name = "created_at", updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column (name = "updated_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Builder
-    public Actor(String name, String imagePath) {
+    private Actor(String name, String imagePath) {
         this.name = name;
         this.imagePath = imagePath;
+    }
+
+    public static Actor of(String name, String imagePath) {
+        return new Actor(name, imagePath);
     }
 }

@@ -30,18 +30,21 @@ public class Keyword {
     private String name;
 
     @CreatedDate
-    @Column (name = "created_at", updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column (name = "updated_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToMany (mappedBy = "keywordSet", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "keywordSet", cascade = CascadeType.ALL)
     private Set<Contents> contentsSet;
 
-    @Builder
-    public Keyword(String name) {
+    private Keyword(String name) {
         this.name = name;
+    }
+
+    public static Keyword of(String name) {
+        return new Keyword(name);
     }
 }

@@ -23,26 +23,29 @@ public class Director {
     @Column(name = "id", unique = true)
     private String id;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column (name = "image_path")
+    @Column(name = "image_path")
     private String imagePath;
 
     @CreatedDate
-    @Column (name = "created_at", updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column (name = "updated_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToMany (mappedBy = "directorSet", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "directorSet", cascade = CascadeType.ALL)
     private Set<Contents> contentsSet;
 
-    @Builder
-    public Director(String name, String imagePath) {
+    private Director(String name, String imagePath) {
         this.name = name;
         this.imagePath = imagePath;
+    }
+
+    public static Director of(String name, String imagePath) {
+        return new Director(name, imagePath);
     }
 }

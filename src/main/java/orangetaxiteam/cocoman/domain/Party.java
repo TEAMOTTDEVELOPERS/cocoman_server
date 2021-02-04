@@ -50,15 +50,14 @@ public class Party {
     private PartyStatus status;
 
     @CreatedDate
-    @Column (name = "created_at", updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column (name = "updated_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Builder
-    public Party (String ownerId, String partyName, String ott, Double price, Date payDay, Integer maxMember, PartyStatus status){
+    private Party(String ownerId, String partyName, String ott, Double price, Date payDay, Integer maxMember, PartyStatus status) {
         this.ownerId = ownerId;
         this.partyName = partyName;
         this.ott = ott;
@@ -68,4 +67,7 @@ public class Party {
         this.status = status;
     }
 
+    public static Party of(String ownerId, String partyName, String ott, Double price, Date payDay, Integer maxMember, PartyStatus status) {
+        return new Party(ownerId, partyName, ott, price, payDay, maxMember, status);
+    }
 }

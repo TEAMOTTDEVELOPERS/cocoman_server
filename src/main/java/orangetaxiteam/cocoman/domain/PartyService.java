@@ -17,7 +17,7 @@ public class PartyService {
         this.partyRepository = partyRepository;
     }
 
-    // TODO : change to InputValueValidationException
+    // TODO : change to BadRequestException
     private void validateDuplicatePartyName(Party party) {
         partyRepository.findByPartyName(party.getPartyName())
                 .ifPresent(m -> {
@@ -30,7 +30,7 @@ public class PartyService {
     }
 
     public Party create(String ownerId, String partyName, String ott, Double price, Date payDay, Integer maxMember, PartyStatus status) {
-        return partyRepository.save(new Party(ownerId, partyName, ott, price, payDay, maxMember, status));
+        return partyRepository.save(Party.of(ownerId, partyName, ott, price, payDay, maxMember, status));
     }
 
 }

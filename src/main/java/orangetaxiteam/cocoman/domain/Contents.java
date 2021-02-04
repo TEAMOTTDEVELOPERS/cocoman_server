@@ -26,7 +26,7 @@ public class Contents {
     @Column(nullable = false)
     private String title;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String year;
 
     @Column
@@ -54,11 +54,11 @@ public class Contents {
     private String posterPath;
 
     @CreatedDate
-    @Column (name = "created_at", updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column (name = "updated_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @ManyToMany
@@ -89,13 +89,12 @@ public class Contents {
             inverseJoinColumns = @JoinColumn(name = "contents_id"))
     private Set<Keyword> keywordSet;
 
-    @OneToMany (mappedBy = "contents", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "contents", cascade = CascadeType.ALL)
     private Set<Review> reviewSet;
 
     // TODO : add FKs - OTT, review
 
-    @Builder
-    public Contents(String title, String year, String country, int runningTime, String gradeRate, String broadcaster, String openDate, String broadcastDate, String story, String posterPath, Set<Actor> actorSet, Set<Director> directorSet, Set<Genre> genreSet, Set<Keyword> keywordSet) {
+    private Contents(String title, String year, String country, int runningTime, String gradeRate, String broadcaster, String openDate, String broadcastDate, String story, String posterPath, Set<Actor> actorSet, Set<Director> directorSet, Set<Genre> genreSet, Set<Keyword> keywordSet) {
         this.title = title;
         this.year = year;
         this.country = country;
@@ -110,5 +109,9 @@ public class Contents {
         this.directorSet = directorSet;
         this.genreSet = genreSet;
         this.keywordSet = keywordSet;
+    }
+
+    public static Contents of(String title, String year, String country, int runningTime, String gradeRate, String broadcaster, String openDate, String broadcastDate, String story, String posterPath, Set<Actor> actorSet, Set<Director> directorSet, Set<Genre> genreSet, Set<Keyword> keywordSet) {
+        return new Contents(title, year, country, runningTime, gradeRate, broadcaster, openDate, broadcastDate, story, posterPath, actorSet, directorSet, genreSet, keywordSet);
     }
 }

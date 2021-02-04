@@ -1,7 +1,6 @@
 package orangetaxiteam.cocoman.domain;
 
-import orangetaxiteam.cocoman.application.dto.UserDTO;
-import orangetaxiteam.cocoman.web.exceptions.InputValueValidationException;
+import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,7 +23,7 @@ public class UserService {
             throw new Exception();//Exception 수정 필요
         }
         String password = new BCryptPasswordEncoder().encode(rawPassword);
-        return userRepository.save(new User(
+        return userRepository.save(User.of(
                 userId,
                 nickName,
                 password,
@@ -37,24 +36,25 @@ public class UserService {
     }
 
     // TODO : implement
-    public User createWithSocial(String provider, String uid, int age, String gender){
+    public User createWithSocial(String provider, String uid, int age, String gender) {
         throw new NotYetImplementedException();
     }
 
     // TODO : exception handling
-    public User signIn(String userId, String password){
+    public User signIn(String userId, String password) {
         User user = userRepository.findByUserId(userId);
-        if(user == null);
+        if (user == null) ;
             //throw new Exception();
-        else if(!new BCryptPasswordEncoder().matches(password, user.getPassword())) {}
+        else if (!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+        }
         return user;
     }
 
     public User findByUserId(String userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new InputValueValidationException("invalid user id"));
+        return userRepository.findById(userId).orElseThrow(() -> new BadRequestException("invalid user id"));
     }
 
-    public User findById(String id){
-        return userRepository.findById(id).orElseThrow(() -> new InputValueValidationException("invalid user id"));
+    public User findById(String id) {
+        return userRepository.findById(id).orElseThrow(() -> new BadRequestException("invalid user id"));
     }
 }

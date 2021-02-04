@@ -3,7 +3,7 @@ package orangetaxiteam.cocoman.application;
 import orangetaxiteam.cocoman.application.dto.ContentsCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ContentsDTO;
 import orangetaxiteam.cocoman.domain.*;
-import orangetaxiteam.cocoman.web.exceptions.InputValueValidationException;
+import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,21 +35,21 @@ public class ContentsApplicationService {
         List<Actor> actorList = contentsCreateRequestDTO.getActorIdList().stream()
                 .map(actorService::findById)
                 .map(foundActor -> foundActor.orElseThrow(
-                        () -> new InputValueValidationException("invalid actor id"))
+                        () -> new BadRequestException("invalid actor id"))
                 )
                 .collect(Collectors.toList());
 
         List<Director> directorList = contentsCreateRequestDTO.getDirectorIdList().stream()
                 .map(directorService::findById)
                 .map(foundDirector -> foundDirector.orElseThrow(
-                        () -> new InputValueValidationException("invalid director id"))
+                        () -> new BadRequestException("invalid director id"))
                 )
                 .collect(Collectors.toList());
 
         List<Genre> genreList = contentsCreateRequestDTO.getGenreIdList().stream()
                 .map(genreService::findById)
                 .map(foundGenre -> foundGenre.orElseThrow(
-                        () -> new InputValueValidationException("invalid genre id"))
+                        () -> new BadRequestException("invalid genre id"))
                 )
                 .collect(Collectors.toList());
 
@@ -58,7 +58,7 @@ public class ContentsApplicationService {
                 .stream()
                 .map(keywordService::findById)
                 .map(foundKeyword -> foundKeyword.orElseThrow(
-                        () -> new InputValueValidationException("invalid keyword id"))
+                        () -> new BadRequestException("invalid keyword id"))
                 )
                 .collect(Collectors.toList());
 

@@ -10,15 +10,15 @@ public class DirectorService {
     private DirectorRepository directorRepository;
 
     @Autowired
-    public DirectorService(DirectorRepository directorRepository){
+    public DirectorService(DirectorRepository directorRepository) {
         this.directorRepository = directorRepository;
     }
 
-    public Optional<Director> findById(String id){
+    public Optional<Director> findById(String id) {
         return directorRepository.findById(id);
     }
 
     public Director create(String name, String imagePath) {
-        return directorRepository.save(new Director(name, imagePath));
+        return directorRepository.save(Director.of(name, imagePath));
     }
 }
