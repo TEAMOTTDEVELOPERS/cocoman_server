@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/genre")
+@RequestMapping("/api/v1/genre")
 public class GenreController {
     private GenreApplicationService genreApplicationService;
 
@@ -20,9 +20,8 @@ public class GenreController {
     }
 
     @PostMapping
-    @ApiOperation(value = "Create new genre", tags = "Genre")
     public @ResponseBody
-    GenreDTO createContents(@RequestBody @Valid GenreCreateRequestDTO genreCreateRequestDTO){
+    GenreDTO createGenre(@RequestBody @Valid GenreCreateRequestDTO genreCreateRequestDTO){
         return genreApplicationService.create(genreCreateRequestDTO);
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/party")
+@RequestMapping("/api/v1/party")
 public class PartyController {
     private PartyApplicationService partyApplicationService;
 
@@ -19,7 +19,6 @@ public class PartyController {
     }
 
     @PostMapping
-    @ApiOperation(value = "Create new party", tags = "Party")
     public @ResponseBody
     PartyDTO createParty(@RequestBody PartyCreateRequestDTO partyCreateRequestDTO){
         return partyApplicationService.create(partyCreateRequestDTO);

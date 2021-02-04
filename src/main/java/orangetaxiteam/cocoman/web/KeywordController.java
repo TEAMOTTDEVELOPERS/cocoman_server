@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/keyword")
+@RequestMapping("/api/v1/keyword")
 public class KeywordController {
     private KeywordApplicationService keywordApplicationService;
 
@@ -20,9 +20,8 @@ public class KeywordController {
     }
 
     @PostMapping
-    @ApiOperation(value = "Create new keyword", tags = "Keyword")
     public @ResponseBody
-    KeywordDTO createContents(@RequestBody @Valid KeywordCreateRequestDTO keywordCreateRequestDTO){
+    KeywordDTO createKeyword(@RequestBody @Valid KeywordCreateRequestDTO keywordCreateRequestDTO){
         return keywordApplicationService.create(keywordCreateRequestDTO);
     }
 }
