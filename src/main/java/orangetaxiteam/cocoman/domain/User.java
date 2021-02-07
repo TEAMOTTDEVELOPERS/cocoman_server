@@ -44,8 +44,9 @@ public class User {
     @Column(nullable = false)
     private Integer age;
 
-    @Column(length = 6, nullable = false)
-    private String gender;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column(name = "phone_num")
     private String phoneNum;
@@ -68,7 +69,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Review> reviewSet;
 
-    private User(String userId, String nickName, String password, Integer age, String gender, String phoneNum, String profileImg, String pushToken) {
+    private User(String userId, String nickName, String password, Integer age, Gender gender, String phoneNum, String profileImg, String pushToken) {
         this.userId = userId;
         this.nickName = nickName;
         this.password = password;
@@ -79,7 +80,7 @@ public class User {
         this.pushToken = pushToken;
     }
 
-    public static User of(String userId, String nickName, String password, Integer age, String gender, String phoneNum, String profileImg, String pushToken) {
+    public static User of(String userId, String nickName, String password, Integer age, Gender gender, String phoneNum, String profileImg, String pushToken) {
         return new User(userId, nickName, password, age, gender, phoneNum, profileImg, pushToken);
     }
 }

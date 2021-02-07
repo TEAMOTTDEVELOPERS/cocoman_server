@@ -16,7 +16,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User create(String userId, String nickName, String rawPassword, int age, String gender, String phoneNum, String profileImg, String pushToken) throws Exception {
+    public User create(String userId, String nickName, String rawPassword, int age, Gender gender, String phoneNum, String profileImg, String pushToken) throws Exception {
         //username unique check
         User user = userRepository.findByUserId(userId);
         if (user != null) {
@@ -36,7 +36,7 @@ public class UserService {
     }
 
     // TODO : implement
-    public User createWithSocial(String provider, String uid, int age, String gender) {
+    public User createWithSocial(String provider, String uid, int age, Gender gender) {
         throw new NotYetImplementedException();
     }
 
