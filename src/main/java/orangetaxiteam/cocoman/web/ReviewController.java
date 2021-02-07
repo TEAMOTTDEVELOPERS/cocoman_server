@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/review")
+@RequestMapping("/api/v1/review")
 public class ReviewController {
     private ReviewApplicationService reviewApplicationService;
 
@@ -18,9 +18,8 @@ public class ReviewController {
     }
 
     @PostMapping
-    @ApiOperation(value = "Create new review on initial review", tags = "Review")
     public @ResponseBody
-    ReviewDTO createContents(@RequestBody ReviewCreateRequestDTO reviewCreateRequestDTO){
+    ReviewDTO createReview(@RequestBody ReviewCreateRequestDTO reviewCreateRequestDTO){
         return reviewApplicationService.create(reviewCreateRequestDTO);
     }
 }

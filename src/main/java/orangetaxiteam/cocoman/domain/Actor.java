@@ -1,18 +1,25 @@
 package orangetaxiteam.cocoman.domain;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "TB_ACTOR")
 @EntityListeners(AuditingEntityListener.class)
@@ -40,12 +47,34 @@ public class Actor {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    private Actor(String name, String imagePath) {
+    public Actor(String id, String name, String imagePath, Set<Contents> contentsSet, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
         this.name = name;
         this.imagePath = imagePath;
+        this.contentsSet = contentsSet;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public static Actor of(String name, String imagePath) {
-        return new Actor(name, imagePath);
+        return new Actor(
+                null,
+                name,
+                imagePath,
+                null,
+                null,
+                null
+        );
+    }
+
+    public static Actor dummy(
+            String id,
+            String name,
+            String imagePath,
+            Set<Contents> contentsSet,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
+    ) {
+        return new Actor(id, name, imagePath, contentsSet, createdAt, updatedAt);
     }
 }

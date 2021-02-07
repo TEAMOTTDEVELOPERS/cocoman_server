@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/director")
+@RequestMapping("/api/v1/director")
 public class DirectorController {
     private DirectorApplicationService directorApplicationService;
 
@@ -20,9 +20,8 @@ public class DirectorController {
     }
 
     @PostMapping
-    @ApiOperation(value = "Create new director", tags = "Director")
     public @ResponseBody
-    DirectorDTO createContents(@RequestBody @Valid DirectorCreateRequestDTO directorCreateRequestDTO){
+    DirectorDTO createDirector(@RequestBody @Valid DirectorCreateRequestDTO directorCreateRequestDTO){
         return directorApplicationService.create(directorCreateRequestDTO);
     }
 }

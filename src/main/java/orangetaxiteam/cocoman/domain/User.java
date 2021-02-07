@@ -1,21 +1,27 @@
 package orangetaxiteam.cocoman.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.Set;
-
-import javax.persistence.*;
-
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Builder
 @Entity
@@ -69,7 +75,16 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Review> reviewSet;
 
-    private User(String userId, String nickName, String password, Integer age, Gender gender, String phoneNum, String profileImg, String pushToken) {
+    private User(
+            String userId,
+            String nickName,
+            String password,
+            Integer age,
+            Gender gender,
+            String phoneNum,
+            String profileImg,
+            String pushToken
+    ) {
         this.userId = userId;
         this.nickName = nickName;
         this.password = password;
@@ -80,7 +95,15 @@ public class User {
         this.pushToken = pushToken;
     }
 
-    public static User of(String userId, String nickName, String password, Integer age, Gender gender, String phoneNum, String profileImg, String pushToken) {
+    public static User of(
+            String userId,
+            String nickName,
+            String password,
+            Integer age, Gender gender,
+            String phoneNum,
+            String profileImg,
+            String pushToken
+    ) {
         return new User(userId, nickName, password, age, gender, phoneNum, profileImg, pushToken);
     }
 }
