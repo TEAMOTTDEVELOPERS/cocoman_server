@@ -1,22 +1,14 @@
 package orangetaxiteam.cocoman.domain.exceptions;
 
-import orangetaxiteam.cocoman.application.dto.ExceptionDTO;
-import org.springframework.http.HttpStatus;
+import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+@Getter
 public class BadRequestException extends RuntimeException {
-    private List<Object> params = new ArrayList<>();
+    private ErrorCode errorCode;
+    private String message;
 
-    public BadRequestException(Object... params) {
-        this.params.addAll(Arrays.asList(params));
-    }
-
-    public ExceptionDTO getResponse() {
-        String message = "Inadequate parameters: ";
-        for (Object obj : params) message += obj.toString();
-        return new ExceptionDTO(HttpStatus.BAD_REQUEST.value(), "Input value bad request", message);
+    public BadRequestException(ErrorCode errorCode, String message) {
+        this.errorCode = errorCode;
+        this.message = message;
     }
 }

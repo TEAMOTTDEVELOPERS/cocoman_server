@@ -1,6 +1,7 @@
 package orangetaxiteam.cocoman.domain;
 
 import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
+import orangetaxiteam.cocoman.domain.exceptions.ErrorCode;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,12 +19,12 @@ public class UserService {
 
     public User create(String userId, String nickName, String rawPassword, int age, String gender, String phoneNum, String profileImg, String pushToken) throws Exception {
         //username unique check
-        User user = userRepository.findByUserId(userId);
+        User user = this.userRepository.findByUserId(userId);
         if (user != null) {
             throw new Exception();//Exception 수정 필요
         }
         String password = new BCryptPasswordEncoder().encode(rawPassword);
-        return userRepository.save(User.of(
+        return this.userRepository.save(User.of(
                 userId,
                 nickName,
                 password,
@@ -42,8 +43,9 @@ public class UserService {
 
     // TODO : exception handling
     public User signIn(String userId, String password) {
-        User user = userRepository.findByUserId(userId);
-        if (user == null) ;
+        User user = this.userRepository.findByUserId(userId);
+        if (user == null) {
+        }
             //throw new Exception();
         else if (!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
         }
@@ -51,10 +53,16 @@ public class UserService {
     }
 
     public User findByUserId(String userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new BadRequestException("invalid user id"));
+        return this.userRepository.findById(userId).orElseThrow(
+                () -> new BadRequestException(
+                        ErrorCode.SIGNIN_ID_DOES_NOT_EXIST,
+                        "Invalid user id"));
     }
 
     public User findById(String id) {
-        return userRepository.findById(id).orElseThrow(() -> new BadRequestException("invalid user id"));
+        return this.userRepository.findById(id).orElseThrow(
+                () -> new BadRequestException(
+                        ErrorCode.SIGNIN_ID_DOES_NOT_EXIST,
+                        "Invalid user id"));
     }
 }
