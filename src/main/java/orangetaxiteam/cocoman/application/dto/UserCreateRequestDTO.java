@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import orangetaxiteam.cocoman.domain.Gender;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ public class UserCreateRequestDTO {
 	private String nickName;
 	private String password;
 	private Integer age;
-	private String gender;
+	private Gender gender;
 	private String phoneNum;
 	private String profileImg;
 	private String pushToken;

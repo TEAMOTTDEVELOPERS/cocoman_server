@@ -70,9 +70,7 @@ public class UserApplicationService {
         }
 
         String jwtToken = jwtTokenProvider.createToken(user.getUserId());
-        return UserDTO.from(
-                userService.findByUserId(userSignInDTO.getUserId()),
-                jwtToken);
+        return UserDTO.from(user,jwtToken);
     }
 
 
@@ -136,7 +134,7 @@ public class UserApplicationService {
         RestTemplate rt = new RestTemplate();
         ResponseEntity<String> response = rt.exchange(
                 "https://kapi.kakao.com/v2/user/me",
-                HttpMethod.POST,
+                HttpMethod.GET,
                 profileRequest,
                 String.class
         );

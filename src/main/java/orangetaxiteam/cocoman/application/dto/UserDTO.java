@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import orangetaxiteam.cocoman.domain.Gender;
 import orangetaxiteam.cocoman.domain.User;
 
 @Data
@@ -16,7 +17,7 @@ public class UserDTO {
     private String nickName;
     private String password;
     private int age;
-    private String gender;
+    private Gender gender;
     private String phoneNum;
     private String profileImg;
     private String pushToken;
