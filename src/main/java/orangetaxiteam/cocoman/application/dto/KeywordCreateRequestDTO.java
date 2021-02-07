@@ -12,6 +12,5 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KeywordCreateRequestDTO {
-    @NotBlank(message = "Keyword name cannot be null or blank")
     private String name;
 }

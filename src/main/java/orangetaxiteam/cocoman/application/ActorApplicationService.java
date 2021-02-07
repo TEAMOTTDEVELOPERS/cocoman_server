@@ -15,12 +15,12 @@ public class ActorApplicationService {
     private ActorService actorService;
 
     @Autowired
-    public ActorApplicationService(ActorService actorService){
+    public ActorApplicationService(ActorService actorService) {
         this.actorService = actorService;
     }
 
-    public List<ActorDTO> findAll(){
-        return actorService.findAll()
+    public List<ActorDTO> findAll() {
+        return this.actorService.findAll()
                 .stream()
                 .map(ActorDTO::from)
                 .collect(Collectors.toList());
@@ -29,7 +29,7 @@ public class ActorApplicationService {
     @Transactional
     public ActorDTO create(ActorCreateRequestDTO actorCreateRequestDTO) {
         return ActorDTO.from(
-                actorService.create(
+                this.actorService.create(
                         actorCreateRequestDTO.getName(),
                         actorCreateRequestDTO.getImagePath()
                 )

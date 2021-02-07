@@ -2,8 +2,17 @@ package orangetaxiteam.cocoman.application;
 
 import orangetaxiteam.cocoman.application.dto.ContentsCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ContentsDTO;
-import orangetaxiteam.cocoman.domain.*;
+import orangetaxiteam.cocoman.domain.Actor;
+import orangetaxiteam.cocoman.domain.ActorService;
+import orangetaxiteam.cocoman.domain.ContentsService;
+import orangetaxiteam.cocoman.domain.Director;
+import orangetaxiteam.cocoman.domain.DirectorService;
+import orangetaxiteam.cocoman.domain.Genre;
+import orangetaxiteam.cocoman.domain.GenreService;
+import orangetaxiteam.cocoman.domain.Keyword;
+import orangetaxiteam.cocoman.domain.KeywordService;
 import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
+import orangetaxiteam.cocoman.domain.exceptions.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,37 +42,49 @@ public class ContentsApplicationService {
     @Transactional
     public ContentsDTO create(ContentsCreateRequestDTO contentsCreateRequestDTO) {
         List<Actor> actorList = contentsCreateRequestDTO.getActorIdList().stream()
-                .map(actorService::findById)
+                .map(this.actorService::findById)
                 .map(foundActor -> foundActor.orElseThrow(
-                        () -> new BadRequestException("invalid actor id"))
+                        () -> new BadRequestException(
+                                ErrorCode.NOT_MATCHED_PARAMETER,
+                                "There are no data matches with actor id"
+                        ))
                 )
                 .collect(Collectors.toList());
 
         List<Director> directorList = contentsCreateRequestDTO.getDirectorIdList().stream()
-                .map(directorService::findById)
+                .map(this.directorService::findById)
                 .map(foundDirector -> foundDirector.orElseThrow(
-                        () -> new BadRequestException("invalid director id"))
+                        () -> new BadRequestException(
+                                ErrorCode.NOT_MATCHED_PARAMETER,
+                                "There are no data matches with director id"
+                        ))
                 )
                 .collect(Collectors.toList());
 
         List<Genre> genreList = contentsCreateRequestDTO.getGenreIdList().stream()
-                .map(genreService::findById)
+                .map(this.genreService::findById)
                 .map(foundGenre -> foundGenre.orElseThrow(
-                        () -> new BadRequestException("invalid genre id"))
+                        () -> new BadRequestException(
+                                ErrorCode.NOT_MATCHED_PARAMETER,
+                                "There are no data matches with genre id"
+                        ))
                 )
                 .collect(Collectors.toList());
 
         List<Keyword> keywordList = Optional.ofNullable(contentsCreateRequestDTO.getKeywordList())
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .map(keywordService::findById)
+                .map(this.keywordService::findById)
                 .map(foundKeyword -> foundKeyword.orElseThrow(
-                        () -> new BadRequestException("invalid keyword id"))
+                        () -> new BadRequestException(
+                                ErrorCode.NOT_MATCHED_PARAMETER,
+                                "There are no data matches with keyword id"
+                        ))
                 )
                 .collect(Collectors.toList());
 
         return ContentsDTO.from(
-                contentsService.create(
+                this.contentsService.create(
                         contentsCreateRequestDTO.getTitle(),
                         contentsCreateRequestDTO.getYear(),
                         contentsCreateRequestDTO.getCountry(),
@@ -84,12 +105,12 @@ public class ContentsApplicationService {
 
     public ContentsDTO findById(String id) {
         return ContentsDTO.from(
-                contentsService.findById(id)
+                this.contentsService.findById(id)
         );
     }
 
     public List<ContentsDTO> findAll() {
-        return contentsService.findAll()
+        return this.contentsService.findAll()
                 .stream()
                 .map(ContentsDTO::from)
                 .collect(Collectors.toList());

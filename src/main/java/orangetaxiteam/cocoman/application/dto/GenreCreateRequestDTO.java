@@ -12,6 +12,5 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GenreCreateRequestDTO {
-    @NotBlank(message = "Genre name cannot be null or blank")
     private String name;
 }

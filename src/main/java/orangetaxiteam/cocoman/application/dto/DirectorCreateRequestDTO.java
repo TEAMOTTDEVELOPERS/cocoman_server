@@ -12,7 +12,6 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DirectorCreateRequestDTO {
-    @NotBlank(message = "Director name cannot be null or blank")
     private String name;
     private String imagePath;
 }
