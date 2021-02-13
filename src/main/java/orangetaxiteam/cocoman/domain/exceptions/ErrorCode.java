@@ -9,9 +9,11 @@ public enum ErrorCode {
     PARAMETER_VALIDATION_ERROR(4002),
     PARAMETER_FORMAT_ERROR(4003),
     NOT_MATCHED_PARAMETER(4004),
-    ID_DOES_NOT_EXIST(4005);
+    ID_DOES_NOT_EXIST(4005),
+    FORBIDDEN_RESOURCE(4006),
+    INTERNAL_SERVER(5000);
 
-    private int code;
+    private final int code;
 
     ErrorCode(int code) {
         this.code = code;

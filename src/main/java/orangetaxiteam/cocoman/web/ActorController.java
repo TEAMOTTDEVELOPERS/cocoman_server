@@ -1,35 +1,36 @@
 package orangetaxiteam.cocoman.web;
 
-import io.swagger.annotations.ApiOperation;
 import orangetaxiteam.cocoman.application.ActorApplicationService;
 import orangetaxiteam.cocoman.application.dto.ActorCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ActorDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/actor")
+@RequestMapping("/api/v1/actors")
 public class ActorController {
-    private ActorApplicationService actorApplicationService;
+    private final ActorApplicationService actorApplicationService;
 
-    @Autowired
-    public ActorController(ActorApplicationService actorApplicationService){
+    public ActorController(ActorApplicationService actorApplicationService) {
         this.actorApplicationService = actorApplicationService;
     }
 
     @GetMapping
-    public @ResponseBody
-    List<ActorDTO> findAll(){
-        return actorApplicationService.findAll();
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<ActorDTO> findAll() {
+        return this.actorApplicationService.findAll();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody ActorDTO createActor(@RequestBody @Valid ActorCreateRequestDTO actorCreateRequestDTO){
-        return actorApplicationService.create(actorCreateRequestDTO);
+    public ActorDTO createActor(@RequestBody ActorCreateRequestDTO actorCreateRequestDTO) {
+        return this.actorApplicationService.create(actorCreateRequestDTO);
     }
 }

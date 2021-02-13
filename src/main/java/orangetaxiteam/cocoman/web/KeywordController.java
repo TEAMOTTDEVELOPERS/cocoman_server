@@ -1,27 +1,27 @@
 package orangetaxiteam.cocoman.web;
 
-import io.swagger.annotations.ApiOperation;
 import orangetaxiteam.cocoman.application.KeywordApplicationService;
 import orangetaxiteam.cocoman.application.dto.KeywordCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.KeywordDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/keyword")
+@RequestMapping("/api/v1/keywords")
 public class KeywordController {
-    private KeywordApplicationService keywordApplicationService;
+    private final KeywordApplicationService keywordApplicationService;
 
-    @Autowired
-    public KeywordController(KeywordApplicationService keywordApplicationService){
+    public KeywordController(KeywordApplicationService keywordApplicationService) {
         this.keywordApplicationService = keywordApplicationService;
     }
 
     @PostMapping
-    public @ResponseBody
-    KeywordDTO createKeyword(@RequestBody @Valid KeywordCreateRequestDTO keywordCreateRequestDTO){
-        return keywordApplicationService.create(keywordCreateRequestDTO);
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public KeywordDTO createKeyword(@RequestBody KeywordCreateRequestDTO keywordCreateRequestDTO) {
+        return this.keywordApplicationService.create(keywordCreateRequestDTO);
     }
 }
