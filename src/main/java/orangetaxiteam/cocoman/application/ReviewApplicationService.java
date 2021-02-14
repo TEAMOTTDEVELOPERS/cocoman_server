@@ -45,14 +45,14 @@ public class ReviewApplicationService {
         String userId = reviewCreateRequestDTO.getUserId();
         User user = this.userRepository.findById(userId).orElseThrow(
                 () -> new BadRequestException(
-                        ErrorCode.ID_DOES_NOT_EXIST,
+                        ErrorCode.ROW_DOES_NOT_EXIST,
                         "Invalid user id")
         );
 
         String contentsId = reviewCreateRequestDTO.getContentsId();
         Contents contents = this.contentsRepository.findById(contentsId).orElseThrow(
                 () -> new BadRequestException(
-                        ErrorCode.NOT_MATCHED_PARAMETER,
+                        ErrorCode.ROW_DOES_NOT_EXIST,
                         String.format("There are no data matches with contents id : %s", contentsId))
         );
 

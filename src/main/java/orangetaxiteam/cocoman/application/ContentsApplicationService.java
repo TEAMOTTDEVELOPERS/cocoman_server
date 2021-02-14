@@ -56,7 +56,7 @@ public class ContentsApplicationService {
                 .map(this.ottRepository::findById)
                 .map(foundOtt -> foundOtt.orElseThrow(
                         () -> new BadRequestException(
-                                ErrorCode.NOT_MATCHED_PARAMETER,
+                                ErrorCode.ROW_DOES_NOT_EXIST,
                                 "There are no data matches with OTT id"
                         ))
                 )
@@ -66,7 +66,7 @@ public class ContentsApplicationService {
                 .map(this.actorRepository::findById)
                 .map(foundActor -> foundActor.orElseThrow(
                         () -> new BadRequestException(
-                                ErrorCode.NOT_MATCHED_PARAMETER,
+                                ErrorCode.ROW_DOES_NOT_EXIST,
                                 "There are no data matches with actor id"
                         ))
                 )
@@ -76,7 +76,7 @@ public class ContentsApplicationService {
                 .map(this.directorRepository::findById)
                 .map(foundDirector -> foundDirector.orElseThrow(
                         () -> new BadRequestException(
-                                ErrorCode.NOT_MATCHED_PARAMETER,
+                                ErrorCode.ROW_DOES_NOT_EXIST,
                                 "There are no data matches with director id"
                         ))
                 )
@@ -86,7 +86,7 @@ public class ContentsApplicationService {
                 .map(this.genreRepository::findById)
                 .map(foundGenre -> foundGenre.orElseThrow(
                         () -> new BadRequestException(
-                                ErrorCode.NOT_MATCHED_PARAMETER,
+                                ErrorCode.ROW_DOES_NOT_EXIST,
                                 "There are no data matches with genre id"
                         ))
                 )
@@ -98,7 +98,7 @@ public class ContentsApplicationService {
                 .map(this.keywordRepository::findById)
                 .map(foundKeyword -> foundKeyword.orElseThrow(
                         () -> new BadRequestException(
-                                ErrorCode.NOT_MATCHED_PARAMETER,
+                                ErrorCode.ROW_DOES_NOT_EXIST,
                                 "There are no data matches with keyword id"
                         ))
                 )
@@ -130,7 +130,7 @@ public class ContentsApplicationService {
         return ContentsDTO.from(
                 this.contentsRepository.findById(id).orElseThrow(
                         () -> new BadRequestException(
-                                ErrorCode.NOT_MATCHED_PARAMETER,
+                                ErrorCode.ROW_DOES_NOT_EXIST,
                                 String.format("There are no data matches with contents id : %s", id
                                 ))
                 )
@@ -144,4 +144,5 @@ public class ContentsApplicationService {
                 .map(ContentsDTO::from)
                 .collect(Collectors.toList());
     }
+
 }

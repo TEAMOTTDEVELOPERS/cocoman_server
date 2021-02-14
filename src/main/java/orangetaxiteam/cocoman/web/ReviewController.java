@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/v1/reviews")
 public class ReviewController {
@@ -33,4 +34,5 @@ public class ReviewController {
     public ReviewDTO createReview(@RequestBody ReviewCreateRequestDTO reviewCreateRequestDTO) {
         return this.reviewApplicationService.create(reviewCreateRequestDTO);
     }
+
 }

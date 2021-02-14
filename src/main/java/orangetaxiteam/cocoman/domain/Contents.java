@@ -1,5 +1,6 @@
 package orangetaxiteam.cocoman.domain;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
@@ -96,6 +97,7 @@ public class Contents {
 
     @OneToMany(mappedBy = "contents", cascade = CascadeType.ALL)
     private Set<Review> reviewSet;
+
 
     private Contents(
             String id,

@@ -22,7 +22,7 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public Docket api(){
+    public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(this.apiInfo())
                 .select()

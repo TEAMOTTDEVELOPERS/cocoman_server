@@ -19,7 +19,7 @@ public enum Gender {
     public static Gender of(String value) {
         Arrays.stream(Gender.values())
                 .map(v -> v.value)
-                .filter(v->v.equalsIgnoreCase(value))
+                .filter(v -> v.equalsIgnoreCase(value))
                 .findAny()
                 .orElseThrow(() -> new BadRequestException(ErrorCode.PARAMETER_FORMAT_ERROR, String.format("Invalid parameter format - [Gender] : [%s]", value)));
         return Gender.valueOf(value.toLowerCase());
