@@ -12,5 +12,5 @@ import lombok.Setter;
 public class ReviewCreateRequestDTO {
     private String comment;
     private String userId;
-    private String contentsId;
+    private String contentId;
 }
