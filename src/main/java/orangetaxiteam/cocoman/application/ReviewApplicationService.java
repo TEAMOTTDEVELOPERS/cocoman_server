@@ -38,7 +38,7 @@ public class ReviewApplicationService {
                         "Invalid user id")
         );
 
-        String contentsId = reviewCreateRequestDTO.getContentId();
+        String contentsId = reviewCreateRequestDTO.getContentsId();
         Contents contents = this.contentsRepository.findById(contentsId).orElseThrow(
                 () -> new BadRequestException(
                         ErrorCode.ROW_DOES_NOT_EXIST,

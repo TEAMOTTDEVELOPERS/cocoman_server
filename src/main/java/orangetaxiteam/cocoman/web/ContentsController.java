@@ -2,11 +2,14 @@ package orangetaxiteam.cocoman.web;
 
 import orangetaxiteam.cocoman.application.ContentsApplicationService;
 import orangetaxiteam.cocoman.application.dto.ContentsDetailDTO;
+import orangetaxiteam.cocoman.application.dto.StarRatingCreateRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -37,4 +40,15 @@ public class ContentsController {
         this.contentsApplicationService.createSearchHistory(contentId, keyword, currentUserId);
     }
 
+    @PostMapping(value = "/{id}/star-rating")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void createStarRating(@PathVariable String id, @RequestBody StarRatingCreateRequestDTO starRatingCreateRequestDTO) {
+        this.contentsApplicationService.giveStarRating(id, starRatingCreateRequestDTO);
+    }
+
+    @PatchMapping(value = "/{id}/star-rating")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void updateStarRating(@PathVariable String id, @RequestBody StarRatingCreateRequestDTO starRatingCreateRequestDTO) {
+        this.contentsApplicationService.updateStarRating(id, starRatingCreateRequestDTO);
+    }
 }

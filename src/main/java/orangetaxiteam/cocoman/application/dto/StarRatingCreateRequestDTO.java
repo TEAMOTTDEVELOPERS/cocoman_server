@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewCreateRequestDTO {
-    private String comment;
+public class StarRatingCreateRequestDTO {
+    private double rating;
     private String userId;
-    private String contentsId;
 }
