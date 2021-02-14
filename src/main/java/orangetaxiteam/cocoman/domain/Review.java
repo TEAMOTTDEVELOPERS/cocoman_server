@@ -1,7 +1,6 @@
 package orangetaxiteam.cocoman.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,7 +8,14 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,9 +31,6 @@ public class Review {
     @Column(name = "id", unique = true)
     private String id;
 
-    @Column
-    private Double score;
-
     @Column(length = 500)
     private String comment;
 
@@ -40,27 +43,20 @@ public class Review {
     private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinTable(
-            name = "review_user",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "review_id"))
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @JoinTable(
-            name = "review_contents",
-            joinColumns = @JoinColumn(name = "contents_id"),
-            inverseJoinColumns = @JoinColumn(name = "review_id"))
+    @JoinColumn(name = "contents_id")
     private Contents contents;
 
-    private Review(Double score, String comment, User user, Contents contents) {
-        this.score = score;
+    private Review(String comment, User user, Contents contents) {
         this.comment = comment;
         this.user = user;
         this.contents = contents;
     }
 
-    public static Review of(Double score, String comment, User user, Contents contents) {
-        return new Review(score, comment, user, contents);
+    public static Review of(String comment, User user, Contents contents) {
+        return new Review(comment, user, contents);
     }
 }
