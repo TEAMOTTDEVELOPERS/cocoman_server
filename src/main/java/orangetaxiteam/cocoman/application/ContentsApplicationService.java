@@ -116,6 +116,7 @@ public class ContentsApplicationService {
         );
 
         if (this.starRatingRepository.existsByUserAndContents(user, contents)) {
+
             throw new BadRequestException(
                     ErrorCode.ROW_DOES_NOT_EXIST, // ToDo : Modify
                     String.format("Already exist value with userId, contentsId : %s, %s", userId, contentsId)

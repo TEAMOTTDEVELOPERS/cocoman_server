@@ -44,15 +44,9 @@ public class StarRating {
 
     private StarRating(double rating, User user, Contents contents) {
 
-        rating = this.checkRatingRange(rating);
-        if (rating == -1.0) {
-            throw new BadRequestException(
-                    ErrorCode.PARAMETER_FORMAT_ERROR,
-                    String.format("Invalid parameter format - rating : %f", rating)
-            );
-        }
+        this.checkRatingRange(rating);
 
-        this.rating = rating;
+        this.rating = ((int) rating * 2) / 2.0;
         this.user = user;
         this.contents = contents;
     }
@@ -63,24 +57,19 @@ public class StarRating {
 
     public void update(double rating) {
 
-        rating = this.checkRatingRange(rating);
-        if (rating == -1.0) {
-            throw new BadRequestException(
-                    ErrorCode.PARAMETER_FORMAT_ERROR,
-                    String.format("Invalid parameter format - rating : %f", rating)
-            );
-        }
+        this.checkRatingRange(rating);
 
-        this.rating = rating;
+        this.rating = ((int) rating * 2) / 2.0;
     }
 
-    public double checkRatingRange(double rating) {
+    public void checkRatingRange(double rating) {
 
         int checkRatingRange = (int) rating * 2;
         if (checkRatingRange < 1 || checkRatingRange > 10) {
-            return -1.0;
+            throw new BadRequestException(ErrorCode.PARAMETER_FORMAT_ERROR,
+                    String.format("Invalid parameter format - rating : %f", rating));
         }
 
-        return checkRatingRange / 2.0;
     }
+
 }
