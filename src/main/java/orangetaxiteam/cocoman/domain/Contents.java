@@ -1,12 +1,28 @@
 package orangetaxiteam.cocoman.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
+import orangetaxiteam.cocoman.domain.exceptions.ErrorCode;
+import orangetaxiteam.cocoman.domain.validation.FormatValidation;
+import orangetaxiteam.cocoman.domain.validation.ValueValidation;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -111,7 +127,91 @@ public class Contents {
         this.keywordSet = keywordSet;
     }
 
-    public static Contents of(String title, String year, String country, int runningTime, String gradeRate, String broadcaster, String openDate, String broadcastDate, String story, String posterPath, Set<Actor> actorSet, Set<Director> directorSet, Set<Genre> genreSet, Set<Keyword> keywordSet) {
-        return new Contents(title, year, country, runningTime, gradeRate, broadcaster, openDate, broadcastDate, story, posterPath, actorSet, directorSet, genreSet, keywordSet);
+    public static Contents of(
+            String title,
+            String year,
+            String country,
+            int runningTime,
+            String gradeRate,
+            String broadcaster,
+            String openDate,
+            String broadcastDate,
+            String story,
+            String posterPath,
+            Set<Actor> actorSet,
+            Set<Director> directorSet,
+            Set<Genre> genreSet,
+            Set<Keyword> keywordSet
+    ) {
+        // Validation for story length
+        if (story.length() > 500) {
+            throw new BadRequestException(
+                    ErrorCode.PARAMETER_FORMAT_ERROR,
+                    String.format("Invalid parameter format - story : %s, allowed up to 500 characters", story
+                    ));
+        }
+
+        // Validation for year
+        if (!FormatValidation.isNumeric(year)) {
+            throw new BadRequestException(
+                    ErrorCode.PARAMETER_FORMAT_ERROR,
+                    String.format("Invalid parameter format - year : %s, allowed number only", year
+                    ));
+        }
+        if (!ValueValidation.isYearInRange(year)) {
+            throw new BadRequestException(
+                    ErrorCode.PARAMETER_FORMAT_ERROR,
+                    String.format("Invalid parameter format - year : %s, range outbound", year
+                    ));
+        }
+
+        // Validation for open date
+        if (openDate != null && !openDate.equals("")) {
+            if (!FormatValidation.isDateDot(openDate) && !FormatValidation.isDateHyphen(openDate)) {
+                throw new BadRequestException(
+                        ErrorCode.PARAMETER_FORMAT_ERROR,
+                        String.format("Invalid parameter format - openDate : %s, allowed 'YYYY.MM.DD' or 'YYYY-MM-DD'", openDate
+                        ));
+            }
+            if (!ValueValidation.isDateInRange(openDate)) {
+                throw new BadRequestException(
+                        ErrorCode.PARAMETER_FORMAT_ERROR,
+                        String.format("Invalid parameter format - openDate : %s, range outbound", openDate
+                        ));
+            }
+        }
+
+        // Validation for broadcast date
+        if (broadcastDate != null && !broadcastDate.equals("")) {
+            if (!FormatValidation.isDateDot(broadcastDate) && !FormatValidation.isDateHyphen(broadcastDate)) {
+                throw new BadRequestException(
+                        ErrorCode.PARAMETER_FORMAT_ERROR,
+                        String.format("Invalid parameter format - broadcastDate : %s, allowed 'YYYY.MM.DD' or 'YYYY-MM-DD'", broadcastDate
+                        ));
+            }
+            if (!ValueValidation.isDateInRange(broadcastDate)) {
+                throw new BadRequestException(
+                        ErrorCode.PARAMETER_FORMAT_ERROR,
+                        String.format("Invalid parameter format - broadcastDate : %s, range outbound", broadcastDate
+                        ));
+            }
+        }
+
+        return new Contents(
+                title,
+                year,
+                country,
+                runningTime,
+                gradeRate,
+                broadcaster,
+                openDate,
+                broadcastDate,
+                story,
+                posterPath,
+                actorSet,
+                directorSet,
+                genreSet,
+                keywordSet
+        );
     }
 }

@@ -2,7 +2,8 @@ package orangetaxiteam.cocoman.application;
 
 import orangetaxiteam.cocoman.application.dto.ActorCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ActorDTO;
-import orangetaxiteam.cocoman.domain.ActorService;
+import orangetaxiteam.cocoman.domain.Actor;
+import orangetaxiteam.cocoman.domain.ActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,15 +13,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class ActorApplicationService {
-    private ActorService actorService;
+    private ActorRepository actorRepository;
 
     @Autowired
-    public ActorApplicationService(ActorService actorService) {
-        this.actorService = actorService;
+    public ActorApplicationService(ActorRepository actorRepository) {
+        this.actorRepository = actorRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<ActorDTO> findAll() {
-        return this.actorService.findAll()
+        return this.actorRepository.findAll()
                 .stream()
                 .map(ActorDTO::from)
                 .collect(Collectors.toList());
@@ -29,10 +31,9 @@ public class ActorApplicationService {
     @Transactional
     public ActorDTO create(ActorCreateRequestDTO actorCreateRequestDTO) {
         return ActorDTO.from(
-                this.actorService.create(
+                this.actorRepository.save(Actor.of(
                         actorCreateRequestDTO.getName(),
-                        actorCreateRequestDTO.getImagePath()
-                )
+                        actorCreateRequestDTO.getImagePath()))
         );
     }
 }
