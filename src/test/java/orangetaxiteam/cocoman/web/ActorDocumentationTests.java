@@ -18,14 +18,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static orangetaxiteam.cocoman.support.ApiDocumentUtils.getDocumentRequest;
-import static orangetaxiteam.cocoman.support.ApiDocumentUtils.getDocumentResponse;
 import java.time.LocalDateTime;
 
+import static orangetaxiteam.cocoman.support.ApiDocumentUtils.getDocumentRequest;
+import static orangetaxiteam.cocoman.support.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -58,12 +60,12 @@ public class ActorDocumentationTests {
 
         ActorCreateRequestDTO request = new ActorCreateRequestDTO("홍길동", "");
 
-        given(actorApplicationService.create(any(ActorCreateRequestDTO.class)))
+        given(this.actorApplicationService.create(any(ActorCreateRequestDTO.class)))
                 .willReturn(response);
 
         ResultActions result = this.mockMvc.perform(
-                post("/api/v1/actor")
-                        .content(objectMapper.writeValueAsString(request))
+                post("/api/v1/actors")
+                        .content(this.objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         );
