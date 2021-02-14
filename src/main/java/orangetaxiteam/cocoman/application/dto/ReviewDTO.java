@@ -12,20 +12,20 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ReviewDTO {
     private String id;
-    private Double score;
     private String comment;
-    private ContentsDTO contents;
-    private UserDTO user;
+    private String contentsId;
+    private String userId;
+    private String userNickname;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static ReviewDTO from(Review review){
+    public static ReviewDTO from(Review review) {
         ReviewDTO v = new ReviewDTO();
         v.id = review.getId();
-        v.score = review.getScore();
         v.comment = review.getComment();
-        v.contents = ContentsDTO.from(review.getContents());
-        v.user = UserDTO.from(review.getUser());
+        v.contentsId = review.getContents().getId();
+        v.userId = review.getUser().getId();
+        v.userNickname = review.getUser().getNickName();
         v.createdAt = review.getCreatedAt();
         v.updatedAt = review.getUpdatedAt();
 

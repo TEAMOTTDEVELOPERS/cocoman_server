@@ -10,7 +10,6 @@ import orangetaxiteam.cocoman.domain.User;
 import orangetaxiteam.cocoman.domain.UserRepository;
 import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
 import orangetaxiteam.cocoman.domain.exceptions.ErrorCode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +18,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class ReviewApplicationService {
-    private ReviewRepository reviewRepository;
-    private UserRepository userRepository;
-    private ContentsRepository contentsRepository;
+    private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
+    private final ContentsRepository contentsRepository;
 
-    @Autowired
     public ReviewApplicationService(
             ReviewRepository reviewRepository,
             UserRepository userRepository,
@@ -44,7 +42,8 @@ public class ReviewApplicationService {
 
     @Transactional
     public ReviewDTO create(ReviewCreateRequestDTO reviewCreateRequestDTO) {
-        User user = this.userRepository.findById(reviewCreateRequestDTO.getUserId()).orElseThrow(
+        String userId = reviewCreateRequestDTO.getUserId();
+        User user = this.userRepository.findById(userId).orElseThrow(
                 () -> new BadRequestException(
                         ErrorCode.ID_DOES_NOT_EXIST,
                         "Invalid user id")
@@ -57,10 +56,8 @@ public class ReviewApplicationService {
                         String.format("There are no data matches with contents id : %s", contentsId))
         );
 
-
         return ReviewDTO.from(
                 this.reviewRepository.save(Review.of(
-                        reviewCreateRequestDTO.getScore(),
                         reviewCreateRequestDTO.getComment(),
                         user,
                         contents))
