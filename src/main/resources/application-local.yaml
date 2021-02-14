@@ -4,3 +4,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/cocoman
     username: cocomanlocal
     password: cocomanpw
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  jwt:
+    secret: jwtsecretkey

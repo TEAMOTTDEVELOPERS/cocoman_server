@@ -2,7 +2,7 @@ ifndef::snippets[]
 :snippets: ../../../build/generated-snippets
 endif::[]
 
-= API document
+== API document
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -10,14 +10,16 @@ endif::[]
 :toclevels: 2
 :sectlinks:
 
-
 == Cocoman API
 
 === Actor
 
 ==== create
+
 ===== 호출예시
+
 include::{snippets}/actor-create/http-request.adoc[]
 
 ===== 응답예시
+
 include::{snippets}/actor-create/http-response.adoc[]
