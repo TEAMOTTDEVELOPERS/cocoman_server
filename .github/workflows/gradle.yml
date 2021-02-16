@@ -21,8 +21,10 @@ jobs:
         with:
           java-version: 11
       - name: start docker
-        run: docker-compose up -d
+        run: docker-compose -f environment/docker-compose.yaml up -d
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build
+        env:
+          SPRING_PROFILES_ACTIVE: local
