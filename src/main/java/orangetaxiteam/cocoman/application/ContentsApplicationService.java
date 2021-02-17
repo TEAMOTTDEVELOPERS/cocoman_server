@@ -12,9 +12,10 @@ import orangetaxiteam.cocoman.domain.Genre;
 import orangetaxiteam.cocoman.domain.GenreRepository;
 import orangetaxiteam.cocoman.domain.Keyword;
 import orangetaxiteam.cocoman.domain.KeywordRepository;
+import orangetaxiteam.cocoman.domain.Ott;
+import orangetaxiteam.cocoman.domain.OttRepository;
 import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
 import orangetaxiteam.cocoman.domain.exceptions.ErrorCode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,29 +27,41 @@ import java.util.stream.Collectors;
 
 @Service
 public class ContentsApplicationService {
-    private ContentsRepository contentsRepository;
-    private ActorRepository actorRepository;
-    private DirectorRepository directorRepository;
-    private GenreRepository genreRepository;
-    private KeywordRepository keywordRepository;
+    private final ContentsRepository contentsRepository;
+    private final ActorRepository actorRepository;
+    private final DirectorRepository directorRepository;
+    private final GenreRepository genreRepository;
+    private final KeywordRepository keywordRepository;
+    private final OttRepository ottRepository;
 
-    @Autowired
     public ContentsApplicationService(
             ContentsRepository contentsRepository,
             ActorRepository actorRepository,
             DirectorRepository directorRepository,
             GenreRepository genreRepository,
-            KeywordRepository keywordRepository
+            KeywordRepository keywordRepository,
+            OttRepository ottRepository
     ) {
         this.contentsRepository = contentsRepository;
         this.actorRepository = actorRepository;
         this.directorRepository = directorRepository;
         this.genreRepository = genreRepository;
         this.keywordRepository = keywordRepository;
+        this.ottRepository = ottRepository;
     }
 
     @Transactional
     public ContentsDTO create(ContentsCreateRequestDTO contentsCreateRequestDTO) {
+        List<Ott> ottList = contentsCreateRequestDTO.getOttIdList().stream()
+                .map(this.ottRepository::findById)
+                .map(foundOtt -> foundOtt.orElseThrow(
+                        () -> new BadRequestException(
+                                ErrorCode.NOT_MATCHED_PARAMETER,
+                                "There are no data matches with OTT id"
+                        ))
+                )
+                .collect(Collectors.toList());
+
         List<Actor> actorList = contentsCreateRequestDTO.getActorIdList().stream()
                 .map(this.actorRepository::findById)
                 .map(foundActor -> foundActor.orElseThrow(
@@ -103,10 +116,12 @@ public class ContentsApplicationService {
                         contentsCreateRequestDTO.getBroadcastDate(),
                         contentsCreateRequestDTO.getStory(),
                         contentsCreateRequestDTO.getPosterPath(),
+                        new HashSet<>(ottList),
                         new HashSet<>(actorList),
                         new HashSet<>(directorList),
                         new HashSet<>(genreList),
-                        new HashSet<>(keywordList)))
+                        new HashSet<>(keywordList)
+                ))
         );
     }
 

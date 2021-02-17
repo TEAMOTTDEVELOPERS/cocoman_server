@@ -47,13 +47,16 @@ public class Actor {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Actor(String id, String name, String imagePath, Set<Contents> contentsSet, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    private Actor(
+            String id,
+            String name,
+            String imagePath,
+            Set<Contents> contentsSet
+    ) {
         this.id = id;
         this.name = name;
         this.imagePath = imagePath;
         this.contentsSet = contentsSet;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public static Actor of(String name, String imagePath) {
@@ -61,8 +64,6 @@ public class Actor {
                 null,
                 name,
                 imagePath,
-                null,
-                null,
                 null
         );
     }
@@ -71,10 +72,13 @@ public class Actor {
             String id,
             String name,
             String imagePath,
-            Set<Contents> contentsSet,
-            LocalDateTime createdAt,
-            LocalDateTime updatedAt
+            Set<Contents> contentsSet
     ) {
-        return new Actor(id, name, imagePath, contentsSet, createdAt, updatedAt);
+        return new Actor(
+                id,
+                name,
+                imagePath,
+                contentsSet
+        );
     }
 }

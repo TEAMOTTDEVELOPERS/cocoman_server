@@ -1,6 +1,5 @@
 package orangetaxiteam.cocoman.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
@@ -19,7 +18,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -28,7 +26,6 @@ import java.util.Set;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "TB_CONTENTS")
 @EntityListeners(AuditingEntityListener.class)
@@ -78,39 +75,48 @@ public class Contents {
     private LocalDateTime updatedAt;
 
     @ManyToMany
-    @JoinTable(
-            name = "contents_actor",
-            joinColumns = @JoinColumn(name = "actor_id"),
-            inverseJoinColumns = @JoinColumn(name = "contents_id"))
+    @JoinColumn(name = "ott_id")
+    private Set<Ott> ottSet;
+
+    @ManyToMany
+    @JoinColumn(name = "actors_id")
     private Set<Actor> actorSet;
 
     @ManyToMany
-    @JoinTable(
-            name = "contents_director",
-            joinColumns = @JoinColumn(name = "director_id"),
-            inverseJoinColumns = @JoinColumn(name = "contents_id"))
+    @JoinColumn(name = "directors_id")
     private Set<Director> directorSet;
 
     @ManyToMany
-    @JoinTable(
-            name = "contents_genre",
-            joinColumns = @JoinColumn(name = "genre_id"),
-            inverseJoinColumns = @JoinColumn(name = "contents_id"))
+    @JoinColumn(name = "genres_id")
     private Set<Genre> genreSet;
 
     @ManyToMany
-    @JoinTable(
-            name = "contents_keyword",
-            joinColumns = @JoinColumn(name = "keyword_id"),
-            inverseJoinColumns = @JoinColumn(name = "contents_id"))
+    @JoinColumn(name = "keywords_id")
     private Set<Keyword> keywordSet;
 
     @OneToMany(mappedBy = "contents", cascade = CascadeType.ALL)
     private Set<Review> reviewSet;
 
-    // TODO : add FKs - OTT, review
-
-    private Contents(String title, String year, String country, int runningTime, String gradeRate, String broadcaster, String openDate, String broadcastDate, String story, String posterPath, Set<Actor> actorSet, Set<Director> directorSet, Set<Genre> genreSet, Set<Keyword> keywordSet) {
+    private Contents(
+            String id,
+            String title,
+            String year,
+            String country,
+            int runningTime,
+            String gradeRate,
+            String broadcaster,
+            String openDate,
+            String broadcastDate,
+            String story,
+            String posterPath,
+            Set<Ott> ottSet,
+            Set<Actor> actorSet,
+            Set<Director> directorSet,
+            Set<Genre> genreSet,
+            Set<Keyword> keywordSet,
+            Set<Review> reviewSet
+    ) {
+        this.id = id;
         this.title = title;
         this.year = year;
         this.country = country;
@@ -121,10 +127,12 @@ public class Contents {
         this.broadcastDate = broadcastDate;
         this.story = story;
         this.posterPath = posterPath;
+        this.ottSet = ottSet;
         this.actorSet = actorSet;
         this.directorSet = directorSet;
         this.genreSet = genreSet;
         this.keywordSet = keywordSet;
+        this.reviewSet = reviewSet;
     }
 
     public static Contents of(
@@ -138,6 +146,7 @@ public class Contents {
             String broadcastDate,
             String story,
             String posterPath,
+            Set<Ott> ottSet,
             Set<Actor> actorSet,
             Set<Director> directorSet,
             Set<Genre> genreSet,
@@ -198,6 +207,7 @@ public class Contents {
         }
 
         return new Contents(
+                null,
                 title,
                 year,
                 country,
@@ -208,10 +218,12 @@ public class Contents {
                 broadcastDate,
                 story,
                 posterPath,
+                ottSet,
                 actorSet,
                 directorSet,
                 genreSet,
-                keywordSet
+                keywordSet,
+                null
         );
     }
 }
