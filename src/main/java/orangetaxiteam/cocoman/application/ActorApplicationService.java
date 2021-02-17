@@ -4,7 +4,6 @@ import orangetaxiteam.cocoman.application.dto.ActorCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ActorDTO;
 import orangetaxiteam.cocoman.domain.Actor;
 import orangetaxiteam.cocoman.domain.ActorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 public class ActorApplicationService {
     private ActorRepository actorRepository;
 
-    @Autowired
     public ActorApplicationService(ActorRepository actorRepository) {
         this.actorRepository = actorRepository;
     }

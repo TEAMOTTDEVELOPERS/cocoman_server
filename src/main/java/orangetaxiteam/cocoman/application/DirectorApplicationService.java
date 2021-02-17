@@ -4,7 +4,6 @@ import orangetaxiteam.cocoman.application.dto.DirectorCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.DirectorDTO;
 import orangetaxiteam.cocoman.domain.Director;
 import orangetaxiteam.cocoman.domain.DirectorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 public class DirectorApplicationService {
     private DirectorRepository directorRepository;
 
-    @Autowired
     public DirectorApplicationService(DirectorRepository directorRepository) {
         this.directorRepository = directorRepository;
     }

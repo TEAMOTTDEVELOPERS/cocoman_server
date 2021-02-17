@@ -14,11 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
-import java.time.LocalDateTime;
 
 import static orangetaxiteam.cocoman.support.ApiDocumentUtils.getDocumentRequest;
 import static orangetaxiteam.cocoman.support.ApiDocumentUtils.getDocumentResponse;
@@ -35,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@ActiveProfiles("local")
 public class ActorDocumentationTests {
     @Autowired
     private MockMvc mockMvc;
@@ -52,9 +52,7 @@ public class ActorDocumentationTests {
                         "testId",
                         "홍길동",
                         "",
-                        null,
-                        LocalDateTime.now(),
-                        LocalDateTime.now()
+                        null
                 )
         );
 
@@ -81,9 +79,7 @@ public class ActorDocumentationTests {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.STRING).description("아이디"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
-                                fieldWithPath("imagePath").type(JsonFieldType.STRING).description("사진 경로"),
-                                fieldWithPath("createdAt").type(JsonFieldType.STRING).description("생성일"),
-                                fieldWithPath("updatedAt").type(JsonFieldType.STRING).description("수정일")
+                                fieldWithPath("imagePath").type(JsonFieldType.STRING).description("사진 경로")
                         )
                 ));
     }

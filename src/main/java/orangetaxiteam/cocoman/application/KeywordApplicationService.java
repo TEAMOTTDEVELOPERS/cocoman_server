@@ -4,7 +4,6 @@ import orangetaxiteam.cocoman.application.dto.KeywordCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.KeywordDTO;
 import orangetaxiteam.cocoman.domain.Keyword;
 import orangetaxiteam.cocoman.domain.KeywordRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 public class KeywordApplicationService {
     private KeywordRepository keywordRepository;
 
-    @Autowired
     public KeywordApplicationService(KeywordRepository keywordRepository) {
         this.keywordRepository = keywordRepository;
     }

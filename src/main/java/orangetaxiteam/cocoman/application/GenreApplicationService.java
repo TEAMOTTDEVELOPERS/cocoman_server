@@ -4,7 +4,6 @@ import orangetaxiteam.cocoman.application.dto.GenreCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.GenreDTO;
 import orangetaxiteam.cocoman.domain.Genre;
 import orangetaxiteam.cocoman.domain.GenreRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 public class GenreApplicationService {
     private GenreRepository genreRepository;
 
-    @Autowired
     public GenreApplicationService(GenreRepository genreRepository) {
         this.genreRepository = genreRepository;
     }
