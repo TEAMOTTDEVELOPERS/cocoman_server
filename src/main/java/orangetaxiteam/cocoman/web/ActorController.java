@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,5 +34,11 @@ public class ActorController {
     @ResponseStatus(HttpStatus.CREATED)
     public ActorDTO createActor(@RequestBody ActorCreateRequestDTO actorCreateRequestDTO) {
         return this.actorApplicationService.create(actorCreateRequestDTO);
+    }
+
+    // TODO : 삭제하기 (skel)
+    @PostMapping("/uploadImage")
+    public String uploadImage(@RequestParam("data") MultipartFile file) {
+        return this.actorApplicationService.uploadImage(file);
     }
 }

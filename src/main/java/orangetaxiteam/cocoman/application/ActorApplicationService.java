@@ -4,18 +4,23 @@ import orangetaxiteam.cocoman.application.dto.ActorCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ActorDTO;
 import orangetaxiteam.cocoman.domain.Actor;
 import orangetaxiteam.cocoman.domain.ActorRepository;
+import orangetaxiteam.cocoman.domain.FileUploader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class ActorApplicationService {
-    private ActorRepository actorRepository;
+    private final ActorRepository actorRepository;
 
-    public ActorApplicationService(ActorRepository actorRepository) {
+    private final FileUploader fileUploader;
+
+    public ActorApplicationService(ActorRepository actorRepository, FileUploader fileUploader) {
         this.actorRepository = actorRepository;
+        this.fileUploader = fileUploader;
     }
 
     @Transactional(readOnly = true)
@@ -33,5 +38,10 @@ public class ActorApplicationService {
                         actorCreateRequestDTO.getName(),
                         actorCreateRequestDTO.getImagePath()))
         );
+    }
+
+    // TODO : 삭제하기 (Skel)
+    public String uploadImage(MultipartFile file) {
+        return this.fileUploader.upload(file, "static/image/actor");
     }
 }

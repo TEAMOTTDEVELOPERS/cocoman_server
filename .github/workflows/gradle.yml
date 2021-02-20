@@ -27,4 +27,4 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
         env:
-          SPRING_PROFILES_ACTIVE: local
+          SPRING_PROFILES_ACTIVE: dev
