@@ -48,5 +48,12 @@ public class UserController {
     public void deleteUser(@PathVariable String id) {
         this.userApplicationService.deleteUser(id);
     }
+
+    @PostMapping(value = "/{userId}/validate")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void existsByUserId(@PathVariable String userId) {
+        this.userApplicationService.existsByUserId(userId);
+    }
+
 }
 
