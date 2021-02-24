@@ -136,4 +136,5 @@ public class User {
         this.phoneNum = phoneNum;
         this.profileImg = profileImg;
     }
+
 }
