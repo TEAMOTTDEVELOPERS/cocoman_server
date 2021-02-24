@@ -1,0 +1,31 @@
+version: '3'
+networks:
+  cocoman_network:
+    driver: bridge
+services:
+  cocoman_postgres:
+    image: postgres:9.3
+    container_name: cocoman_db
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: ${COCOMAN_DB_USERNAME}
+      POSTGRES_PASSWORD: ${COCOMAN_DB_PASSWORD}
+      POSTGRES_DB: "cocoman"
+    networks:
+      - cocoman_network
+  cocoman_app:
+    image: ghj5719/cocoman:latest
+    container_name: cocoman_application
+    depends_on:
+      - cocoman_postgres
+    ports:
+      - '8080:8080'
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      COCOMAN_DB_USERNAME: ${COCOMAN_DB_USERNAME}
+      COCOMAN_DB_PASSWORD: ${COCOMAN_DB_PASSWORD}
+      COCOMAN_STORAGE_BACK_ACCESS_KEY: ${COCOMAN_STORAGE_BACK_ACCESS_KEY}
+      COCOMAN_STORAGE_BACK_SECRET_KEY: ${COCOMAN_STORAGE_BACK_SECRET_KEY}
+    networks:
+      - cocoman_network

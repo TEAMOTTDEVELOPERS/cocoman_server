@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/cocoman
+    url: jdbc:postgresql://cocoman_db:5432/cocoman
     username: ${COCOMAN_DB_USERNAME}
     password: ${COCOMAN_DB_PASSWORD}
   jpa:

@@ -1,9 +1,10 @@
 version: '3'
 services:
-  postgres:
+  cocoman_postgres:
     image: postgres:9.3
+    container_name: cocoman_db
     ports:
-      - 5432:5432
+      - '5432:5432'
     environment:
       POSTGRES_USER: "cocomanlocal"
       POSTGRES_PASSWORD: "cocomanpw"
