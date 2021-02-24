@@ -2,7 +2,6 @@ package orangetaxiteam.cocoman.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -36,8 +35,11 @@ public class User {
     @Column(name = "id", unique = true)
     private String id;
 
-    @Column(nullable = false, unique = true)
-    private String userId;
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "social_id")
+    private String socialId;
 
     @Column(length = 100, nullable = false, unique = true)
     private String nickName;
@@ -75,7 +77,7 @@ public class User {
     private Set<Review> reviewSet;
 
     private User(
-            String userId,
+            String email,
             String nickName,
             String password,
             Integer age,
@@ -84,7 +86,7 @@ public class User {
             String profileImg,
             String pushToken
     ) {
-        this.userId = userId;
+        this.email = email;
         this.nickName = nickName;
         this.password = password;
         this.age = age;
@@ -95,7 +97,7 @@ public class User {
     }
 
     public static User of(
-            String userId,
+            String email,
             String nickName,
             String password,
             Integer age,
@@ -104,11 +106,11 @@ public class User {
             String profileImg,
             String pushToken
     ) {
-        return new User(userId, nickName, password, age, gender, phoneNum, profileImg, pushToken);
+        return new User(email, nickName, password, age, gender, phoneNum, profileImg, pushToken);
     }
 
     public static User social(
-            String userId,
+            String socialId,
             String nickName,
             Integer age,
             Gender gender,
@@ -117,7 +119,7 @@ public class User {
             String pushToken
     ) {
         return new User(
-                userId,
+                socialId,
                 nickName,
                 null,
                 age,

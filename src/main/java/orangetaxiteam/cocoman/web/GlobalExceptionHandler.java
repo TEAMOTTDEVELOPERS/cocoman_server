@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ExceptionDTO handleAccessDeniedException(AccessDeniedException exception) {
         GlobalExceptionHandler.log.error("error message", exception);
-        return new ExceptionDTO(ErrorCode.FORBIDDEN_RESOURCE, exception.getMessage());
+        return new ExceptionDTO(ErrorCode.NOT_ALLOWED_ACCESS, exception.getMessage());
     }
 
     @ExceptionHandler(value = {Exception.class})

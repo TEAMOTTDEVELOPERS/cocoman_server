@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
+
     private final UserApplicationService userApplicationService;
 
     public UserController(UserApplicationService userApplicationService) {
@@ -26,7 +27,7 @@ public class UserController {
 
     @PostMapping(value = "/signUp")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public UserDTO signUp(@RequestBody UserCreateRequestDTO userCreateRequestDTO) throws Exception { //Exception 수정 필요
+    public UserDTO signUp(@RequestBody UserCreateRequestDTO userCreateRequestDTO) {
         return this.userApplicationService.create(userCreateRequestDTO);
     }
 

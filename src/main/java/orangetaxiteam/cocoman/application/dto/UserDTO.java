@@ -1,14 +1,9 @@
 package orangetaxiteam.cocoman.application.dto;
 
 
-import java.time.LocalDateTime;
-
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import orangetaxiteam.cocoman.domain.Gender;
 import orangetaxiteam.cocoman.domain.User;
 
@@ -25,8 +20,6 @@ public class UserDTO {
     private String profileImg;
     private String pushToken;
     private String jwtToken;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     public static UserDTO from(User user) {
         return from(user, "");
@@ -43,8 +36,6 @@ public class UserDTO {
         userDTO.profileImg = user.getProfileImg();
         userDTO.pushToken = user.getPushToken();
         userDTO.jwtToken = jwtToken;
-        userDTO.createdAt = user.getCreatedAt();
-        userDTO.updatedAt = user.getUpdatedAt();
 
         return userDTO;
     }

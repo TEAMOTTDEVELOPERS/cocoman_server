@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultPasswordValidator implements PasswordValidator {
     @Override
-    public void validate(User user, String password, String accessToken) {
+    public void validate(User user, String password) {
         // TODO: implement me
     }
 }

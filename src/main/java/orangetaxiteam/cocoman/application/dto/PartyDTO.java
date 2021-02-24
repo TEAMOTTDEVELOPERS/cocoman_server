@@ -21,7 +21,7 @@ public class PartyDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static PartyDTO from(Party party){
+    public static PartyDTO from(Party party) {
         PartyDTO v = new PartyDTO();
         v.partyId = party.getId();
         v.ownerId = party.getOwnerId();
