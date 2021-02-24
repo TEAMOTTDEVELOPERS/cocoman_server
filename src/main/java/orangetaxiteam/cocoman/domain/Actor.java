@@ -67,18 +67,4 @@ public class Actor {
                 null
         );
     }
-
-    public static Actor dummy(
-            String id,
-            String name,
-            String imagePath,
-            Set<Contents> contentsSet
-    ) {
-        return new Actor(
-                id,
-                name,
-                imagePath,
-                contentsSet
-        );
-    }
 }
