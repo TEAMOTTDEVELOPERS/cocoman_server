@@ -12,9 +12,6 @@ spring:
     secret: jwtsecretkey
 cloud:
   aws:
-    credentials:
-      accessKey: ${COCOMAN_STORAGE_BACK_ACCESS_KEY}
-      secretKey: ${COCOMAN_STORAGE_BACK_SECRET_KEY}
     s3:
       bucket: cocoman-storage
     region:
