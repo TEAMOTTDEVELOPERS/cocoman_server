@@ -5,7 +5,8 @@ name: Cocoman - Code Deploy
 
 on:
   push:
-    branches: [ develop ]
+    branches:
+      - develop
 
 jobs:
   deploy:
@@ -25,8 +26,12 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-      - name: Upload S3
-          env:
-            aws-access-key-id: ${{secrets.COCOMAN_DEPLOY_ACCESS_KEY}}
-            aws-secret-access-key: ${{secrets.COCOMAN_DEPLOY_SECRET_KEY}}
-          run: aws s3 cp --region ap-northeast-2 ./build/libs/*.jar s3://cocoman-springboot-deploy
+      - name: Configure AWS Credential
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.COCOMAN_DEPLOY_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.COCOMAN_DEPLOY_SECRET_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./build/libs/cocoman-*.jar s3://cocoman-springboot-deploy

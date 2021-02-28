@@ -5,7 +5,8 @@ name: Cocoman - CI
 
 on:
   pull_request:
-    branches: [ develop ]
+    branches:
+      - develop
 
 jobs:
   build:
@@ -24,9 +25,3 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build
-
-      - name: Upload S3
-          env:
-            aws-access-key-id: ${{secrets.COCOMAN_DEPLOY_ACCESS_KEY}}
-            aws-secret-access-key: ${{secrets.COCOMAN_DEPLOY_SECRET_KEY}}
-          run: aws s3 cp --region ap-northeast-2 ./build/libs/*.jar s3://cocoman-springboot-deploy
