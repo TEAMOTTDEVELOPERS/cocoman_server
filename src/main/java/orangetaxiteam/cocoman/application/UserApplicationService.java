@@ -108,10 +108,4 @@ public class UserApplicationService {
         );
         return UserDTO.from(this.userRepository.save(user));
     }
-
-    public void deleteUser(String id) {
-        User user = this.userRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException(ErrorCode.ROW_DOES_NOT_EXIST, "Invalid user id"));
-        this.userRepository.delete(user);
-    }
 }
