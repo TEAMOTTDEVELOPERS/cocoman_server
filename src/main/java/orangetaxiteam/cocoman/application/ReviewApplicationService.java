@@ -13,9 +13,6 @@ import orangetaxiteam.cocoman.domain.exceptions.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 public class ReviewApplicationService {
     private final ReviewRepository reviewRepository;
@@ -30,14 +27,6 @@ public class ReviewApplicationService {
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
         this.contentsRepository = contentsRepository;
-    }
-
-    @Transactional(readOnly = true)
-    public List<ReviewDTO> findAll() {
-        return this.reviewRepository.findAll()
-                .stream()
-                .map(ReviewDTO::from)
-                .collect(Collectors.toList());
     }
 
     @Transactional

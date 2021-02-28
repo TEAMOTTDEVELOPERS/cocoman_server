@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class GenreApplicationService {
-    private GenreRepository genreRepository;
+    private final GenreRepository genreRepository;
 
     public GenreApplicationService(GenreRepository genreRepository) {
         this.genreRepository = genreRepository;

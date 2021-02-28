@@ -1,12 +1,9 @@
 package orangetaxiteam.cocoman.web;
 
 import orangetaxiteam.cocoman.application.OttApplicationService;
-import orangetaxiteam.cocoman.application.dto.OttCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.OttDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,11 +23,5 @@ public class OttController {
     @ResponseStatus(value = HttpStatus.OK)
     public List<OttDTO> findAll() {
         return this.ottApplicationService.findAll();
-    }
-
-    @PostMapping
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public OttDTO createOtt(@RequestBody OttCreateRequestDTO ottCreateRequestDTO) {
-        return this.ottApplicationService.create(ottCreateRequestDTO);
     }
 }
