@@ -1,16 +1,27 @@
 package orangetaxiteam.cocoman.domain;
 
+import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
+import orangetaxiteam.cocoman.domain.exceptions.ErrorCode;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository <User, Long>{
-	
-	//Query Method
-	
-	//쿼리 요청 method name -> findBy로 시작
-	//쿼리 결과 레코드 수 요청  method name -> countBy로 시작
-	
-	//메소드 이름 키워드
-	//And, Or, Between, LessThan, GreaterThanEqual, Like, IsNull, In, OrderBy
-	
-	User findByUsername(String username);
+import java.util.Optional;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, String> {
+    Optional<User> findByEmail(String email);
+
+    default User findByEmailOrElseThrow(String email) {
+        return this.findByEmail(email).orElseThrow(
+                () -> new BadRequestException(ErrorCode.ROW_DOES_NOT_EXIST, "invalid user email")
+        );
+    }
+
+    Optional<User> findBySocialId(String socialId);
+
+    default User findBySocialIdOrElseThrow(String socialId) {
+        return this.findBySocialId(socialId).orElseThrow(
+                () -> new BadRequestException(ErrorCode.ROW_DOES_NOT_EXIST, "Invalid social Id")
+        );
+    }
 }

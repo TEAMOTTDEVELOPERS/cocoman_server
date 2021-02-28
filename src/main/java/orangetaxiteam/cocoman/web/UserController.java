@@ -1,55 +1,52 @@
 package orangetaxiteam.cocoman.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-
 import orangetaxiteam.cocoman.application.UserApplicationService;
 import orangetaxiteam.cocoman.application.dto.UserCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.UserDTO;
-import orangetaxiteam.cocoman.application.dto.UserSignInDTO;
+import orangetaxiteam.cocoman.application.dto.UserUpdateRequestDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
-	private UserApplicationService userApplicationService;
-	
-	@Autowired
-	public UserController(UserApplicationService userApplicationService) {
-		this.userApplicationService = userApplicationService;
-	}
-	
-	@PostMapping(value = "/signUp")
-	@ApiOperation(value = "Create new user", tags = "User")
-	public @ResponseBody
-	UserDTO signUp(@RequestBody UserCreateRequestDTO userCreateRequestDTO) throws Exception { //Exception 수정 필요
-		return userApplicationService.create(userCreateRequestDTO);
-	}
-	
-	@PostMapping(value = "/signIn")
-	@ApiOperation(value = "Signin", tags = "User")
-	public @ResponseBody
-	UserDTO signIn(@RequestBody UserSignInDTO userSignInDTO) throws Exception { //Exception 수정 필요
-		return userApplicationService.signIn(userSignInDTO);
-	}
-	
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "X-AUTH-TOKEN", value = "access token", required = true, dataType="String", paramType="header")
-	})
-	@PostMapping(value = "/myUser")
-	@ApiOperation(value = "Lookup one User", tags = "User")
-	public @ResponseBody
-	UserDTO findByUsername(@RequestParam String username) {
-		return userApplicationService.findByUsername(username);
-	}
+    private final UserApplicationService userApplicationService;
+
+    public UserController(UserApplicationService userApplicationService) {
+        this.userApplicationService = userApplicationService;
+    }
+
+    @PostMapping(value = "/signUp")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public UserDTO signUp(@RequestBody UserCreateRequestDTO userCreateRequestDTO) {
+        return this.userApplicationService.create(userCreateRequestDTO);
+    }
+
+    @GetMapping(value = "/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public UserDTO findById(@PathVariable String id) {
+        return this.userApplicationService.findById(id);
+    }
+
+    @PutMapping(value = "/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public UserDTO updateUser(@PathVariable String id, @RequestBody UserUpdateRequestDTO userUpdateRequestDTO) {
+        return this.userApplicationService.updateUser(id, userUpdateRequestDTO);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public void deleteUser(@PathVariable String id) {
+        this.userApplicationService.deleteUser(id);
+    }
 }
 

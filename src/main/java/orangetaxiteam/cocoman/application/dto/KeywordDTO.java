@@ -9,10 +9,10 @@ import orangetaxiteam.cocoman.domain.Keyword;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KeywordDTO {
-    private Long id;
+    private String id;
     private String name;
 
-    public static KeywordDTO fromDAO(Keyword keyword){
+    public static KeywordDTO from(Keyword keyword) {
         KeywordDTO v = new KeywordDTO();
         v.id = keyword.getId();
         v.name = keyword.getName();

@@ -1,6 +1,8 @@
 package orangetaxiteam.cocoman.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface GenreRepository extends JpaRepository<Genre, Long> {
+@Repository
+public interface GenreRepository extends JpaRepository<Genre, String> {
 }

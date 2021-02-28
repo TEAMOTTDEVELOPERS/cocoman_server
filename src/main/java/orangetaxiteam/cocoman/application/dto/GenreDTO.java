@@ -9,10 +9,10 @@ import orangetaxiteam.cocoman.domain.Genre;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GenreDTO {
-    private Long id;
+    private String id;
     private String name;
 
-    public static GenreDTO fromDAO(Genre genre){
+    public static GenreDTO from(Genre genre) {
         GenreDTO v = new GenreDTO();
         v.id = genre.getId();
         v.name = genre.getName();

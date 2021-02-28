@@ -1,36 +1,44 @@
 package orangetaxiteam.cocoman.web;
 
-import io.swagger.annotations.ApiOperation;
 import orangetaxiteam.cocoman.application.ActorApplicationService;
 import orangetaxiteam.cocoman.application.dto.ActorCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ActorDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/actor")
+@RequestMapping("/api/v1/actors")
 public class ActorController {
-    private ActorApplicationService actorApplicationService;
+    private final ActorApplicationService actorApplicationService;
 
-    @Autowired
-    public ActorController(ActorApplicationService actorApplicationService){
+    public ActorController(ActorApplicationService actorApplicationService) {
         this.actorApplicationService = actorApplicationService;
     }
 
     @GetMapping
-    @ApiOperation(value = "Get all actors", tags = "Actor")
-    public @ResponseBody
-    List<ActorDTO> findAll(){
-        return actorApplicationService.findAll();
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<ActorDTO> findAll() {
+        return this.actorApplicationService.findAll();
     }
 
     @PostMapping
-    @ApiOperation(value = "Create new actor", tags = "Actor")
-    public @ResponseBody
-    ActorDTO createContents(@RequestBody @Valid ActorCreateRequestDTO actorCreateRequestDTO){
-        return actorApplicationService.create(actorCreateRequestDTO);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ActorDTO createActor(@RequestBody ActorCreateRequestDTO actorCreateRequestDTO) {
+        return this.actorApplicationService.create(actorCreateRequestDTO);
+    }
+
+    // TODO : 삭제하기 (skel)
+    @PostMapping("/uploadImage")
+    public String uploadImage(@RequestParam("data") MultipartFile file) {
+        return this.actorApplicationService.uploadImage(file);
     }
 }

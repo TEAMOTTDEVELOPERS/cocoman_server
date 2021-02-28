@@ -1,24 +1,26 @@
 package orangetaxiteam.cocoman.application.dto;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import orangetaxiteam.cocoman.domain.Gender;
+import orangetaxiteam.cocoman.domain.SocialProvider;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserCreateRequestDTO {
-	
-	private String username;
-	private String password;
-	private List<String> roles;
-	private int age;
-	private String gender;
-	private String profileImg;
-	private String pushToken;
+    private String userId;
+    private String nickName;
+    private String password;
+    private Integer age;
+    private Gender gender;
+    private String phoneNum;
+    private String profileImg;
+    private String pushToken;
 
+    private String accessToken;
+    private SocialProvider provider;
 }

@@ -9,11 +9,11 @@ import orangetaxiteam.cocoman.domain.Actor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ActorDTO {
-    private Long id;
+    private String id;
     private String name;
     private String imagePath;
 
-    public static ActorDTO fromDAO(Actor actor){
+    public static ActorDTO from(Actor actor) {
         ActorDTO v = new ActorDTO();
         v.id = actor.getId();
         v.name = actor.getName();

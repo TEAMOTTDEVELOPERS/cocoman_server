@@ -9,11 +9,11 @@ import orangetaxiteam.cocoman.domain.Director;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DirectorDTO {
-    private Long id;
+    private String id;
     private String name;
     private String imagePath;
 
-    public static DirectorDTO fromDAO(Director director){
+    public static DirectorDTO from(Director director) {
         DirectorDTO v = new DirectorDTO();
         v.id = director.getId();
         v.name = director.getName();

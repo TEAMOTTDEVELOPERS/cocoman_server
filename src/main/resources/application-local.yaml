@@ -4,3 +4,20 @@ spring:
     url: jdbc:postgresql://localhost:5432/cocoman
     username: cocomanlocal
     password: cocomanpw
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  jwt:
+    secret: jwtsecretkey
+cloud:
+  aws:
+    credentials:
+      accessKey: ${COCOMAN_STORAGE_BACK_ACCESS_KEY}
+      secretKey: ${COCOMAN_STORAGE_BACK_SECRET_KEY}
+    s3:
+      bucket: cocoman-storage
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

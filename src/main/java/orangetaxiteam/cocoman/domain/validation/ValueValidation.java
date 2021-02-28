@@ -30,7 +30,7 @@ public class ValueValidation {
     }
 
     // Score validation, allowed in range from 0.5 to 5.0
-    public static boolean isScoreInRange(Double score){
+    public static boolean isScoreInRange(Double score) {
         return !(score < 0.5) && !(score > 5.0);
     }
 }

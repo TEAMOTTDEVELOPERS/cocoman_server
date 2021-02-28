@@ -1,1 +1,23 @@
-
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://cocoman_db:5432/cocoman
+    username: ${COCOMAN_DB_USERNAME}
+    password: ${COCOMAN_DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  jwt:
+    secret: jwtsecretkey
+cloud:
+  aws:
+    credentials:
+      accessKey: ${COCOMAN_STORAGE_BACK_ACCESS_KEY}
+      secretKey: ${COCOMAN_STORAGE_BACK_SECRET_KEY}
+    s3:
+      bucket: cocoman-storage
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

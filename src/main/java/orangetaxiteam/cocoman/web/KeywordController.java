@@ -1,28 +1,36 @@
 package orangetaxiteam.cocoman.web;
 
-import io.swagger.annotations.ApiOperation;
 import orangetaxiteam.cocoman.application.KeywordApplicationService;
 import orangetaxiteam.cocoman.application.dto.KeywordCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.KeywordDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/keyword")
+@RequestMapping("/api/v1/keywords")
 public class KeywordController {
-    private KeywordApplicationService keywordApplicationService;
+    private final KeywordApplicationService keywordApplicationService;
 
-    @Autowired
-    public KeywordController(KeywordApplicationService keywordApplicationService){
+    public KeywordController(KeywordApplicationService keywordApplicationService) {
         this.keywordApplicationService = keywordApplicationService;
     }
 
+    @GetMapping
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<KeywordDTO> findAll() {
+        return this.keywordApplicationService.findAll();
+    }
+
     @PostMapping
-    @ApiOperation(value = "Create new keyword", tags = "Keyword")
-    public @ResponseBody
-    KeywordDTO createContents(@RequestBody @Valid KeywordCreateRequestDTO keywordCreateRequestDTO){
-        return keywordApplicationService.create(keywordCreateRequestDTO);
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public KeywordDTO createKeyword(@RequestBody KeywordCreateRequestDTO keywordCreateRequestDTO) {
+        return this.keywordApplicationService.create(keywordCreateRequestDTO);
     }
 }
