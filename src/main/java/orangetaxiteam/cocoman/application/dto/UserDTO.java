@@ -13,7 +13,6 @@ import orangetaxiteam.cocoman.domain.User;
 public class UserDTO {
     private String id;
     private String nickName;
-    private String password;
     private int age;
     private Gender gender;
     private String phoneNum;
@@ -29,14 +28,12 @@ public class UserDTO {
         UserDTO userDTO = new UserDTO();
         userDTO.id = user.getId();
         userDTO.nickName = user.getNickName();
-        userDTO.password = user.getPassword();
         userDTO.age = user.getAge();
         userDTO.gender = user.getGender();
         userDTO.phoneNum = user.getPhoneNum();
         userDTO.profileImg = user.getProfileImg();
         userDTO.pushToken = user.getPushToken();
         userDTO.jwtToken = jwtToken;
-
         return userDTO;
     }
 
