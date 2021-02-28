@@ -5,7 +5,8 @@ import orangetaxiteam.cocoman.application.dto.UserCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.UserDTO;
 import orangetaxiteam.cocoman.application.dto.UserUpdateRequestDTO;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,20 +34,22 @@ public class UserController {
 
     @GetMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.OK)
-    public UserDTO findById(@PathVariable String id) {
+    public UserDTO findById(
+            @PathVariable String id,
+            @AuthenticationPrincipal String currentUserId
+    ) {
+        if (!id.equals(currentUserId)) throw new AccessDeniedException(String.format("no permission to id [%s] ", id));
         return this.userApplicationService.findById(id);
     }
 
     @PutMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.OK)
-    public UserDTO updateUser(@PathVariable String id, @RequestBody UserUpdateRequestDTO userUpdateRequestDTO) {
+    public UserDTO updateUser(@PathVariable String id,
+                              @RequestBody UserUpdateRequestDTO userUpdateRequestDTO,
+                              @AuthenticationPrincipal String currentUserId
+    ) {
+        if (!id.equals(currentUserId)) throw new AccessDeniedException(String.format("no permission to id [%s] ", id));
         return this.userApplicationService.updateUser(id, userUpdateRequestDTO);
-    }
-
-    @DeleteMapping(value = "/{id}")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void deleteUser(@PathVariable String id) {
-        this.userApplicationService.deleteUser(id);
     }
 }
 
