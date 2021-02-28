@@ -1,7 +1,7 @@
 package orangetaxiteam.cocoman.web;
 
 import orangetaxiteam.cocoman.application.ContentsApplicationService;
-import orangetaxiteam.cocoman.application.dto.ContentsDTO;
+import orangetaxiteam.cocoman.application.dto.ContentsDetailDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +23,7 @@ public class ContentsController {
 
     @GetMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.OK)
-    public ContentsDTO findById(@PathVariable String id) {
+    public ContentsDetailDTO findById(@PathVariable String id) {
         return this.contentsApplicationService.findById(id);
     }
 
