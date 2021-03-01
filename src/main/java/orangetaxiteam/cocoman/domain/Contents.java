@@ -75,6 +75,7 @@ public class Contents extends DomainEntity {
     @OneToMany(mappedBy = "contents", cascade = CascadeType.ALL)
     private Set<Review> reviewSet;
 
+    public static final int RECENT_REVIEW_COUNT = 5;
 
     private Contents(
             String id,
