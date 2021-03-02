@@ -16,7 +16,7 @@ public class ContentsDTO {
     private String title;
     private String year;
     private String country;
-    private int runningTime;
+    private Integer runningTime;
     private String gradeRate;
     private String broadcaster;
     private String openDate;

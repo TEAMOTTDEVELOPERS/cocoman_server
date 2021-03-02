@@ -21,7 +21,8 @@ public class DefaultContentsRecommender implements ContentsRecommender {
     @Override
     public List<Contents> getRelatedContentsList(List<String> genreList) {
         return this.getRelatedContentsList(
-                genreList.stream()
+                genreList
+                        .stream()
                         .reduce((first, second) -> first + " " + second)
                         .orElseThrow(
                                 () -> new InternalServerErrorException(

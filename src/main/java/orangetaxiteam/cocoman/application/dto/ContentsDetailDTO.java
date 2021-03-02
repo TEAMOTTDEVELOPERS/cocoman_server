@@ -14,16 +14,19 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class ContentsDetailDTO {
     private ContentsDTO contentsInfo;
+    private Double averageStar;
     private List<ReviewDTO> reviewList;
     private List<ContentsDTO> relatedContentsList;
 
     public static ContentsDetailDTO from(
             Contents contents,
+            Double averageStar,
             List<Review> reviewList,
             List<Contents> relatedContentsList
     ) {
         return new ContentsDetailDTO(
                 ContentsDTO.from(contents),
+                averageStar,
                 reviewList
                         .stream()
                         .map(ReviewDTO::from)

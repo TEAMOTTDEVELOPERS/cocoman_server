@@ -7,8 +7,6 @@ import orangetaxiteam.cocoman.domain.Contents;
 import orangetaxiteam.cocoman.domain.ContentsRecommender;
 import orangetaxiteam.cocoman.domain.ContentsRepository;
 import orangetaxiteam.cocoman.domain.Genre;
-import orangetaxiteam.cocoman.domain.GenreRepository;
-import orangetaxiteam.cocoman.domain.OttRepository;
 import orangetaxiteam.cocoman.domain.ReviewRepository;
 import orangetaxiteam.cocoman.domain.SearchHistory;
 import orangetaxiteam.cocoman.domain.SearchHistoryRepository;
@@ -18,6 +16,7 @@ import orangetaxiteam.cocoman.domain.User;
 import orangetaxiteam.cocoman.domain.UserRepository;
 import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
 import orangetaxiteam.cocoman.domain.exceptions.ErrorCode;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +26,6 @@ import java.util.stream.Collectors;
 @Service
 public class ContentsApplicationService {
     private final ContentsRepository contentsRepository;
-    private final GenreRepository genreRepository;
-    private final OttRepository ottRepository;
     private final SearchHistoryRepository searchHistoryRepository;
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
@@ -37,8 +34,6 @@ public class ContentsApplicationService {
 
     public ContentsApplicationService(
             ContentsRepository contentsRepository,
-            GenreRepository genreRepository,
-            OttRepository ottRepository,
             SearchHistoryRepository searchHistoryRepository,
             UserRepository userRepository,
             ReviewRepository reviewRepository,
@@ -46,8 +41,6 @@ public class ContentsApplicationService {
             StarRatingRepository starRatingRepository
     ) {
         this.contentsRepository = contentsRepository;
-        this.genreRepository = genreRepository;
-        this.ottRepository = ottRepository;
         this.searchHistoryRepository = searchHistoryRepository;
         this.userRepository = userRepository;
         this.reviewRepository = reviewRepository;
@@ -69,10 +62,10 @@ public class ContentsApplicationService {
                 .map(Genre::getName)
                 .collect(Collectors.toList());
 
-        // TODO : I'll do it when implementing contents detail - by GH
         return ContentsDetailDTO.from(
                 contents,
-                null,
+                this.starRatingRepository.getAverageRating(contents),
+                this.reviewRepository.findRecentReviews(PageRequest.of(0, Contents.RECENT_REVIEW_COUNT), contents),
                 this.contentsRecommender.getRelatedContentsList(genreList)
         );
     }
@@ -116,9 +109,8 @@ public class ContentsApplicationService {
         );
 
         if (this.starRatingRepository.existsByUserAndContents(user, contents)) {
-
             throw new BadRequestException(
-                    ErrorCode.ROW_DOES_NOT_EXIST, // ToDo : Modify
+                    ErrorCode.ROW_ALREADY_EXIST,
                     String.format("Already exist value with userId, contentsId : %s, %s", userId, contentsId)
             );
         }
