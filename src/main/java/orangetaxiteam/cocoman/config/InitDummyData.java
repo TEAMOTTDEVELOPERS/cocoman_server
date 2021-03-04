@@ -162,6 +162,12 @@ public class InitDummyData implements CommandLineRunner {
                     null,
                     contentsList.get(0)
             ));
+
+            this.starRatingRepository.save(StarRating.of(
+                    3.5,
+                    null,
+                    contentsList.get(1)
+            ));
         }
     }
 
