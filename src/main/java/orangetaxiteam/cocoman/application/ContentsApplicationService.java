@@ -2,11 +2,14 @@ package orangetaxiteam.cocoman.application;
 
 
 import orangetaxiteam.cocoman.application.dto.ContentsDetailDTO;
+import orangetaxiteam.cocoman.application.dto.ReviewCreateRequestDTO;
+import orangetaxiteam.cocoman.application.dto.ReviewDTO;
 import orangetaxiteam.cocoman.application.dto.StarRatingCreateRequestDTO;
 import orangetaxiteam.cocoman.domain.Contents;
 import orangetaxiteam.cocoman.domain.ContentsRecommender;
 import orangetaxiteam.cocoman.domain.ContentsRepository;
 import orangetaxiteam.cocoman.domain.Genre;
+import orangetaxiteam.cocoman.domain.Review;
 import orangetaxiteam.cocoman.domain.ReviewRepository;
 import orangetaxiteam.cocoman.domain.SearchHistory;
 import orangetaxiteam.cocoman.domain.SearchHistoryRepository;
@@ -91,6 +94,29 @@ public class ContentsApplicationService {
                 )
         );
         this.searchHistoryRepository.save(SearchHistory.of(contents, keyword, user));
+    }
+
+    @Transactional
+    public ReviewDTO createReview(String contentsId, ReviewCreateRequestDTO reviewCreateRequestDTO) {
+        String userId = reviewCreateRequestDTO.getUserId();
+        User user = this.userRepository.findById(userId).orElseThrow(
+                () -> new BadRequestException(
+                        ErrorCode.ROW_DOES_NOT_EXIST,
+                        "Invalid user id")
+        );
+
+        Contents contents = this.contentsRepository.findById(contentsId).orElseThrow(
+                () -> new BadRequestException(
+                        ErrorCode.ROW_DOES_NOT_EXIST,
+                        String.format("There are no data matches with contents id : %s", contentsId))
+        );
+
+        return ReviewDTO.from(
+                this.reviewRepository.save(Review.of(
+                        reviewCreateRequestDTO.getComment(),
+                        user,
+                        contents))
+        );
     }
 
     @Transactional

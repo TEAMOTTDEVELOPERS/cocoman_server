@@ -2,6 +2,8 @@ package orangetaxiteam.cocoman.web;
 
 import orangetaxiteam.cocoman.application.ContentsApplicationService;
 import orangetaxiteam.cocoman.application.dto.ContentsDetailDTO;
+import orangetaxiteam.cocoman.application.dto.ReviewCreateRequestDTO;
+import orangetaxiteam.cocoman.application.dto.ReviewDTO;
 import orangetaxiteam.cocoman.application.dto.StarRatingCreateRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -40,15 +42,21 @@ public class ContentsController {
         this.contentsApplicationService.createSearchHistory(contentId, keyword, currentUserId);
     }
 
-    @PostMapping(value = "/{id}/star-rating")
+    @PostMapping(value = "/{contentsId}/review")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void createStarRating(@PathVariable String id, @RequestBody StarRatingCreateRequestDTO starRatingCreateRequestDTO) {
-        this.contentsApplicationService.giveStarRating(id, starRatingCreateRequestDTO);
+    public ReviewDTO createReview(@PathVariable String contentsId, @RequestBody ReviewCreateRequestDTO reviewCreateRequestDTO) {
+        return this.contentsApplicationService.createReview(contentsId, reviewCreateRequestDTO);
     }
 
-    @PatchMapping(value = "/{id}/star-rating")
+    @PostMapping(value = "/{contentsId}/star-rating")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void createStarRating(@PathVariable String contentsId, @RequestBody StarRatingCreateRequestDTO starRatingCreateRequestDTO) {
+        this.contentsApplicationService.giveStarRating(contentsId, starRatingCreateRequestDTO);
+    }
+
+    @PatchMapping(value = "/{contentsId}/star-rating")
     @ResponseStatus(value = HttpStatus.OK)
-    public void updateStarRating(@PathVariable String id, @RequestBody StarRatingCreateRequestDTO starRatingCreateRequestDTO) {
-        this.contentsApplicationService.updateStarRating(id, starRatingCreateRequestDTO);
+    public void updateStarRating(@PathVariable String contentsId, @RequestBody StarRatingCreateRequestDTO starRatingCreateRequestDTO) {
+        this.contentsApplicationService.updateStarRating(contentsId, starRatingCreateRequestDTO);
     }
 }
