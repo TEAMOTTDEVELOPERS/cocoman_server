@@ -1,6 +1,7 @@
 package orangetaxiteam.cocoman.web;
 
 import orangetaxiteam.cocoman.application.ContentsApplicationService;
+import orangetaxiteam.cocoman.application.dto.ContentsDTO;
 import orangetaxiteam.cocoman.application.dto.ContentsDetailDTO;
 import orangetaxiteam.cocoman.application.dto.ReviewCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ReviewDTO;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/contents")
@@ -58,5 +61,11 @@ public class ContentsController {
     @ResponseStatus(value = HttpStatus.OK)
     public void updateStarRating(@PathVariable String contentsId, @RequestBody StarRatingCreateRequestDTO starRatingCreateRequestDTO) {
         this.contentsApplicationService.updateStarRating(contentsId, starRatingCreateRequestDTO);
+    }
+
+    @GetMapping(value = "/week-top")
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<ContentsDTO> weekTopContents() {
+        return this.contentsApplicationService.weekTopContents();
     }
 }

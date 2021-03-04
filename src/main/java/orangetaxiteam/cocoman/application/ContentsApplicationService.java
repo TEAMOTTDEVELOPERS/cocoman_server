@@ -1,6 +1,7 @@
 package orangetaxiteam.cocoman.application;
 
 
+import orangetaxiteam.cocoman.application.dto.ContentsDTO;
 import orangetaxiteam.cocoman.application.dto.ContentsDetailDTO;
 import orangetaxiteam.cocoman.application.dto.ReviewCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ReviewDTO;
@@ -17,12 +18,14 @@ import orangetaxiteam.cocoman.domain.StarRating;
 import orangetaxiteam.cocoman.domain.StarRatingRepository;
 import orangetaxiteam.cocoman.domain.User;
 import orangetaxiteam.cocoman.domain.UserRepository;
+import orangetaxiteam.cocoman.domain.WeekTopContents;
 import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
 import orangetaxiteam.cocoman.domain.exceptions.ErrorCode;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -169,5 +172,17 @@ public class ContentsApplicationService {
         double rating = starRatingCreateRequestDTO.getRating();
         starRating.update(rating);
         this.starRatingRepository.save(starRating);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ContentsDTO> weekTopContents() {
+        return this.contentsRepository.weekTopContents(
+                PageRequest.of(0, Contents.WEEK_TOP_COUNT),
+                LocalDateTime.now().minusDays(Contents.WEEK_TOP_DAYS)
+        )
+                .stream()
+                .map(WeekTopContents::getContents)
+                .map(ContentsDTO::from)
+                .collect(Collectors.toList());
     }
 }

@@ -8,12 +8,10 @@ import orangetaxiteam.cocoman.domain.exceptions.ErrorCode;
 import orangetaxiteam.cocoman.domain.validation.FormatValidation;
 import orangetaxiteam.cocoman.domain.validation.ValueValidation;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Set;
 
@@ -72,10 +70,10 @@ public class Contents extends DomainEntity {
     @JoinColumn(name = "keywords_id")
     private Set<Keyword> keywordSet;
 
-    @OneToMany(mappedBy = "contents", cascade = CascadeType.ALL)
-    private Set<Review> reviewSet;
-
     public static final int RECENT_REVIEW_COUNT = 5;
+
+    public static final int WEEK_TOP_COUNT = 5;
+    public static final int WEEK_TOP_DAYS = 7;
 
     private Contents(
             String id,
@@ -93,8 +91,7 @@ public class Contents extends DomainEntity {
             Set<Actor> actorSet,
             Set<Director> directorSet,
             Set<Genre> genreSet,
-            Set<Keyword> keywordSet,
-            Set<Review> reviewSet
+            Set<Keyword> keywordSet
     ) {
         super(id);
         this.title = title;
@@ -112,7 +109,6 @@ public class Contents extends DomainEntity {
         this.directorSet = directorSet;
         this.genreSet = genreSet;
         this.keywordSet = keywordSet;
-        this.reviewSet = reviewSet;
     }
 
     public static Contents of(
@@ -202,8 +198,7 @@ public class Contents extends DomainEntity {
                 actorSet,
                 directorSet,
                 genreSet,
-                keywordSet,
-                null
+                keywordSet
         );
     }
 }
