@@ -6,14 +6,14 @@ import orangetaxiteam.cocoman.application.dto.ContentsDetailDTO;
 import orangetaxiteam.cocoman.application.dto.ReviewCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.ReviewDTO;
 import orangetaxiteam.cocoman.application.dto.StarRatingCreateRequestDTO;
+import orangetaxiteam.cocoman.domain.ClickHistory;
+import orangetaxiteam.cocoman.domain.ClickHistoryRepository;
 import orangetaxiteam.cocoman.domain.Contents;
 import orangetaxiteam.cocoman.domain.ContentsRecommender;
 import orangetaxiteam.cocoman.domain.ContentsRepository;
 import orangetaxiteam.cocoman.domain.Genre;
 import orangetaxiteam.cocoman.domain.Review;
 import orangetaxiteam.cocoman.domain.ReviewRepository;
-import orangetaxiteam.cocoman.domain.SearchHistory;
-import orangetaxiteam.cocoman.domain.SearchHistoryRepository;
 import orangetaxiteam.cocoman.domain.StarRating;
 import orangetaxiteam.cocoman.domain.StarRatingRepository;
 import orangetaxiteam.cocoman.domain.User;
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 @Service
 public class ContentsApplicationService {
     private final ContentsRepository contentsRepository;
-    private final SearchHistoryRepository searchHistoryRepository;
+    private final ClickHistoryRepository clickHistoryRepository;
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
     private final ContentsRecommender contentsRecommender;
@@ -40,14 +40,14 @@ public class ContentsApplicationService {
 
     public ContentsApplicationService(
             ContentsRepository contentsRepository,
-            SearchHistoryRepository searchHistoryRepository,
+            ClickHistoryRepository clickHistoryRepository,
             UserRepository userRepository,
             ReviewRepository reviewRepository,
             ContentsRecommender contentsRecommender,
             StarRatingRepository starRatingRepository
     ) {
         this.contentsRepository = contentsRepository;
-        this.searchHistoryRepository = searchHistoryRepository;
+        this.clickHistoryRepository = clickHistoryRepository;
         this.userRepository = userRepository;
         this.reviewRepository = reviewRepository;
         this.contentsRecommender = contentsRecommender;
@@ -96,7 +96,13 @@ public class ContentsApplicationService {
                         )
                 )
         );
-        this.searchHistoryRepository.save(SearchHistory.of(contents, keyword, user));
+        this.clickHistoryRepository.save(
+                ClickHistory.of(
+                        contents,
+                        keyword,
+                        user
+                )
+        );
     }
 
     @Transactional
