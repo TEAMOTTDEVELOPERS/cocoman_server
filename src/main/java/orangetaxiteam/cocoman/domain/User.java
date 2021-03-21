@@ -20,11 +20,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Table(name = "TB_USER")
 public class User extends DomainEntity {
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "social_id")
-    private String socialId;
+    @Column(name = "user_id")
+    private String userId;
 
     @Column(length = 100, nullable = false, unique = true)
     private String nickName;
@@ -54,7 +51,7 @@ public class User extends DomainEntity {
     private Set<Review> reviewSet;
 
     private User(
-            String email,
+            String userId,
             String nickName,
             String password,
             Integer age,
@@ -63,7 +60,7 @@ public class User extends DomainEntity {
             String profileImg,
             String pushToken
     ) {
-        this.email = email;
+        this.userId = userId;
         this.nickName = nickName;
         this.password = password;
         this.age = age;
@@ -74,7 +71,7 @@ public class User extends DomainEntity {
     }
 
     public static User of(
-            String email,
+            String userId,
             String nickName,
             String password,
             Integer age,
@@ -83,7 +80,7 @@ public class User extends DomainEntity {
             String profileImg,
             String pushToken
     ) {
-        return new User(email, nickName, password, age, gender, phoneNum, profileImg, pushToken);
+        return new User(userId, nickName, password, age, gender, phoneNum, profileImg, pushToken);
     }
 
     public static User social(

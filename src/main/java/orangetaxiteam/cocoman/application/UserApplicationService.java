@@ -83,22 +83,32 @@ public class UserApplicationService {
 
     public UserDTO signIn(UserSignInDTO userSignInDTO) {
         SocialProvider provider = userSignInDTO.getProvider();
+
         if (provider == SocialProvider.COCONUT) {
-            User user = this.userRepository.findByEmailOrElseThrow(userSignInDTO.getEmail());
+            User user = this.userRepository.findByUserId(userSignInDTO.getUserId()).orElseThrow(
+                    () -> new BadRequestException(ErrorCode.SIGNIN_DATA_DOES_NOT_MATCH, "invalid user data")
+            );
             this.passwordValidator.validate(
                     user,
                     userSignInDTO.getPassword()
             );
-            String jwtToken = this.jwtTokenProvider.createToken(user.getEmail());
-            return UserDTO.from(user, jwtToken);
-        }
 
+            return UserDTO.from(
+                    user,
+                    this.jwtTokenProvider.createToken(user.getUserId())
+            );
+        }
         SocialInfoService socialInfoService = this.socialInfoServiceSupplier.supply(provider);
         String socialId = socialInfoService.getSocialId(userSignInDTO.getAccessToken());
-        User user = this.userRepository.findBySocialIdOrElseThrow(socialId);
-        String jwtToken = this.jwtTokenProvider.createToken(user.getSocialId());
-        return UserDTO.from(user, jwtToken);
 
+        User user = this.userRepository.findByUserId(socialId).orElseThrow(
+                () -> new BadRequestException(ErrorCode.SIGNIN_DATA_DOES_NOT_MATCH, "invalid user data")
+        );
+
+        return UserDTO.from(
+                user,
+                this.jwtTokenProvider.createToken(user.getUserId())
+        );
     }
 
     public UserDTO findById(String id) {
