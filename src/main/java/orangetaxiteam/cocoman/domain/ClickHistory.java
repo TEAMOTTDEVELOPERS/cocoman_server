@@ -14,31 +14,31 @@ import javax.persistence.Table;
 @Getter
 @NoArgsConstructor
 @Table(name = "TB_SEARCH_HISTORY")
-public class SearchHistory extends DomainEntity {
+public class ClickHistory extends DomainEntity {
     @ManyToOne(fetch = FetchType.LAZY)
-    private User searchUser;
+    private User clickUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Contents searchContents;
+    private Contents clickContents;
 
     @Column(name = "search_keyword")
     private String searchKeyword;
 
-    private SearchHistory(
+    private ClickHistory(
             Contents contents,
             String keyword,
             User user
     ) {
-        this.searchContents = contents;
+        this.clickContents = contents;
         this.searchKeyword = keyword;
-        this.searchUser = user;
+        this.clickUser = user;
     }
 
-    public static SearchHistory of(
+    public static ClickHistory of(
             Contents contents,
             String keyword,
             User user
     ) {
-        return new SearchHistory(contents, keyword, user);
+        return new ClickHistory(contents, keyword, user);
     }
 }

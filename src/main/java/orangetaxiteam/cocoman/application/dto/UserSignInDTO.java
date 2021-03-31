@@ -11,7 +11,7 @@ import orangetaxiteam.cocoman.domain.SocialProvider;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserSignInDTO {
-    private String email;
+    private String userId;
     private String password;
     private String accessToken;
     private SocialProvider provider;
