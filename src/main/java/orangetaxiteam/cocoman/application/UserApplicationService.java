@@ -5,6 +5,7 @@ import orangetaxiteam.cocoman.application.dto.UserDTO;
 import orangetaxiteam.cocoman.application.dto.UserSignInDTO;
 import orangetaxiteam.cocoman.application.dto.UserUpdateRequestDTO;
 import orangetaxiteam.cocoman.config.JwtTokenProvider;
+import orangetaxiteam.cocoman.domain.PasswordEncoder;
 import orangetaxiteam.cocoman.domain.PasswordValidator;
 import orangetaxiteam.cocoman.domain.SocialInfoService;
 import orangetaxiteam.cocoman.domain.SocialInfoServiceSupplier;
@@ -24,18 +25,21 @@ public class UserApplicationService {
     private final UserRepository userRepository;
     private final PasswordValidator passwordValidator;
     private final SocialInfoServiceSupplier socialInfoServiceSupplier;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserApplicationService(
             UserRepository userRepository,
             JwtTokenProvider jwtTokenProvider,
             PasswordValidator passwordValidator,
-            SocialInfoServiceSupplier socialInfoServiceSupplier
+            SocialInfoServiceSupplier socialInfoServiceSupplier,
+            PasswordEncoder passwordEncoder
     ) {
         this.userRepository = userRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.passwordValidator = passwordValidator;
         this.socialInfoServiceSupplier = socialInfoServiceSupplier;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -46,7 +50,7 @@ public class UserApplicationService {
             User user = User.of(
                     userCreateRequestDTO.getUserId(),
                     userCreateRequestDTO.getNickName(),
-                    userCreateRequestDTO.getPassword(),
+                    passwordEncoder.encode(userCreateRequestDTO.getPassword()),
                     userCreateRequestDTO.getAge(),
                     userCreateRequestDTO.getGender(),
                     userCreateRequestDTO.getPhoneNum(),
