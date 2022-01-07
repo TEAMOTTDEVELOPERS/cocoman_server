@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-<<<<<<< HEAD
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByEmail(String email);
@@ -25,10 +24,8 @@ public interface UserRepository extends JpaRepository<User, String> {
                 () -> new BadRequestException(ErrorCode.ROW_DOES_NOT_EXIST, "Invalid social Id")
         );
     }
-=======
-public interface UserRepository extends JpaRepository<User, String> {
+
     Optional<User> findByUserId(String userId);
 
     boolean existsByUserId(String userId);
->>>>>>> user id duplicate chek
 }
