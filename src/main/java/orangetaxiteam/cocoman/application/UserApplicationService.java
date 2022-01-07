@@ -1,5 +1,9 @@
 package orangetaxiteam.cocoman.application;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import orangetaxiteam.cocoman.application.dto.UserCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.UserDTO;
 import orangetaxiteam.cocoman.application.dto.UserSignInDTO;
@@ -14,6 +18,11 @@ import orangetaxiteam.cocoman.domain.UserRepository;
 import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
 import orangetaxiteam.cocoman.domain.exceptions.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -107,5 +116,17 @@ public class UserApplicationService {
                 userUpdateRequestDTO.getProfileImg()
         );
         return UserDTO.from(this.userRepository.save(user));
+    }
+
+    public void deleteUser(String id) {
+        User user = this.userRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException(ErrorCode.ROW_DOES_NOT_EXIST, "Invalid user id"));
+        this.userRepository.delete(user);
+    }
+
+    public void existsByUserId(String userId) {
+        if (this.userRepository.existsByUserId(userId)) {
+            throw new BadRequestException(ErrorCode.ID_ALREADY_EXIST, "user id already exists");
+        }
     }
 }

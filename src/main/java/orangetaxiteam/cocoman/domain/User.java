@@ -113,4 +113,5 @@ public class User extends DomainEntity {
         this.phoneNum = phoneNum;
         this.profileImg = profileImg;
     }
+
 }

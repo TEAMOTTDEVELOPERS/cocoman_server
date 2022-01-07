@@ -24,4 +24,8 @@ public interface UserRepository extends JpaRepository<User, String> {
                 () -> new BadRequestException(ErrorCode.ROW_DOES_NOT_EXIST, "Invalid social Id")
         );
     }
+
+    Optional<User> findByUserId(String userId);
+
+    boolean existsByUserId(String userId);
 }
