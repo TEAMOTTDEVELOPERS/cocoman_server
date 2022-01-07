@@ -63,6 +63,7 @@ public class UserApplicationService {
                     userCreateRequestDTO.getPushToken()
             );
             return UserDTO.from(this.userRepository.save(user));
+        }
 
         SocialInfoService socialInfoService = this.socialInfoServiceSupplier.supply(provider);
         String socialId = socialInfoService.getSocialId(userCreateRequestDTO.getAccessToken());
