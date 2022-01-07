@@ -1,17 +1,17 @@
 package orangetaxiteam.cocoman.web;
 
 import orangetaxiteam.cocoman.application.OttApplicationService;
-import orangetaxiteam.cocoman.application.dto.OttCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.OttDTO;
+import orangetaxiteam.cocoman.domain.Pagination;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/ott")
@@ -24,13 +24,9 @@ public class OttController {
 
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
-    public List<OttDTO> findAll() {
-        return this.ottApplicationService.findAll();
-    }
-
-    @PostMapping
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public OttDTO createOtt(@RequestBody OttCreateRequestDTO ottCreateRequestDTO) {
-        return this.ottApplicationService.create(ottCreateRequestDTO);
+    public Pagination<OttDTO> findAll(
+            @SortDefault(sort = "createdAt", direction = Sort.Direction.ASC) @PageableDefault(size = 15) final Pageable pageable
+    ) {
+        return this.ottApplicationService.findAll(pageable);
     }
 }

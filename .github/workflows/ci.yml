@@ -1,18 +1,17 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Cocoman - Gradle CI
+name: Cocoman - CI
 
 on:
-  push:
-    branches: [ develop ]
   pull_request:
-    branches: [ develop ]
+    branches:
+      - develop
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    name: Build
+    runs-on: ubuntu-18.04
 
     steps:
       - uses: actions/checkout@v2
@@ -20,11 +19,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: start docker
-        run: docker-compose -f environment/docker-compose.yaml up -d
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
       - name: Build with Gradle
         run: ./gradlew build
-        env:
-          SPRING_PROFILES_ACTIVE: dev

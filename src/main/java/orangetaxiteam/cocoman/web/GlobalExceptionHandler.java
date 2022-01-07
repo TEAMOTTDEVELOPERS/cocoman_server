@@ -4,12 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
 import orangetaxiteam.cocoman.domain.exceptions.ErrorCode;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.nio.file.AccessDeniedException;
 
 @Component
 @Slf4j

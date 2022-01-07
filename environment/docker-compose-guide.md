@@ -1,7 +1,7 @@
 ## Guide for docker-compose
 ### How to use docker-compose?
 
-0. Remove legacy docker container and image
+* Remove legacy docker container and image
 ```shell
 # Find running docker container
 $ docker ps
@@ -13,8 +13,16 @@ $ docker stop <container-id>
 $ docker rm <container-id>
 ```
 
-1. Run docker-compose
+* Run docker-compose
 ```shell
+# Remove exist docker file that executes spring application
+$ docker rmi cocoman-applicaiton-docker
+
 # Run this command in environment/
 $ docker-compose -f docker-compose.yaml up -d
+```
+* Stop docker-compose
+```
+# Run this command in environment/
+$ docker-compose -f docker-compose.yaml down
 ```
