@@ -134,7 +134,7 @@ public class UserApplicationService {
         this.userRepository.delete(user);
     }
 
-    public void existsByUserId(String userId) {
+    public void validateUserId(String userId) {
         if (this.userRepository.existsByUserId(userId)) {
             throw new BadRequestException(ErrorCode.ID_ALREADY_EXIST, "user id already exists");
         }

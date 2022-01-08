@@ -12,6 +12,7 @@ import orangetaxiteam.cocoman.domain.User;
 @AllArgsConstructor
 public class UserDTO {
     private String id;
+    private String userId;
     private String nickName;
     private int age;
     private Gender gender;
@@ -27,6 +28,7 @@ public class UserDTO {
     public static UserDTO from(User user, String jwtToken) {
         UserDTO userDTO = new UserDTO();
         userDTO.id = user.getId();
+        userDTO.userId = user.getUserId();
         userDTO.nickName = user.getNickName();
         userDTO.age = user.getAge();
         userDTO.gender = user.getGender();
