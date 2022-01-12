@@ -73,8 +73,8 @@ public class UserController {
 
     @PostMapping(value = "/{userId}/validate")
     @ResponseStatus(value = HttpStatus.OK)
-    public void existsByUserId(@PathVariable String userId) {
-        this.userApplicationService.existsByUserId(userId);
+    public void validateUserId(@PathVariable String userId) {
+        this.userApplicationService.validateUserId(userId);
     }
 
 }
