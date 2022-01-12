@@ -13,7 +13,7 @@ public class DefaultPasswordValidator implements PasswordValidator {
     public void validate(User user, String password) {
         if (!defaultPasswordEncoder.matches(password,user.getPassword())) {
             throw new BadRequestException(
-                    ErrorCode.SIGNIN_PASSWORD_DOES_NOT_MATCH,
+                    ErrorCode.SIGNIN_DATA_DOES_NOT_MATCH,
                     "Password does not match");
         }
     }
