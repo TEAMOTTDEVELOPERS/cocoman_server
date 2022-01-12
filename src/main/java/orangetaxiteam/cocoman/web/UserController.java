@@ -3,6 +3,7 @@ package orangetaxiteam.cocoman.web;
 import orangetaxiteam.cocoman.application.UserApplicationService;
 import orangetaxiteam.cocoman.application.dto.UserCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.UserDTO;
+import orangetaxiteam.cocoman.application.dto.UserSignInDTO;
 import orangetaxiteam.cocoman.application.dto.UserUpdateRequestDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -32,13 +33,21 @@ public class UserController {
         return this.userApplicationService.create(userCreateRequestDTO);
     }
 
+    @PostMapping(value = "/signIn")
+    @ResponseStatus(value = HttpStatus.OK)
+    public UserDTO signIn(@RequestBody UserSignInDTO userSignInDTO) {
+        return this.userApplicationService.signIn(userSignInDTO);
+    }
+
     @GetMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public UserDTO findById(
             @PathVariable String id,
             @AuthenticationPrincipal String currentUserId
     ) {
-        if (!id.equals(currentUserId)) throw new AccessDeniedException(String.format("no permission to id [%s] ", id));
+        if (!id.equals(currentUserId)) {
+            throw new AccessDeniedException(String.format("no permission to id [%s] ", id));
+        }
         return this.userApplicationService.findById(id);
     }
 
@@ -49,7 +58,9 @@ public class UserController {
             @RequestBody UserUpdateRequestDTO userUpdateRequestDTO,
             @AuthenticationPrincipal String currentUserId
     ) {
-        if (!id.equals(currentUserId)) throw new AccessDeniedException(String.format("no permission to id [%s] ", id));
+        if (!id.equals(currentUserId)) {
+            throw new AccessDeniedException(String.format("no permission to id [%s] ", id));
+        }
         return this.userApplicationService.updateUser(id, userUpdateRequestDTO);
     }
 }
