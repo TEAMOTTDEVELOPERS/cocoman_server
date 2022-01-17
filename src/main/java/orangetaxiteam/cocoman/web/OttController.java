@@ -8,10 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/ott")
@@ -28,5 +25,11 @@ public class OttController {
             @SortDefault(sort = "createdAt", direction = Sort.Direction.ASC) @PageableDefault(size = 15) final Pageable pageable
     ) {
         return this.ottApplicationService.findAll(pageable);
+    }
+
+    @GetMapping(value = "/{name}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public OttDTO getOtt(@PathVariable String name){
+        return ottApplicationService.getOtt(name);
     }
 }
