@@ -44,13 +44,8 @@ public class OttApplicationService extends PaginationFinder {
         );
     }
 
-    public OttDTO getOtt(String name){
-        // to make uppercase
-        char[] nameArr = name.toCharArray();
-        nameArr[0] = Character.toUpperCase(nameArr[0]);
-        name = new String(nameArr);
-
-        Ott ott = this.ottRepository.findByName(name).orElseThrow(
+    public OttDTO findById(String id){
+        Ott ott = this.ottRepository.findById(id).orElseThrow(
                 () -> new BadRequestException(ErrorCode.NOT_ALLOWED_ACCESS, "invalid data")
         );
 
