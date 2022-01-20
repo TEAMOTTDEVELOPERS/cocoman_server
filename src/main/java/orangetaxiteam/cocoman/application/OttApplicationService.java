@@ -49,8 +49,6 @@ public class OttApplicationService extends PaginationFinder {
                 () -> new BadRequestException(ErrorCode.NOT_ALLOWED_ACCESS, "invalid data")
         );
 
-        return OttDTO.from(
-                ott
-        );
+        return OttDTO.from(ott);
     }
 }
