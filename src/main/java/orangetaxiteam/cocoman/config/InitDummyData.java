@@ -1,22 +1,27 @@
 package orangetaxiteam.cocoman.config;
 
+
+import orangetaxiteam.cocoman.domain.StarRatingRepository;
+import orangetaxiteam.cocoman.domain.StarRating;
+import orangetaxiteam.cocoman.domain.User;
+import orangetaxiteam.cocoman.domain.UserRepository;
 import orangetaxiteam.cocoman.domain.Contents;
 import orangetaxiteam.cocoman.domain.ContentsRepository;
-import orangetaxiteam.cocoman.domain.Gender;
 import orangetaxiteam.cocoman.domain.Genre;
 import orangetaxiteam.cocoman.domain.GenreRepository;
 import orangetaxiteam.cocoman.domain.Review;
 import orangetaxiteam.cocoman.domain.ReviewRepository;
-import orangetaxiteam.cocoman.domain.StarRating;
-import orangetaxiteam.cocoman.domain.StarRatingRepository;
-import orangetaxiteam.cocoman.domain.User;
-import orangetaxiteam.cocoman.domain.UserRepository;
+import orangetaxiteam.cocoman.domain.Ott;
+import orangetaxiteam.cocoman.domain.OttRepository;
+import orangetaxiteam.cocoman.domain.Gender;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Configuration
 public class InitDummyData implements CommandLineRunner {
@@ -25,19 +30,22 @@ public class InitDummyData implements CommandLineRunner {
     private StarRatingRepository starRatingRepository;
     private GenreRepository genreRepository;
     private ReviewRepository reviewRepository;
+    private OttRepository ottRepository;
 
     public InitDummyData(
             UserRepository userRepository,
             ContentsRepository contentsRepository,
             StarRatingRepository starRatingRepository,
             GenreRepository genreRepository,
-            ReviewRepository reviewRepository
+            ReviewRepository reviewRepository,
+            OttRepository ottRepository
     ) {
         this.userRepository = userRepository;
         this.contentsRepository = contentsRepository;
         this.starRatingRepository = starRatingRepository;
         this.genreRepository = genreRepository;
         this.reviewRepository = reviewRepository;
+        this.ottRepository = ottRepository;
     }
 
     @Override
@@ -45,6 +53,7 @@ public class InitDummyData implements CommandLineRunner {
         List<User> userList = this.insertDummyUsers();
         List<Genre> genreList = this.insertDummyGenres();
         List<Contents> contentsList = this.insertDummyContents(genreList);
+        List<Ott> ottList = this.insertDummyOtts(contentsList);
 
         this.insertDummyStarRating(contentsList);
         this.insertDummyReview(contentsList, userList);
@@ -149,6 +158,24 @@ public class InitDummyData implements CommandLineRunner {
         return contentsList;
     }
 
+    private List<Ott> insertDummyOtts(List<Contents> contentsList){
+        List<Ott> ottList = new ArrayList<>();
+        Set<Contents> netflixContents = new HashSet<>(contentsList);
+
+        if (this.ottRepository.findAll().isEmpty()) {
+            ottList.add(this.ottRepository.save(
+                    Ott.of(
+                            "Netflix",
+                            "",
+                            "basic: 9500₩, standard: 13500₩, premium: 17000₩",
+                            netflixContents
+                    )
+            ));
+        }
+
+        return ottList;
+    }
+
     private void insertDummyStarRating(List<Contents> contentsList) {
         if (this.starRatingRepository.findAll().isEmpty()) {
             this.starRatingRepository.save(StarRating.of(
@@ -186,4 +213,6 @@ public class InitDummyData implements CommandLineRunner {
             ));
         }
     }
+
+
 }
