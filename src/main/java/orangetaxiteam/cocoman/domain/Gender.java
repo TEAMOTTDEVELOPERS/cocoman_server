@@ -10,7 +10,7 @@ import java.util.Arrays;
 public enum Gender {
     MALE("male"), FEMALE("female");
 
-    private String value;
+    private final String value;
 
     Gender(String value) {
         this.value = value;
@@ -22,6 +22,6 @@ public enum Gender {
                 .filter(v -> v.equalsIgnoreCase(value))
                 .findAny()
                 .orElseThrow(() -> new BadRequestException(ErrorCode.PARAMETER_FORMAT_ERROR, String.format("Invalid parameter format - [Gender] : [%s]", value)));
-        return Gender.valueOf(value.toLowerCase());
+        return Gender.valueOf(value.toUpperCase());
     }
 }

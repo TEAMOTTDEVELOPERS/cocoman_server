@@ -75,19 +75,28 @@ public class User extends DomainEntity {
             String nickName,
             String password,
             Integer age,
-            Gender gender,
+            String gender,
             String phoneNum,
             String profileImg,
             String pushToken
     ) {
-        return new User(userId, nickName, password, age, gender, phoneNum, profileImg, pushToken);
+        return new User(
+                userId,
+                nickName,
+                password,
+                age,
+                Gender.of(gender),
+                phoneNum,
+                profileImg,
+                pushToken
+        );
     }
 
     public static User social(
             String socialId,
             String nickName,
             Integer age,
-            Gender gender,
+            String gender,
             String phoneNum,
             String profileImg,
             String pushToken
@@ -97,14 +106,15 @@ public class User extends DomainEntity {
                 nickName,
                 null,
                 age,
-                gender,
+                Gender.of(gender),
                 phoneNum,
                 profileImg,
                 pushToken
         );
     }
 
-    public void update(int age, String gender, String phoneNum, String profileImg) {
+    public void update(String nickName, int age, String gender, String phoneNum, String profileImg) {
+        this.nickName = nickName;
         this.age = age;
         this.gender = Gender.of(gender);
         this.phoneNum = phoneNum;

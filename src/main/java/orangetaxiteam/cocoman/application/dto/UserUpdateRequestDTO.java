@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserUpdateRequestDTO {
+    private String nickName;
     private int age;
     private String gender;
     private String phoneNum;

@@ -16,7 +16,7 @@ public class UserCreateRequestDTO {
     private String nickName;
     private String password;
     private Integer age;
-    private Gender gender;
+    private String gender;
     private String phoneNum;
     private String profileImg;
     private String pushToken;
