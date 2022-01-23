@@ -1,7 +1,22 @@
 package orangetaxiteam.cocoman.config;
 
 
-import orangetaxiteam.cocoman.domain.*;
+import orangetaxiteam.cocoman.domain.StarRatingRepository;
+import orangetaxiteam.cocoman.domain.StarRating;
+import orangetaxiteam.cocoman.domain.User;
+import orangetaxiteam.cocoman.domain.UserRepository;
+import orangetaxiteam.cocoman.domain.Contents;
+import orangetaxiteam.cocoman.domain.ContentsRepository;
+import orangetaxiteam.cocoman.domain.Genre;
+import orangetaxiteam.cocoman.domain.GenreRepository;
+import orangetaxiteam.cocoman.domain.Review;
+import orangetaxiteam.cocoman.domain.ReviewRepository;
+import orangetaxiteam.cocoman.domain.Ott;
+import orangetaxiteam.cocoman.domain.OttRepository;
+import orangetaxiteam.cocoman.domain.Gender;
+import orangetaxiteam.cocoman.domain.RatePlan;
+import orangetaxiteam.cocoman.domain.RatePlanRepository;
+
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
