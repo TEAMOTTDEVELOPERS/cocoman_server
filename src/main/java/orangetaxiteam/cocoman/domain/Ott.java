@@ -21,9 +21,6 @@ public class Ott extends DomainEntity {
     @Column(name = "image_path")
     private String imagePath;
 
-    @Column(name = "rate_plan")
-    private String ratePlan;
-
     @ManyToMany
     @JoinColumn(name = "contents")
     private Set<Contents> contentsSet;
@@ -32,27 +29,23 @@ public class Ott extends DomainEntity {
             String id,
             String name,
             String imagePath,
-            String ratePlan,
             Set<Contents> contentsSet
     ) {
         super(id);
         this.name = name;
         this.imagePath = imagePath;
-        this.ratePlan = ratePlan;
         this.contentsSet = contentsSet;
     }
 
     public static Ott of(
             String name,
             String imagePath,
-            String ratePlan,
             Set<Contents> contentsSet
     ) {
         return new Ott(
                 null,
                 name,
                 imagePath,
-                ratePlan,
                 contentsSet
         );
     }

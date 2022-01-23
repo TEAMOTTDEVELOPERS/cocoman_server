@@ -2,6 +2,7 @@ package orangetaxiteam.cocoman.web;
 
 import orangetaxiteam.cocoman.application.OttApplicationService;
 import orangetaxiteam.cocoman.application.dto.OttDTO;
+import orangetaxiteam.cocoman.application.dto.RatePlanDTO;
 import orangetaxiteam.cocoman.domain.Pagination;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -38,4 +39,11 @@ public class OttController {
         return ottApplicationService.findById(id);
     }
 
+    @GetMapping(value = "/ratePlan")
+    @ResponseStatus(value = HttpStatus.OK)
+    public Pagination<RatePlanDTO> findRatePlan(
+            @SortDefault(sort = "createdAt", direction = Sort.Direction.ASC) @PageableDefault(size = 15) final Pageable pageable
+    ) {
+        return ottApplicationService.findRatePlan(pageable);
+    }
 }
