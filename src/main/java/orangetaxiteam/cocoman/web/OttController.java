@@ -39,6 +39,15 @@ public class OttController {
         return ottApplicationService.findById(id);
     }
 
+    @GetMapping(value = "/{id}/ratePlan")
+    @ResponseStatus(value = HttpStatus.OK)
+    public Pagination<RatePlanDTO> findRatePlanForOtt(
+            @SortDefault(sort = "createdAt", direction = Sort.Direction.ASC) @PageableDefault(size = 15) final Pageable pageable,
+            @PathVariable String id
+    ) {
+        return ottApplicationService.findRatePlanForOtt(pageable, id);
+    }
+
     @GetMapping(value = "/ratePlan")
     @ResponseStatus(value = HttpStatus.OK)
     public Pagination<RatePlanDTO> findRatePlan(

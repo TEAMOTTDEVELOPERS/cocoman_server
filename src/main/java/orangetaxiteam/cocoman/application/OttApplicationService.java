@@ -44,6 +44,13 @@ public class OttApplicationService extends PaginationFinder {
         );
     }
 
+    @Transactional(readOnly = true)
+    public Pagination<RatePlanDTO> findRatePlanForOtt(Pageable pageable, String ott) {
+        return this.findAll(() -> this.ratePlanRepository.findByOtt(ott, pageable)
+                .map(RatePlanDTO::from)
+        );
+    }
+
     @Transactional
     public OttDTO create(OttCreateRequestDTO ottCreateRequestDTO) {
         return OttDTO.from(

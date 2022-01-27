@@ -24,22 +24,22 @@ public class RatePlan extends DomainEntity {
     private String resolution;
 
     @Column
-    private Integer simultaneousAccess;
+    private Integer numOfScreens;
 
     @ManyToOne
     @JoinColumn(name = "ott")
     private Ott ott;
 
-    private RatePlan(String id, String name, String cost, String resolution, int simultaneousAccess, Ott ott) {
+    private RatePlan(String id, String name, String cost, String resolution, Integer numOfScreens, Ott ott) {
         super(id);
         this.name = name;
         this.cost = cost;
         this.resolution = resolution;
-        this.simultaneousAccess = simultaneousAccess;
+        this.numOfScreens = numOfScreens;
         this.ott = ott;
     }
 
-    public static RatePlan of(String name, String cost, String resolution, int simultaneousAccess, Ott ott) {
-        return new RatePlan(null, name, cost, resolution, simultaneousAccess, ott);
+    public static RatePlan of(String name, String cost, String resolution, Integer numOfScreens, Ott ott) {
+        return new RatePlan(null, name, cost, resolution, numOfScreens, ott);
     }
 }
