@@ -15,7 +15,7 @@ public class RatePlanDTO {
     private String name;
     private String cost;
     private String resolution;
-    private Integer numOfScreens;
+    private Integer maxSimultaneous;
     private String ottId;
 
     public static RatePlanDTO from(RatePlan ratePlan){
@@ -24,7 +24,7 @@ public class RatePlanDTO {
         ratePlanDTO.name = ratePlan.getName();
         ratePlanDTO.cost = ratePlan.getCost();
         ratePlanDTO.resolution = ratePlan.getResolution();
-        ratePlanDTO.numOfScreens = ratePlan.getNumOfScreens();
+        ratePlanDTO.maxSimultaneous = ratePlan.getMaxSimultaneous();
         ratePlanDTO.ottId = ratePlan.getOtt().getId();
 
         return ratePlanDTO;

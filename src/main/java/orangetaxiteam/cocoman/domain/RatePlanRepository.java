@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RatePlanRepository extends JpaRepository<RatePlan, String> {
-    @Query(value = "SELECT s FROM RatePlan s WHERE s.ott.id = :ott ORDER BY s.numOfScreens ASC")
+    @Query(value = "SELECT s FROM RatePlan s WHERE s.ott.id = :ott ORDER BY s.maxSimultaneous ASC")
     Page<RatePlan> findByOtt(String ott, Pageable pageable);
 }
