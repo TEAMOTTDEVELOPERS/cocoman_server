@@ -67,7 +67,13 @@ public class UserController {
   
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.OK)
-    public void deleteUser(@PathVariable String id) {
+    public void deleteUser(
+            @PathVariable String id,
+            @AuthenticationPrincipal String currentUserId
+    ) {
+        if(!id.equals(currentUserId)){
+            throw new AccessDeniedException(String.format("no permission to id [%s] ", id));
+        }
         this.userApplicationService.deleteUser(id);
     }
 

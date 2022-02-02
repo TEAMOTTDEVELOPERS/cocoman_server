@@ -1,22 +1,21 @@
 package orangetaxiteam.cocoman.config;
 
-
-import orangetaxiteam.cocoman.domain.StarRatingRepository;
-import orangetaxiteam.cocoman.domain.StarRating;
-import orangetaxiteam.cocoman.domain.User;
-import orangetaxiteam.cocoman.domain.UserRepository;
 import orangetaxiteam.cocoman.domain.Contents;
 import orangetaxiteam.cocoman.domain.ContentsRepository;
 import orangetaxiteam.cocoman.domain.Genre;
 import orangetaxiteam.cocoman.domain.GenreRepository;
-import orangetaxiteam.cocoman.domain.Review;
-import orangetaxiteam.cocoman.domain.ReviewRepository;
 import orangetaxiteam.cocoman.domain.Ott;
 import orangetaxiteam.cocoman.domain.OttRepository;
+import orangetaxiteam.cocoman.domain.PasswordEncoder;
+import orangetaxiteam.cocoman.domain.Review;
+import orangetaxiteam.cocoman.domain.ReviewRepository;
+import orangetaxiteam.cocoman.domain.StarRating;
+import orangetaxiteam.cocoman.domain.StarRatingRepository;
+import orangetaxiteam.cocoman.domain.User;
+import orangetaxiteam.cocoman.domain.UserRepository;
 import orangetaxiteam.cocoman.domain.Gender;
 import orangetaxiteam.cocoman.domain.RatePlan;
 import orangetaxiteam.cocoman.domain.RatePlanRepository;
-
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +33,7 @@ public class InitDummyData implements CommandLineRunner {
     private GenreRepository genreRepository;
     private ReviewRepository reviewRepository;
     private OttRepository ottRepository;
+    private PasswordEncoder passwordEncoder;
     private RatePlanRepository ratePlanRepository;
 
     public InitDummyData(
@@ -43,6 +43,7 @@ public class InitDummyData implements CommandLineRunner {
             GenreRepository genreRepository,
             ReviewRepository reviewRepository,
             OttRepository ottRepository,
+            PasswordEncoder passwordEncoder
             RatePlanRepository ratePlanRepository
     ) {
         this.userRepository = userRepository;
@@ -51,6 +52,7 @@ public class InitDummyData implements CommandLineRunner {
         this.genreRepository = genreRepository;
         this.reviewRepository = reviewRepository;
         this.ottRepository = ottRepository;
+        this.passwordEncoder = passwordEncoder;
         this.ratePlanRepository = ratePlanRepository;
     }
 
@@ -75,9 +77,9 @@ public class InitDummyData implements CommandLineRunner {
                             User.of(
                                     "testEmail@email.com",
                                     "Haesung",
-                                    "1234",
+                                    passwordEncoder.encode( "1234"),
                                     26,
-                                    Gender.MALE,
+                                    "male",
                                     "010-1234-1234",
                                     "",
                                     ""

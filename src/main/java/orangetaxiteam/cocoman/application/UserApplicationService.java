@@ -53,9 +53,10 @@ public class UserApplicationService {
 
     @Transactional
     public UserDTO create(UserCreateRequestDTO userCreateRequestDTO) {
-        // TODO : id duplication check
         SocialProvider provider = userCreateRequestDTO.getProvider();
+
         if (provider == SocialProvider.COCONUT) {
+            this.validateUserId(userCreateRequestDTO.getUserId());
             User user = User.of(
                     userCreateRequestDTO.getUserId(),
                     userCreateRequestDTO.getNickName(),
@@ -99,9 +100,10 @@ public class UserApplicationService {
 
             return UserDTO.from(
                     user,
-                    this.jwtTokenProvider.createToken(user.getUserId())
+                    this.jwtTokenProvider.createToken(user.getId())
             );
         }
+
         SocialInfoService socialInfoService = this.socialInfoServiceSupplier.supply(provider);
         String socialId = socialInfoService.getSocialId(userSignInDTO.getAccessToken());
 
@@ -111,7 +113,7 @@ public class UserApplicationService {
 
         return UserDTO.from(
                 user,
-                this.jwtTokenProvider.createToken(user.getUserId())
+                this.jwtTokenProvider.createToken(user.getId())
         );
     }
 
@@ -124,6 +126,7 @@ public class UserApplicationService {
         User user = this.userRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException(ErrorCode.ROW_DOES_NOT_EXIST, "Invalid user id"));
         user.update(
+                userUpdateRequestDTO.getNickName(),
                 userUpdateRequestDTO.getAge(),
                 userUpdateRequestDTO.getGender(),
                 userUpdateRequestDTO.getPhoneNum(),
