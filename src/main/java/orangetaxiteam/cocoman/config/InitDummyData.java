@@ -13,6 +13,10 @@ import orangetaxiteam.cocoman.domain.StarRating;
 import orangetaxiteam.cocoman.domain.StarRatingRepository;
 import orangetaxiteam.cocoman.domain.User;
 import orangetaxiteam.cocoman.domain.UserRepository;
+import orangetaxiteam.cocoman.domain.Gender;
+import orangetaxiteam.cocoman.domain.RatePlan;
+import orangetaxiteam.cocoman.domain.RatePlanRepository;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,6 +34,7 @@ public class InitDummyData implements CommandLineRunner {
     private ReviewRepository reviewRepository;
     private OttRepository ottRepository;
     private PasswordEncoder passwordEncoder;
+    private RatePlanRepository ratePlanRepository;
 
     public InitDummyData(
             UserRepository userRepository,
@@ -39,6 +44,7 @@ public class InitDummyData implements CommandLineRunner {
             ReviewRepository reviewRepository,
             OttRepository ottRepository,
             PasswordEncoder passwordEncoder
+            RatePlanRepository ratePlanRepository
     ) {
         this.userRepository = userRepository;
         this.contentsRepository = contentsRepository;
@@ -47,6 +53,7 @@ public class InitDummyData implements CommandLineRunner {
         this.reviewRepository = reviewRepository;
         this.ottRepository = ottRepository;
         this.passwordEncoder = passwordEncoder;
+        this.ratePlanRepository = ratePlanRepository;
     }
 
     @Override
@@ -56,6 +63,7 @@ public class InitDummyData implements CommandLineRunner {
         List<Contents> contentsList = this.insertDummyContents(genreList);
         List<Ott> ottList = this.insertDummyOtts(contentsList);
 
+        this.insertDummyRatePlan(ottList);
         this.insertDummyStarRating(contentsList);
         this.insertDummyReview(contentsList, userList);
     }
@@ -168,13 +176,40 @@ public class InitDummyData implements CommandLineRunner {
                     Ott.of(
                             "Netflix",
                             "",
-                            "basic: 9500₩, standard: 13500₩, premium: 17000₩",
                             netflixContents
                     )
             ));
         }
 
         return ottList;
+    }
+
+    private void insertDummyRatePlan(List<Ott> ottList){
+        if (this.ratePlanRepository.findAll().isEmpty()) {
+            this.ratePlanRepository.save(RatePlan.of(
+                    "Basic",
+                    "9,500￦",
+                    "SD(480p)",
+                    1,
+                    ottList.get(0)
+            ));
+
+            this.ratePlanRepository.save(RatePlan.of(
+                    "Standard",
+                    "13,500￦",
+                    "HD(1080p)",
+                    2,
+                    ottList.get(0)
+            ));
+
+            this.ratePlanRepository.save(RatePlan.of(
+                    "Premium",
+                    "17,000￦",
+                    "UHD(2160p)+HDR",
+                    4,
+                    ottList.get(0)
+            ));
+        }
     }
 
     private void insertDummyStarRating(List<Contents> contentsList) {
