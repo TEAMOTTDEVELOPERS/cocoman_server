@@ -53,7 +53,7 @@ public class UserApplicationService {
 
     @Transactional
     public UserDTO create(UserCreateRequestDTO userCreateRequestDTO) {
-        SocialProvider provider = userCreateRequestDTO.getProvider();
+        SocialProvider provider = SocialProvider.of(userCreateRequestDTO.getProvider());
 
         if (provider == SocialProvider.COCONUT) {
             this.validateUserId(userCreateRequestDTO.getUserId());
@@ -87,7 +87,7 @@ public class UserApplicationService {
     }
 
     public UserDTO signIn(UserSignInDTO userSignInDTO) {
-        SocialProvider provider = userSignInDTO.getProvider();
+        SocialProvider provider = SocialProvider.of(userSignInDTO.getProvider());
 
         if (provider == SocialProvider.COCONUT) {
             User user = this.userRepository.findByUserId(userSignInDTO.getUserId()).orElseThrow(

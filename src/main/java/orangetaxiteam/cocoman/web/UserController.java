@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
@@ -30,13 +32,13 @@ public class UserController {
 
     @PostMapping(value = "/signUp")
     @ResponseStatus(value = HttpStatus.CREATED)
-    public UserDTO signUp(@RequestBody UserCreateRequestDTO userCreateRequestDTO) {
+    public UserDTO signUp(@RequestBody @Valid UserCreateRequestDTO userCreateRequestDTO) {
         return this.userApplicationService.create(userCreateRequestDTO);
     }
 
     @PostMapping(value = "/signIn")
     @ResponseStatus(value = HttpStatus.OK)
-    public UserDTO signIn(@RequestBody UserSignInDTO userSignInDTO) {
+    public UserDTO signIn(@RequestBody @Valid UserSignInDTO userSignInDTO) {
         return this.userApplicationService.signIn(userSignInDTO);
     }
 
