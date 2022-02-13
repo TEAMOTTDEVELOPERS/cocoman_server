@@ -43,7 +43,7 @@ public class InitDummyData implements CommandLineRunner {
             GenreRepository genreRepository,
             ReviewRepository reviewRepository,
             OttRepository ottRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
             RatePlanRepository ratePlanRepository
     ) {
         this.userRepository = userRepository;

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import orangetaxiteam.cocoman.domain.SocialProvider;
 
+import javax.validation.constraints.NotEmpty;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,5 +16,7 @@ public class UserSignInDTO {
     private String userId;
     private String password;
     private String accessToken;
-    private SocialProvider provider;
+
+    @NotEmpty
+    private String provider;
 }

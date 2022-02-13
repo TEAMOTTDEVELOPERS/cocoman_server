@@ -6,6 +6,7 @@ import orangetaxiteam.cocoman.domain.exceptions.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,6 +28,15 @@ public class GlobalExceptionHandler {
     public ExceptionDTO handleAccessDeniedException(AccessDeniedException exception) {
         GlobalExceptionHandler.log.error("error message", exception);
         return new ExceptionDTO(ErrorCode.NOT_ALLOWED_ACCESS, exception.getMessage());
+    }
+
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDTO handleNotValidException(MethodArgumentNotValidException exception) {
+        GlobalExceptionHandler.log.error("error message", exception);
+        String field = exception.getBindingResult().getFieldError().getField();
+        String defaultMessage = exception.getBindingResult().getFieldError().getDefaultMessage();
+        return new ExceptionDTO(ErrorCode.PARAMETER_FORMAT_ERROR, String.format("[%s] - %s", field, defaultMessage));
     }
 
     @ExceptionHandler(value = {Exception.class})
