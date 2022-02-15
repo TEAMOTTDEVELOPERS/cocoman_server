@@ -17,4 +17,5 @@ public interface ContentsRepository extends JpaRepository<Contents, String> {
             "GROUP BY s.contents " +
             "ORDER BY AVG(s.rating) DESC")
     List<WeekTopContents> weekTopContents(Pageable pageable, @Param("threshold") LocalDateTime localDateTime);
+
 }
