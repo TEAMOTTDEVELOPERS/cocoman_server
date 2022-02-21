@@ -8,12 +8,14 @@ import orangetaxiteam.cocoman.application.dto.UserCreateRequestDTO;
 import orangetaxiteam.cocoman.application.dto.UserDTO;
 import orangetaxiteam.cocoman.application.dto.UserSignInDTO;
 import orangetaxiteam.cocoman.application.dto.UserUpdateRequestDTO;
+import orangetaxiteam.cocoman.application.dto.StarRatingDTO;
 import orangetaxiteam.cocoman.config.JwtTokenProvider;
 import orangetaxiteam.cocoman.domain.PasswordEncoder;
 import orangetaxiteam.cocoman.domain.PasswordValidator;
 import orangetaxiteam.cocoman.domain.SocialInfoService;
 import orangetaxiteam.cocoman.domain.SocialInfoServiceSupplier;
 import orangetaxiteam.cocoman.domain.SocialProvider;
+import orangetaxiteam.cocoman.domain.StarRatingRepository;
 import orangetaxiteam.cocoman.domain.User;
 import orangetaxiteam.cocoman.domain.UserRepository;
 import orangetaxiteam.cocoman.domain.exceptions.BadRequestException;
@@ -26,12 +28,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserApplicationService {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
+    private final StarRatingRepository starRatingRepository;
     private final PasswordValidator passwordValidator;
     private final SocialInfoServiceSupplier socialInfoServiceSupplier;
     private final PasswordEncoder passwordEncoder;
@@ -39,12 +46,14 @@ public class UserApplicationService {
     @Autowired
     public UserApplicationService(
             UserRepository userRepository,
+            StarRatingRepository starRatingRepository,
             JwtTokenProvider jwtTokenProvider,
             PasswordValidator passwordValidator,
             SocialInfoServiceSupplier socialInfoServiceSupplier,
             PasswordEncoder passwordEncoder
     ) {
         this.userRepository = userRepository;
+        this.starRatingRepository = starRatingRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.passwordValidator = passwordValidator;
         this.socialInfoServiceSupplier = socialInfoServiceSupplier;
@@ -145,5 +154,13 @@ public class UserApplicationService {
         if (this.userRepository.existsByUserId(userId)) {
             throw new BadRequestException(ErrorCode.ID_ALREADY_EXIST, "user id already exists");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<StarRatingDTO> findStarRatingByUserId(Pageable pageable, String userId){
+        return this.starRatingRepository.findByUserId(pageable, userId)
+                .stream()
+                .map(StarRatingDTO::from)
+                .collect(Collectors.toList());
     }
 }

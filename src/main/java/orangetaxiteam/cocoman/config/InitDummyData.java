@@ -13,7 +13,6 @@ import orangetaxiteam.cocoman.domain.StarRating;
 import orangetaxiteam.cocoman.domain.StarRatingRepository;
 import orangetaxiteam.cocoman.domain.User;
 import orangetaxiteam.cocoman.domain.UserRepository;
-import orangetaxiteam.cocoman.domain.Gender;
 import orangetaxiteam.cocoman.domain.RatePlan;
 import orangetaxiteam.cocoman.domain.RatePlanRepository;
 
@@ -43,7 +42,7 @@ public class InitDummyData implements CommandLineRunner {
             GenreRepository genreRepository,
             ReviewRepository reviewRepository,
             OttRepository ottRepository,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
             RatePlanRepository ratePlanRepository
     ) {
         this.userRepository = userRepository;
@@ -64,7 +63,7 @@ public class InitDummyData implements CommandLineRunner {
         List<Ott> ottList = this.insertDummyOtts(contentsList);
 
         this.insertDummyRatePlan(ottList);
-        this.insertDummyStarRating(contentsList);
+        this.insertDummyStarRating(userList, contentsList);
         this.insertDummyReview(contentsList, userList);
     }
 
@@ -212,11 +211,11 @@ public class InitDummyData implements CommandLineRunner {
         }
     }
 
-    private void insertDummyStarRating(List<Contents> contentsList) {
+    private void insertDummyStarRating(List<User> userList, List<Contents> contentsList) {
         if (this.starRatingRepository.findAll().isEmpty()) {
             this.starRatingRepository.save(StarRating.of(
                     5.0,
-                    null,
+                    userList.get(0),
                     contentsList.get(0)
             ));
 
