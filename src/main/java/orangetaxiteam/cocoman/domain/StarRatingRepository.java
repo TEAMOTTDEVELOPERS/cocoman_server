@@ -18,7 +18,5 @@ public interface StarRatingRepository extends JpaRepository<StarRating, String> 
     @Query(value = "SELECT AVG(s.rating) FROM StarRating s WHERE s.contents = :contents")
     Double getAverageRating(@Param("contents") Contents contents);
 
-    @Query(value = "SELECT s FROM StarRating s WHERE s.user.id = :user")
-    List<StarRating> findByUserId(Pageable pageable, String user);
-
+    List<StarRating> findByUserId(Pageable pageable,@Param(value="user_id") String user);
 }
